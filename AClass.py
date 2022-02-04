@@ -1,13 +1,18 @@
 """
 There are two imports for the class file (as of now).
-Each import just saves us some coding work.
-isdigit: finds if the given parameter is a digit.
+One of the imports just saves us some coding work while the other is for 
+testing purposes.
+
 keyword: A module that has the iskeyword() function. This function is useful
          for finding if someone inputted a keyword as a class name. Which is 
          not allowed.
+
 """
-from curses.ascii import isdigit 
+from asyncio.windows_events import NULL
 import keyword
+import re
+from io import StringIO
+
 
 #A global list that will be used to keep all the classes.
 listOfClasses = list() 
@@ -23,6 +28,7 @@ class AClass:
         self.name = name
     listOfAttributes = list()
     listOfRelationships = list()
+    
 
 """
 The function that adds classes to the global list of classes. It does not allow for duplicates, leading numbers/underscores, or special characters. With exception to non first character underscores. It also prevents you from naming a class an empty string.
@@ -65,3 +71,23 @@ def ClassAdd():
         newClass = AClass(name) #We create a new object with the given name.
         listOfClasses.append(newClass) #We append the object into the list.
         print("Class added to the list of classes. Use the list class command to display its contents.")
+
+"""
+    Search through class list and return given name.
+"""      
+def ClassSearch(name, listOfClasses):
+    listLength = len(listOfClasses)
+    
+    if (listLength == 0):
+        print("There are no classes in the list.")
+        return NULL
+
+    for x in listOfClasses:
+        print(name +": was found.\n")
+        return x
+    
+    print (name + ": was not found.\n")
+    return NULL
+    
+    
+    
