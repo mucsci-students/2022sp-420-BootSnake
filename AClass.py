@@ -1,7 +1,8 @@
 """
-There are two imports for the class file (as of now).
-One of the imports just saves us some coding work while the other is for 
-testing purposes.
+There are three imports for the class file (as of now).
+
+NULL: I needed to import NULL from somewhere. Although I'm not sure if I 
+      imported the correct NULL. This may change in the future.
 
 keyword: A module that has the iskeyword() function. This function is useful
          for finding if someone inputted a keyword as a class name. Which is 
@@ -78,14 +79,17 @@ def ClassAdd():
 def ClassSearch(name, listOfClasses):
     listLength = len(listOfClasses)
     
+    #If the list length is 0 then it stands to reason we will not find the requested class.
     if (listLength == 0):
         print("There are no classes in the list.")
         return NULL
-
+    
+    #We can use this for loop as a means to check every entry in the list for the name.
     for x in listOfClasses:
         print(name +": was found.\n")
-        return x
+        return x #We then return the object for the other functions to use.
     
+    #If we get to this point then that means we couldn't find the class so we'll return NULL.
     print (name + ": was not found.\n")
     return NULL
     
