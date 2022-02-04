@@ -21,9 +21,13 @@ There are four functions within the file:
 1. ClassAdd - A function that adds a class to a global list of classes.
               This function does not allow for duplicates and is particular
               about what characters are in it.
+              
               A) No special characters aside from non-leading underscores
+              
               B) No leading numbers
+              
               C) No spaces in it at all
+              
               D) No reserved programming keywords
 
 2. ClassRename - A function that renames an existing class within the global list
