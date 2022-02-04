@@ -1,4 +1,14 @@
 """
+---------------------------
+Last edited: 02/04/22
+Editor: Andy Pham
+Summary of edit:
+
+Added a class search function so that other files can search through the class
+list. I have yet to create tests for ClassAdd so I do not know how functional
+ClassAdd is yet.
+---------------------------
+
 There are three imports for the class file (as of now).
 
 NULL: I needed to import NULL from somewhere. Although I'm not sure if I 
@@ -8,11 +18,13 @@ keyword: A module that has the iskeyword() function. This function is useful
          for finding if someone inputted a keyword as a class name. Which is 
          not allowed.
 
+re: A module that will alllow me to use regexes. I might find this better than
+    using if statements to find certain characters.
+
 """
 from asyncio.windows_events import NULL
 import keyword
 import re
-from io import StringIO
 
 
 #A global list that will be used to keep all the classes.
