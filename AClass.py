@@ -170,7 +170,7 @@ def ClassRename():
                 classObject.name = NewName #renames the old name here.
         
                 """
-                The following nested for loops iterate through each class 
+                The following nested for loops will iterate through each class 
                 object in the global list. Looking through each of their 
                 relationship lists for the old class name. If it finds it, it 
                 removes it and adds into the relationship list the changed 
