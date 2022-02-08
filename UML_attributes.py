@@ -29,6 +29,71 @@ listOfAttributes = list()
 # Create a character set and pass it as argument in compile method.
 regex = re.compile('[@!$%^&*()<>?/\\\|}{:\[\]\']')
 
+'''
+def has_attr(className):
+    if className:
+        for i in className.listOfAttributes:
+            # The lambda x:x accepts every element of the iterable & return it
+            # className.listOfAttributes passes every element to the lambda
+            attList = list(map(lambda x:x, className.listOfAttributes))
+            return True
+
+def set_attr(className):
+    if className.has_attr():
+        className.append(has_attr)
+        print('Attribute(s) successfully added')
+
+'''
+
+def has_attr():
+     for i in listOfAttributes:
+            # The lambda x:x accepts every element of the iterable & return it
+            # className.listOfAttributes passes every element to the lambda
+            attList = list(map(lambda x:x, listOfAttributes))
+            return print(attList)
+
+
+
+def check_name(name):
+    '''
+    
+    The function name_check verifies the validity of an attribute's name
+    input by user by checking whether it is blank, preceded by an 
+    special character(s), an integer(s), non-alphanumeric, reserved
+    keyword, or non-existing within a class prior to adding the identifier 
+    in the system.
+
+    '''
+
+    if not name.strip():  
+        print("UML> Name cannot be blank!")
+            
+    elif len(name.strip()) < 2 or len(name.strip()) > 16:
+        print("UML> Attribute must be 3-15 characters long!")
+            
+    elif (regex.search(name.strip()) != None):
+        print("UML> No special characters allowed!")
+            
+    elif name[:1].strip().isnumeric(): 
+        print("UML> Attribute cannot be preceded by an integer(s)!")
+            
+    elif name[:3].strip() == "___":     
+        print("UML> Leading underscores (> 2) are not allowed!")
+            
+    elif name[-3].strip() == "_":     
+        print("UML> Trailing underscores (> 2) are not allowed!")
+            
+    elif keyword.iskeyword(name.strip()):     
+        print("UML> Keywords are not allowed!")
+            
+    # ignore lowercase or uppercase words. 
+    elif name.casefold().strip().replace(" ", "") in listOfAttributes:
+        print("UML> No duplicates allowed! Attribute must be unique.")
+            
+    else:
+        return True
+
+
 
 def attr_add():
     '''
@@ -46,54 +111,23 @@ def attr_add():
     '''
     
     # Set attadd to something other than 'quit'.
-    attadd = ''
+    attname = ''
 
     # Start a loop that will run until the user enters 'quit'.
-    while attadd.strip() != 'quit':
+    while attname.strip() != 'quit':
         # Ask the user for an attribute's name.
-        attadd = input("UML> Enter an attribute, or enter 'quit': ")
+        attname = input("UML> Enter an attribute, or enter 'quit': ")
         
         # Add the attribute to a list of attributes.
         
-        if attadd.strip() != 'quit':
-            if not attadd.strip():  
-                print("UML> Name cannot be blank!")
-            
-            elif len(attadd.strip()) < 2 or len(attadd.strip()) > 16:
-                print("UML> Attribute must be 3-15 characters long!")
-            
-            elif (regex.search(attadd.strip()) != None):
-                print("UML> No special characters allowed!")
-            
-            elif attadd[:1].strip().isnumeric(): 
-                print("UML> Attribute cannot be preceded by an integer(s)!")
-            
-            elif attadd[:3].strip() == "___":     
-                print("UML> Leading underscores (> 2) are not allowed!")
-            
-            elif attadd[-3].strip() == "_":     
-                print("UML> Trailing underscores (> 2) are not allowed!")
-            
-            elif keyword.iskeyword(attadd.strip()):     
-                print("UML> Keywords are not allowed!")
-            
-            # ignore lowercase or uppercase words. 
-            elif attadd.casefold().strip().replace(" ", "") in listOfAttributes:
-                print("UML> No duplicates allowed! Attribute must be unique.")
-            
-            else:
-                listOfAttributes.append(attadd.strip().lower().replace(" ", ""))
+        if attname.strip() != 'quit':
+            if(check_name(attname)):
+                listOfAttributes.append(attname.strip().lower().replace(' ', ''))
                 print("UML> Attribute successfully added!")
     
     listOfAttributes.sort()
     print(listOfAttributes)
 
-
-def display_list ():
-    if not listOfAttributes:
-        print("No attributes found!")
-    else:
-        print(listOfAttributes)
 
 ###############################################################################
 
@@ -109,6 +143,9 @@ def attr_del ():
 
     '''
 
+    # call class search?
+
+
     if not listOfAttributes:
         print("No attributes found!")
     
@@ -121,7 +158,7 @@ def attr_del ():
     # Start a loop that will run until the user enters 'quit'.
     while attdel.strip() != 'quit':
         # Ask the user for an attribute to be deleted.
-        attdel = input("UML> Enter the attribute to delete, or enter 'quit': ")
+        attdel = input("UML> Enter an attribute or 'All' to delete, or enter 'quit': ")
         
         # Remove the attribute(s) from a list of attributes.
         if attdel.strip() != 'quit':
@@ -165,7 +202,7 @@ def attr_ren ():
     else:
         print(listOfAttributes)
 
-    # Set attren to something other than 'quit'.
+     # Set attren to something other than 'quit'.
     attren = ''
 
     # Start a loop that will run until the user enters 'quit'.
@@ -180,42 +217,16 @@ def attr_ren ():
             if listOfAttributes[i].casefold().strip() == attren.casefold().strip():
                 while True:
                     newatt = input("UML> Enter a new name, or enter 'quit':")
-                    if not newatt.strip() :  
-                        print("UML> Name cannot be blank!")
-            
-                    elif len(newatt.strip()) < 3 or len(newatt.strip()) > 16:
-                        print("UML> Attribute must be 3-15 characters long!")
-            
-                    elif (regex.search(newatt.strip()) != None):
-                        print("UML> No special characters allowed!")
-            
-                    elif newatt[:1].strip().isnumeric(): 
-                        print("UML> Attribute cannot be preceded by an integer(s)!")
-            
-                    elif newatt[:3].strip() == "___":     
-                        print("UML> Leading underscores (> 2) are not allowed!")
-            
-                    elif newatt[-3].strip() == "_":     
-                        print("UML> Trailing underscores (> 2) are not allowed!")
-            
-                    elif keyword.iskeyword(newatt.strip()):     
-                        print("UML> Keywords are not allowed!")
-            
-                    # ignore lowercase or uppercase words. 
-                    elif newatt.casefold().strip().replace(" ", "") in listOfAttributes:
-                        print("UML> No duplicates allowed! Attribute must be unique.")
-            
-                    else:
-                        listOfAttributes[i] = newatt.casefold().replace(" ", "")
-                        print("UML> Attribute successfully renamed!")
+                    if (check_name(newatt)):
+                        listOfAttributes[i] = newatt.casefold().replace(' ', '')
+                        print('UML> Attribute successfully renamed!')
                         print(listOfAttributes)
                         break
                 break    
         else:
-            print("Attribute not found!")
+            print('Attribute not found!')
             listOfAttributes
-            
-
+       
 
 ###############################################################################
 # Give the user some context.
@@ -235,19 +246,19 @@ while command != 'q':
     print("[q] Enter q to quit.")
     
     # Ask for the user's choice.
-    command = input("\nUML> What would you like to do? ")
+    command = input('\nUML> What would you like to do? ')
 
 # Respond to the user's choice.
     if command == '1':
         attr_add()
     elif command == '2':
-        display_list ()
+        has_attr ()
     elif command == '3':
         attr_del()
     elif command == '4':
         attr_ren()
     elif command == 'q':
-        print("\nSee you later.\n")
+        print('\nSee you later.\n')
     else:
-        print("\nPlease try again.\n")
+        print('\nPlease try again.\n')
 
