@@ -13,7 +13,33 @@ def ListClasses():
         ListClass(c)
     return
 
-def ListClass():
+"""
+This function takes user input in order to list all of the contents of the 
+given class in a nice way.
+"""
+def ListClass(name):
+
+    # Use the searchClass function to find a matching name to user input
+    wantedClass = searchClass(name)
+
+    # Check to see if user input a valid class name
+    if (wantedClass == null)
+        print ("Class " + " does not exist.")
+        return
+    
+    print (name + "\nAttributes: \n\t")
+
+    # Loop through listOfAttributes
+    for x in wantedClass.listOfAttributes:
+        print (x + " ")
+    
+    print ("\nRelationships: \n\t")
+    
+    # Loop through listOfRelationships
+    for y in wantedClass.listOfRelationships:
+        print (y + " ")
+
+    print ("\n")
     return
 
 """
