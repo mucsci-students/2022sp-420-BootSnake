@@ -20,10 +20,10 @@ given class in a nice way.
 def ListClass(name):
 
     # Use the searchClass function to find a matching name to user input
-    wantedClass = searchClass(name)
+    wantedClass = ClassSearch(name)
 
     # Check to see if user input a valid class name
-    if (wantedClass == null)
+    if (wantedClass == None):
         print ("Class " + " does not exist.")
         return
     
