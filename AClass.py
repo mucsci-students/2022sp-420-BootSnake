@@ -1,15 +1,4 @@
 """
-<<<<<<< HEAD
-There are two imports for the class file (as of now).
-Each import just saves us some coding work.
-isdigit: finds if the given parameter is a digit.
-keyword: A module that has the iskeyword() function. This function is useful
-         for finding if someone inputted a keyword as a class name. Which is 
-         not allowed.
-"""
-from curses.ascii import isdigit 
-import keyword
-=======
 ---------------------------
 Last edited: 02/07/22
 Editor: Andy Pham and Ben M
@@ -36,7 +25,6 @@ re: A module that will alllow me to use regexes to check for patterns or
 import keyword
 import re
 
->>>>>>> class
 
 #A global list that will be used to keep all the classes.
 listOfClasses = list() 
@@ -50,25 +38,6 @@ attributes and relationships.
 class AClass:
     def __init__(self,name):
         self.name = name
-<<<<<<< HEAD
-    listOfAttributes = list()
-    listOfRelationships = list()
-
-"""
-The function that adds classes to the global list of classes. It does not allow for duplicates, leading numbers/underscores, or special characters. With exception to non first character underscores. It also prevents you from naming a class an empty string.
-"""
-def ClassAdd():
-    """
-    When the function is called a multi-line print detailing what is considered 
-    a valid class name is displayed.
-    """
-    print("""Input a valid unique class name. 
-          A valid class name is made up of alpha-numeric characters. 
-          The first character must not be a number or underscore. 
-          The class name should also not be a programming keyword.""")
-    
-    name = input("Class name: ") #The name variable that'll be ran through ifs.
-=======
         self.listOfAttributes = list()
         self.listOfRelationships = list()
     
@@ -93,53 +62,31 @@ def ClassNameChecker(name):
     later in the code.
     """
     match = re.search(regex, name) 
->>>>>>> class
     
     #len() returns the size of the parameter. This checks if the name is empty.
     if len(name) == 0:
         print("You must type a name!")
-<<<<<<< HEAD
-=======
         return False
->>>>>>> class
     
     #keyword.iskeyword() checks to see if the parameter is a keyword.     
     elif keyword.iskeyword(name):
         print("You cannot name a class a programming keyword!")
-<<<<<<< HEAD
-=======
         return False
->>>>>>> class
     
     #"name[:1]" checks the first character.
     #We'll use this to check for invalid leading characters.
     elif name[:1] == "_" or name[:1].isdigit():     
         print("Underscores and numbers cannot be used for the first character!")
-<<<<<<< HEAD
-    
-    #This checks for any special characters in the input at all.
-    elif "!" or "@" or "#" or "$" or "%" or "^" or "&" or "*" or "(" or ")" or "-" or "+" or "=" or " " in name:
-        print("No special characters allowed!")
-=======
         return False
     
     #This checks for any special characters in the input with the regex above.
     elif match != None:
         print("Aside from nonleading underlines, no special characters or spaces allowed!")
         return False
->>>>>>> class
     
     #The final check is to see if it's already in the list of classes.
     elif name in listOfClasses:
         print("No duplicates allowed! Every class name is unique.")
-<<<<<<< HEAD
-    
-    #If it gets to this final else then it is a valid class name.
-    else:
-        newClass = AClass(name) #We create a new object with the given name.
-        listOfClasses.append(newClass) #We append the object into the list.
-        print("Class added to the list of classes. Use the list class command to display its contents.")
-=======
         return False
     else:
         return True
@@ -241,4 +188,3 @@ ClassAdd()
  
     
 
->>>>>>> class
