@@ -20,7 +20,7 @@ re: A module that will alllow me to use regexes to check for patterns or
 
 """
 import keyword
-from msilib.schema import Class
+#from msilib.schema import Class
 import re
 
 
@@ -123,12 +123,12 @@ def ClassSearch(name, listOfClasses):
     #the name.
     for x in listOfClasses:
         if(x.name == name):
-            print(name +": was found.\n")
+            #print(name +": was found.\n")
             return x #We then return the object for the other functions to use.
     
     #If we get to this point then that means we couldn't find the class so 
     #we'll return None.
-    print (name + ": was not found.\n")
+    #print (name + ": was not found.\n")
     return None
 
 """

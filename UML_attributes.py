@@ -229,36 +229,36 @@ def attr_ren ():
        
 
 ###############################################################################
-# Give the user some context.
-print("\nWelcome to the BootSnake Geeks camp. What would you like to do?")
+# # Give the user some context.
+# print("\nWelcome to the BootSnake Geeks camp. What would you like to do?")
 
-# Set an initial value for choice other than the value for 'quit'.
-command = ''
+# # Set an initial value for choice other than the value for 'quit'.
+# command = ''
 
-# Start a loop that runs until the user enters the value for 'quit'.
-while command != 'q':
+# # Start a loop that runs until the user enters the value for 'quit'.
+# while command != 'q':
     
-    # Give all the choices in a series of print statements.
-    print("\n[1] Enter 1 to input attributes.")
-    print("[2] Enter 2 to display a list of all attributes.")
-    print("[3] Enter 3 to select an attribute to delete.")
-    print("[4] Enter 4 to select an attribute to rename.")
-    print("[q] Enter q to quit.")
+#     # Give all the choices in a series of print statements.
+#     print("\n[1] Enter 1 to input attributes.")
+#     print("[2] Enter 2 to display a list of all attributes.")
+#     print("[3] Enter 3 to select an attribute to delete.")
+#     print("[4] Enter 4 to select an attribute to rename.")
+#     print("[q] Enter q to quit.")
     
-    # Ask for the user's choice.
-    command = input('\nUML> What would you like to do? ')
+#     # Ask for the user's choice.
+#     command = input('\nUML> What would you like to do? ')
 
-# Respond to the user's choice.
-    if command == '1':
-        attr_add()
-    elif command == '2':
-        has_attr ()
-    elif command == '3':
-        attr_del()
-    elif command == '4':
-        attr_ren()
-    elif command == 'q':
-        print('\nSee you later.\n')
-    else:
-        print('\nPlease try again.\n')
+# # Respond to the user's choice.
+#     if command == '1':
+#         attr_add()
+#     elif command == '2':
+#         has_attr ()
+#     elif command == '3':
+#         attr_del()
+#     elif command == '4':
+#         attr_ren()
+#     elif command == 'q':
+#         print('\nSee you later.\n')
+#     else:
+#         print('\nPlease try again.\n')
 

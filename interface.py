@@ -20,7 +20,7 @@ given class in a nice way.
 def ListClass(name):
 
     # Use the searchClass function to find a matching name to user input
-    wantedClass = ClassSearch(name)
+    wantedClass = ClassSearch(name, listOfClasses)
 
     # Check to see if user input a valid class name
     if (wantedClass == None):
@@ -47,14 +47,14 @@ This function loops through the list of classes and prints a list of
 the relationships each of them has
 """
 def ListRelationships():
-    if len(listOfClasses) is 0:
+    if len(listOfClasses) == 0:
         print("There are currently no classes.")    # Inform user if there are no classes
         return
     for c in listOfClasses:
-        wantedClass = ClassSearch(c)                # For each of the classes in the list...
-
-        for r in wantedClass.listOfRelationships:
-            print(c + " -> " + r + "\n")                   # get each of its relationships and print them
+        #wantedClass = ClassSearch(c, listOfClasses)                # For each of the classes in the list...
+        #if wantedClass is not None:
+        for r in c.listOfRelationships:
+            print(c.name + " -> " + r + "\n")                   # get each of its relationships and print them
 
     return
 
