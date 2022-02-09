@@ -88,8 +88,7 @@ class mockClassAdd_Valid_Name(TestCase):
             
         
 
-#ClassAdd_Tud_Test_Case_1()
 test = mockClassAdd_Valid_Name()
-#test.ClassAdd_Test_1()
-test.ClassAdd_Test_2()
+test.ClassAdd_Test_1()
+#test.ClassAdd_Test_2()
 
