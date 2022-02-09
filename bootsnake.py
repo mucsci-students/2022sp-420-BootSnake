@@ -6,7 +6,7 @@ Edit Summary:
 Wrote Main(), started writing Exit(), moved Help() from interface.py
 """
 from AClass import *
-#from relationships import *
+from relationships import *
 #from attribute import *
 from interface import *
 
@@ -57,10 +57,10 @@ def Main():
             src = input("Source class name: ")
             dest= input("Destination class name: ")
             if "1" in userIn:
-                #RelationshipAdd(src, dest)
+                RelationshipAdd(src, dest)
                 continue
             elif "2" in userIn:
-                #RelationshipDelete(src, dest)
+                RelationshipDelete(src, dest)
                 continue
 
         elif "4" in userIn:
