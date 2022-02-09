@@ -9,6 +9,7 @@ from AClass import *
 from relationships import *
 from UML_attributes import *
 from interface import *
+from saveLoad import *
 
 """
 Main method in which user will be redirected to the proper
@@ -58,8 +59,9 @@ def Main():
         elif "4" in userIn:
             print("[1] Save\n[2] Load")
             userIn = input("UML:> ")
+            filename = input("Enter filename: ")
             if "1" in userIn:
-                #Save(filename)
+                save(filename)
                 continue
             elif "2" in userIn:
                 #Load(filename)
