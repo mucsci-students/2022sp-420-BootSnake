@@ -1,12 +1,12 @@
 """
-Last Edit: 02/07/2022
+Last Edit: 02/09/2022
 Edited by: Amelia Spanier
 
 Edit Summary:
 Wrote Main(), started writing Exit(), moved Help() from interface.py
 """
 
-#from AClass import *
+#from interface import *
 
 """
 Main method in which user will be redirected to the proper
@@ -86,20 +86,11 @@ def Main():
                 continue 
 
         elif "6" in userIn:
-            Help()
-
+            #Help()
+            continue
+        
         elif "7" in userIn:
             Exit()
-
-"""
-This function reads a text file of helpful instructions for the user and
-prints it
-"""
-def Help():
-    helpfile = open('help.txt', 'r')                        # Open text file as read-only
-    print(helpfile.read())                                  # Read file & print to terminal
-    helpfile.close()
-    return
 
 """
 This function exits the program on request from user
@@ -107,7 +98,7 @@ This function exits the program on request from user
 def Exit():
     userIn = input("Would you like to save before quitting? ")
 
-    if "yes" in userIn:
+    if (userIn == "yes"):
         print("File saved!")
 
     print("Exiting program. Have a nice day!\n")

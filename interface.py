@@ -43,6 +43,22 @@ def ListClass(name):
     return
 
 """
+This function loops through the list of classes and prints a list of
+the relationships each of them has
+"""
+def ListRelationships():
+    if len(listOfClasses) is 0:
+        print("There are currently no classes.")    # Inform user if there are no classes
+        return
+    for c in listOfClasses:
+        wantedClass = ClassSearch(c)                # For each of the classes in the list...
+
+        for r in wantedClass.listOfRelationships:
+            print(c + " -> " + r + "\n")                   # get each of its relationships and print them
+
+    return
+
+"""
 This function reads a text file of helpful instructions for the user and
 prints it
 """
@@ -52,5 +68,14 @@ def Help():
     helpfile.close()
     return
 
+"""
+This function exits the program on request from user
+"""
 def Exit():
-    return
+    userIn = input("Would you like to save before quitting? ")
+
+    if (userIn == "yes"):
+        print("File saved!")
+
+    print("Exiting program. Have a nice day!\n")
+    exit()
