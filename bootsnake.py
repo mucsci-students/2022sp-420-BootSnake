@@ -7,7 +7,7 @@ Wrote Main(), started writing Exit(), moved Help() from interface.py
 """
 from AClass import *
 from relationships import *
-#from attribute import *
+from UML_attributes import *
 from interface import *
 
 """
@@ -28,27 +28,21 @@ def Main():
             userIn = input("UML:> ")
             if "1" in userIn:
                 ClassAdd()
-                continue
             elif "2" in userIn:
                 ClassRename()
-                continue
             elif "3" in userIn: 
                 ClassDelete()
-                continue
 
         elif "2" in userIn:
             print("Attribute:")
             print("[1] Add\n[2] Rename\n[3] Delete")
             userIn = input("UML:> ")
             if "1" in userIn:
-                #AttributeAdd()
-                continue
+                attr_add()
             elif "2" in userIn:
-                #AttributeRename()
-                continue
+                attr_ren()
             elif "3" in userIn: 
-                #AttributeDelete()
-                continue  
+                attr_del()
 
         elif "3" in userIn:
             print("Relationship:")
@@ -58,10 +52,8 @@ def Main():
             dest= input("Destination class name: ")
             if "1" in userIn:
                 RelationshipAdd(src, dest)
-                continue
             elif "2" in userIn:
                 RelationshipDelete(src, dest)
-                continue
 
         elif "4" in userIn:
             print("[1] Save\n[2] Load")
