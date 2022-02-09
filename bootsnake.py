@@ -22,43 +22,68 @@ def Main():
 
         if "1" in userIn:
             print("Class:")
-            print("[1] Add")
-            print("[2] Rename")
-            print("[3] Delete")
-            userIn = input("UML:> ")  
+            print("[1] Add\n[2] Rename\n[3] Delete")
+            userIn = input("UML:> ")
+            if "1" in userIn:
+                #ClassAdd()
+                continue
+            elif "2" in userIn:
+                #ClassRename()
+                continue
+            elif "3" in userIn: 
+                #ClassDelete()
+                continue
 
         elif "2" in userIn:
             print("Attribute:")
-            print("[1] Add")
-            print("[2] Rename")
-            print("[3] Delete")
-            userIn = input("UML:> ")  
+            print("[1] Add\n[2] Rename\n[3] Delete")
+            userIn = input("UML:> ")
+            if "1" in userIn:
+                #AttributeAdd()
+                continue
+            elif "2" in userIn:
+                #AttributeRename()
+                continue
+            elif "3" in userIn: 
+                #AttributeDelete()
+                continue  
 
         elif "3" in userIn:
             print("Relationship:")
-            print("[1] Add")
-            print("[2] Delete")
+            print("[1] Add\n[2] Delete")
             userIn = input("UML:> ")
             src = input("Source class name: ")
             dest= input("Destination class name: ")
             if "1" in userIn:
                 #RelationshipAdd(src, dest)
-                return
+                continue
             elif "2" in userIn:
                 #RelationshipDelete(src, dest)
-                return
+                continue
 
         elif "4" in userIn:
-            print("[1] Save")
-            print("[2] Load")
-            userIn = input("UML:> ")  
+            print("[1] Save\n[2] Load")
+            userIn = input("UML:> ")
+            if "1" in userIn:
+                #Save(filename)
+                continue
+            elif "2" in userIn:
+                #Load(filename)
+                continue
 
         elif "5" in userIn:
             print("List:")
-            print("[1] Class")
-            print("[2] Classes")
-            print("[3] Relationships")
-            userIn = input("UML:> ")  
+            print("[1] Class\n[2] Classes\n[3] Relationships")
+            userIn = input("UML:> ")
+            if "1" in userIn:
+                #ListClass(name)
+                continue
+            elif "2" in userIn:
+                #ListClasses()
+                continue
+            elif "3" in userIn: 
+                #ListRelationships()
+                continue 
 
         elif "6" in userIn:
             Help()
