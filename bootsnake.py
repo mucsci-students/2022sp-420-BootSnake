@@ -1,12 +1,14 @@
 """
 Last Edit: 02/09/2022
-Edited by: Amelia Spanier
+Edited by: Amelia Spanier and Ben Moran
 
 Edit Summary:
 Wrote Main(), started writing Exit(), moved Help() from interface.py
 """
-
-#from interface import *
+from AClass import *
+#from relationships import *
+#from attribute import *
+from interface import *
 
 """
 Main method in which user will be redirected to the proper
@@ -25,13 +27,13 @@ def Main():
             print("[1] Add\n[2] Rename\n[3] Delete")
             userIn = input("UML:> ")
             if "1" in userIn:
-                #ClassAdd()
+                ClassAdd()
                 continue
             elif "2" in userIn:
-                #ClassRename()
+                ClassRename()
                 continue
             elif "3" in userIn: 
-                #ClassDelete()
+                ClassDelete()
                 continue
 
         elif "2" in userIn:
@@ -76,17 +78,17 @@ def Main():
             print("[1] Class\n[2] Classes\n[3] Relationships")
             userIn = input("UML:> ")
             if "1" in userIn:
-                #ListClass(name)
-                continue
+                name = input("Class name: ")
+                ListClass(name)
             elif "2" in userIn:
-                #ListClasses()
+                ListClasses()
                 continue
             elif "3" in userIn: 
-                #ListRelationships()
+                ListRelationships()
                 continue 
 
         elif "6" in userIn:
-            #Help()
+            Help()
             continue
         
         elif "7" in userIn:

@@ -6,11 +6,11 @@ to print out the classes and their contents. It first does a check to see if
 the list is empty.
 """
 def ListClasses():
-    if len(listOfClasses) is 0:
+    if len(listOfClasses) == 0:
         print("There are currently no classes.")
         return
     for c in listOfClasses:
-        ListClass(c)
+        ListClass(c.name)
     return
 
 """
