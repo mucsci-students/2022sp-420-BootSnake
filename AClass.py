@@ -210,7 +210,7 @@ def ClassDelete():
 # date.             
 """
 class1 = AClass("class1")
-class2 = AClass("class")
+class2 = AClass("class2")
 class3 = AClass("class3")
 listOfClasses.append(class1)
 listOfClasses.append(class2)
