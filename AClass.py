@@ -83,10 +83,11 @@ def ClassNameChecker(name):
         return False
     
     #The final check is to see if it's already in the list of classes.
-    elif name in listOfClasses:
-        print("No duplicates allowed! Every class name is unique.")
-        return False
     else:
+        for x in listOfClasses:
+            if(name == x.name):
+                print("No duplicates allowed! Every class name is unique.")
+                return False
         return True
     
 
@@ -206,10 +207,10 @@ def ClassDelete():
 
 
 # Testing code. To be transported to ClassTest.py on a later 
-# date.                        
+# date.             
 """
 class1 = AClass("class1")
-class2 = AClass("class2")
+class2 = AClass("class")
 class3 = AClass("class3")
 listOfClasses.append(class1)
 listOfClasses.append(class2)
