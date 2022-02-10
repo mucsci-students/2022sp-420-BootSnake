@@ -9,7 +9,7 @@
 
 import re # checks if the string contains any special characters
 import keyword
-# from AClass import *
+from AClass import *
 
 
 
@@ -26,6 +26,7 @@ and Package denoted by +, -, #, or ~  signs respectively.
 
 
 listOfAttributes = list()
+
 # Create a character set and pass it as argument in compile method.
 regex = re.compile('[@!$%^&*()<>?/\\\|}{:\[\]\']')
 match = re.compile('[ ]+')
@@ -45,7 +46,7 @@ def set_attr(className):
         print('Attribute(s) successfully added')
 
 
-'''
+
 
 
 
@@ -56,9 +57,9 @@ def has_attr():
             attList = list(map(lambda x:x, listOfAttributes))
             return print(attList)
 
+'''
 
-
-def check_name(name):
+def check_name(name, wantedClass):
     '''
     
     The function name_check verifies the validity of an attribute's name
@@ -84,8 +85,8 @@ def check_name(name):
     elif name[:3].strip() == "___":     
         print("UML> Leading underscores (> 2) are not allowed!")
             
-    elif name[-3].strip() == "_":     
-        print("UML> Trailing underscores (> 2) are not allowed!")
+    #elif name[-3].strip() == "_":     
+    #    print("UML> Trailing underscores (> 2) are not allowed!")
             
     elif keyword.iskeyword(name.strip()):     
         print("UML> Keywords are not allowed!")
@@ -93,7 +94,7 @@ def check_name(name):
         print("UML> No space allowed! Use an underscore!")
             
     # ignore lowercase or uppercase words. 
-    elif name.casefold().strip() in listOfAttributes:
+    elif name.casefold().strip() in wantedClass.listOfAttributes:
         print("UML> No duplicates allowed! Attribute must be unique.")
             
     else:
@@ -115,25 +116,31 @@ def attr_add():
     all lowercases. 
 
     '''
-    #ClassAdd()
-    #listOfClasses
-    # Set attadd to something other than 'quit'.
-    attname = ''
-
-    # Start a loop that will run until the user enters 'quit'.
-    while attname != 'quit':
-        # Ask the user for an attribute's name.
-        attname = input("UML> Enter an attribute, or enter 'quit': ")
-        
-        # Add the attribute to a list of attributes.
-        
-        if attname.strip() != 'quit':
-            if(check_name(attname)):
-                listOfAttributes.append(attname.lower().strip())
-                print("UML> Attribute successfully added!")
+    classname =input('To which class do you want to add attribute(s)?')
+    wantedClass = ClassSearch(classname,listOfClasses)
     
-    listOfAttributes.sort()
-    print(listOfAttributes)
+    if wantedClass:
+    
+        # Set attadd to something other than 'quit'.
+        attname = ''
+
+        # Start a loop that will run until the user enters 'quit'.
+        while attname != 'quit':
+        # Ask the user for an attribute's name.
+            attname = input("UML> Enter an attribute, or enter 'quit': ")
+        
+            # Add the attribute to a list of attributes.
+        
+            if attname.strip() != 'quit':
+                if(check_name(attname, wantedClass)):
+                    wantedClass.listOfAttributes.append(attname.lower().strip())
+                    print("UML> Attribute successfully added!")
+    
+        wantedClass.listOfAttributes.sort()
+        print(wantedClass.listOfAttributes)
+
+    else: 
+        print('Class not found! Please try again!')
 
 
 ###############################################################################
@@ -150,50 +157,49 @@ def attr_del ():
 
     '''
 
-    # call class search?
-
-
-    if not listOfAttributes:
-        print("No attributes found!")
     
-    else:
-        print(listOfAttributes)
-    
-    # Set attdel to something other than 'quit'.
-    attdel = ''
+    classname =input('To which class do you want to delete attribute(s)?')
+    wantedClass = ClassSearch(classname, listOfClasses)
 
-    # Start a loop that will run until the user enters 'quit'.
-    while attdel.strip() != 'quit':
-        # Ask the user for an attribute to be deleted.
-        attdel = input("UML> Enter an attribute or 'All' to delete, or enter 'quit': ")
+
+    if wantedClass:
+    
+        # Set attdel to something other than 'quit'.
+        attdel = ''
+
+        # Start a loop that will run until the user enters 'quit'.
+        while attdel.strip() != 'quit':
+            # Ask the user for an attribute to be deleted.
+            attdel = input("UML> Enter an attribute or 'All' to delete, or enter 'quit': ")
         
-        # Remove the attribute(s) from a list of attributes.
-        if attdel.strip() != 'quit':
+            # Remove the attribute(s) from a list of attributes.
+            if attdel.strip() != 'quit':
             
-            for item in listOfAttributes:
+                for item in wantedClass.listOfAttributes:
                     if item.casefold() == attdel.casefold().strip():
-                        listOfAttributes.remove(attdel.casefold().strip())
+                        wantedClass.listOfAttributes.remove(attdel.casefold().strip())
                         print("UML> Attribute deleted!")
-                        print(listOfAttributes)
+                        print(wantedClass.listOfAttributes)
                         break
-            else: 
-                # if user enters ALL or all to remove all attributes.
-                if attdel.casefold().strip() == 'all':
-                    print("Are you sure you want to delete ALL attributes?")
-                    print("Type Y to confirm, N to cancel")
-                    attdel = input("UML> Enter Y or N, or enter 'quit':")
-                    if attdel.strip() == 'Y':
-                        listOfAttributes.clear()
-                        print("All attributes successfully deleted!")
-                        print(listOfAttributes)
-                        break
+                else: 
+                    # if user enters ALL or all to remove all attributes.
+                    if attdel.casefold().strip() == 'all':
+                        print("Are you sure you want to delete ALL attributes?")
+                        print("Type Y to confirm, N to cancel")
+                        attdel = input("UML> Enter Y or N, or enter 'quit':")
+                        if attdel.strip() == 'Y':
+                            wantedClass.listOfAttributes.clear()
+                            print("All attributes successfully deleted!")
+                            print(wantedClass.listOfAttributes)
+                            break
+                        else:
+                            print(wantedClass.listOfAttributes)         
                     else:
-                        print(listOfAttributes)         
-                else:
-                    print("Attribute not found")
-                    print(listOfAttributes)
-                    #break
-
+                        print("Attribute not found")
+                        print(wantedClass.listOfAttributes)
+                        #break
+    else:
+        print('Class Not found! Please try again!')
 ###############################################################################
 
 
@@ -203,71 +209,73 @@ def attr_ren ():
     in the system. The newly-created name must be unique within the class.
 
     '''
-    if not listOfAttributes:
-        print("No attributes found!")
-    
+
+
+    classname =input('To which class do you want to rename attribute(s)?')
+    wantedClass = ClassSearch(classname,listOfClasses)
+
+    if wantedClass:
+
+        # Set attren to something other than 'quit'.
+        attren = ''
+
+        # Start a loop that will run until the user enters 'quit'.
+        while attren.strip() != 'quit':
+            # Ask the user for an attribute to be renamed.
+            attren = input("UML> Enter an attribute to rename, or enter 'quit': ")
+        
+            # Rename the attribute(s) from a list of attributes.
+            #iterate through the list of attributes to find its index
+            for i in range(len(wantedClass.listOfAttributes)):
+                if wantedClass.listOfAttributes[i].casefold().strip() == attren.casefold().strip():
+                    while True:
+                        newatt = input("UML> Enter a new name, or enter 'quit':")
+                        if (check_name(newatt, wantedClass)):
+                            wantedClass.listOfAttributes[i] = newatt.casefold()
+                            print('UML> Attribute successfully renamed!')
+                            print(wantedClass.listOfAttributes)
+                            break
+                    break    
+            else:
+                print('Attribute not found!')
+                wantedClass.listOfAttributes
     else:
-        print(listOfAttributes)
-
-     # Set attren to something other than 'quit'.
-    attren = ''
-
-    # Start a loop that will run until the user enters 'quit'.
-    while attren.strip() != 'quit':
-        # Ask the user for an attribute to be renamed.
-        attren = input("UML> Enter an attribute to rename, or enter 'quit': ")
-        
-        # Rename the attribute(s) from a list of attributes.
-        
-        #iterate through the list of attributes to find its index
-        for i in range(len(listOfAttributes)):
-            if listOfAttributes[i].casefold().strip() == attren.casefold().strip():
-                while True:
-                    newatt = input("UML> Enter a new name, or enter 'quit':")
-                    if (check_name(newatt)):
-                        listOfAttributes[i] = newatt.casefold().replace(' ', '')
-                        print('UML> Attribute successfully renamed!')
-                        print(listOfAttributes)
-                        break
-                break    
-        else:
-            print('Attribute not found!')
-            listOfAttributes
+        print('Class not found! please try again!')
        
 
 ###############################################################################
-# Give the user some context.
-print("\nWelcome to the BootSnake Geeks camp. What would you like to do?")
+# # Give the user some context.
+# print("\nWelcome to the BootSnake Geeks camp. What would you like to do?")
 
-# Set an initial value for choice other than the value for 'quit'.
-command = ''
+# # Set an initial value for choice other than the value for 'quit'.
+# command = ''
 
-# Start a loop that runs until the user enters the value for 'quit'.
-while command != 'q':
+# # Start a loop that runs until the user enters the value for 'quit'.
+# while command != 'q':
     
-    # Give all the choices in a series of print statements.
-    print("\n[1] Enter 1 to input attributes.")
-    print("[2] Enter 2 to display a list of all attributes.")
-    print("[3] Enter 3 to select an attribute to delete.")
-    print("[4] Enter 4 to select an attribute to rename.")
-    print("[q] Enter q to quit.")
+#     # Give all the choices in a series of print statements.
+#     print("\n[1] Enter 1 to input attributes.")
+#     print("[2] Enter 2 to display a list of all attributes.")
+#     print("[3] Enter 3 to select an attribute to delete.")
+#     print("[4] Enter 4 to select an attribute to rename.")
+#     print("[q] Enter q to quit.")
     
-    # Ask for the user's choice.
-    command = input('\nUML> What would you like to do? ')
+#     # Ask for the user's choice.
+#     command = input('\nUML> What would you like to do? ')
 
-# Respond to the user's choice.
-    if command == '1':
-        attr_add()
-    elif command == '2':
-        has_attr ()
-    elif command == '3':
-        attr_del()
-    elif command == '4':
-        attr_ren()
-    elif command == 'q':
-        print('\nSee you later.\n')
-    else:
-        print('\nPlease try again.\n')
+# # Respond to the user's choice.
+#     if command == '1':
+#         attr_add()
+#     elif command == '2':
+#         has_attr ()
+#     elif command == '3':
+#         attr_del()
+#     elif command == '4':
+#         attr_ren()
+#     elif command == 'q':
+#         print('\nSee you later.\n')
+#     else:
+#         print('\nPlease try again.\n')
 
 
 
