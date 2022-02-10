@@ -1,9 +1,6 @@
 """
 Last Edit: 02/09/2022
 Edited by: Amelia Spanier and Ben Moran
-
-Edit Summary:
-Wrote Main(), started writing Exit(), moved Help() from interface.py
 """
 from AClass import *
 from relationships import *
@@ -88,16 +85,6 @@ def Main():
         elif "7" in userIn:
             Exit()
 
-"""
-This function exits the program on request from user
-"""
-def Exit():
-    userIn = input("Would you like to save before quitting? ")
-
-    if (userIn == "yes"):
-        print("File saved!")
-
-    print("Exiting program. Have a nice day!\n")
-    exit()
+        print()
 
 Main()

@@ -37,9 +37,9 @@ def ListClass(name):
     
     # Loop through listOfRelationships
     for y in wantedClass.listOfRelationships:
-        print (y + " ")
+        print (wantedClass.name + " -> " + y)
+        print()
 
-    print ("\n")
     return
 
 """
@@ -51,11 +51,9 @@ def ListRelationships():
         print("There are currently no classes.")    # Inform user if there are no classes
         return
     for c in listOfClasses:
-        #wantedClass = ClassSearch(c, listOfClasses)                # For each of the classes in the list...
-        #if wantedClass is not None:
         for r in c.listOfRelationships:
-            print(c.name + " -> " + r + "\n")                   # get each of its relationships and print them
-
+            print("\t" + c.name + " -> " + r)                   # For each class, get each of its relationships and print them
+    print()
     return
 
 """
@@ -72,10 +70,6 @@ def Help():
 This function exits the program on request from user
 """
 def Exit():
-    userIn = input("Would you like to save before quitting? ")
-
-    if (userIn == "yes"):
-        print("File saved!")
 
     print("Exiting program. Have a nice day!\n")
     exit()
