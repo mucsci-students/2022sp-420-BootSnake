@@ -9,7 +9,7 @@
 
 import re # checks if the string contains any special characters
 import keyword
-#from AClass import *
+# from AClass import *
 
 
 
@@ -28,6 +28,7 @@ and Package denoted by +, -, #, or ~  signs respectively.
 listOfAttributes = list()
 # Create a character set and pass it as argument in compile method.
 regex = re.compile('[@!$%^&*()<>?/\\\|}{:\[\]\']')
+match = re.compile('[ ]+')
 
 '''
 def has_attr(className):
@@ -43,7 +44,10 @@ def set_attr(className):
         className.append(has_attr)
         print('Attribute(s) successfully added')
 
+
 '''
+
+
 
 def has_attr():
      for i in listOfAttributes:
@@ -64,7 +68,7 @@ def check_name(name):
     in the system.
 
     '''
-
+    
     if not name.strip():  
         print("UML> Name cannot be blank!")
             
@@ -85,9 +89,11 @@ def check_name(name):
             
     elif keyword.iskeyword(name.strip()):     
         print("UML> Keywords are not allowed!")
+    elif match.search(name.strip()) != None:
+        print("UML> No space allowed! Use an underscore!")
             
     # ignore lowercase or uppercase words. 
-    elif name.casefold().strip().replace(" ", "") in listOfAttributes:
+    elif name.casefold().strip() in listOfAttributes:
         print("UML> No duplicates allowed! Attribute must be unique.")
             
     else:
@@ -109,12 +115,13 @@ def attr_add():
     all lowercases. 
 
     '''
-    
+    #ClassAdd()
+    #listOfClasses
     # Set attadd to something other than 'quit'.
     attname = ''
 
     # Start a loop that will run until the user enters 'quit'.
-    while attname.strip() != 'quit':
+    while attname != 'quit':
         # Ask the user for an attribute's name.
         attname = input("UML> Enter an attribute, or enter 'quit': ")
         
@@ -122,7 +129,7 @@ def attr_add():
         
         if attname.strip() != 'quit':
             if(check_name(attname)):
-                listOfAttributes.append(attname.strip().lower().replace(' ', ''))
+                listOfAttributes.append(attname.lower().strip())
                 print("UML> Attribute successfully added!")
     
     listOfAttributes.sort()
@@ -261,4 +268,7 @@ while command != 'q':
         print('\nSee you later.\n')
     else:
         print('\nPlease try again.\n')
+
+
+
 
