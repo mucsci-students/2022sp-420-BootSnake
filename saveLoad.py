@@ -4,10 +4,15 @@ to JSON files
 """
 
 # Imports
+import json
+import os.path
+
 from textwrap import indent
 from AClass import *
-import json 
 from json import JSONEncoder
+from os.path import exists
+
+
 
 """
     Write a custom JSONEncoder to make class JSON serializable.
@@ -38,53 +43,61 @@ class ClassEncoder (JSONEncoder):
     def default(self, o):
         return o.__dict__
 
-"""
-     This function takes 3 parameters to encode list of Classes,
-     list of Attributes & list of Relationships int a JSON and returns a string
-
-"""
-
-def encoder (className: str, attList: list, relList: list):
-    dictObj = { 'classes' : className , 'attributes' : attList , 'relationships' : relList}
-
-    return json.dumps (dictObj, indent = 4, cls = ClassEncoder)
 
 """
 Save to a JSON format file, make sure to save a valid name
 """
 
-def save (filename: str):
+def save (filename):
+    # Create a list where we'll put the dictionary objects for all classes into
     myClasses = list()
-
-    myClasses = listOfClasses
     
     # Loop through classes to encode each class with its respective attributes and relationships
     with open (filename, "w") as myFile:
-        for x in myClasses:
-            # Encode each class and its contents into the format that json needs to write to
-            jsonFile = encoder (x.name, x.listOfAttributes, x.listOfRelationships)
-            myFile.write (jsonFile)
+        for x in listOfClasses:
+            # Encode each class and its contents into the format that json needs to write to and add it to the list
+            dictObj = {'class' : x.name , 'attributes' : x.listOfAttributes , 'relationships' : x.listOfRelationships}
+            myClasses.append(dictObj)
+        
+        jsonFile = json.dumps (myClasses, indent = 4, cls = ClassEncoder)
+        myFile.write (jsonFile)
+    return
     
 
 
 """
 Load a JSON format file, only if one has already been saved
 """
-def Load ():
+def load (filename):
+    if not os.path.exists(filename):
+        print("File Not Found\n")
+        return
+
+    # Open the file by the filename given
+    myFile = open (filename)
+
+    # Load the data from the file
+    data = json.load(myFile)
+    
+    # Because the data from the file is in a list, step through it
+    for x in data:
+        # Create an AClass object for each item in the list
+        i = AClass (x['class'])
+        listOfClasses.append(i)
+
+        # Extend the lists of attributes and relationships with their respective values
+        i.listOfAttributes.extend(x['attributes'])
+        i.listOfRelationships.extend(x['relationships'])
+
+    # A way to print all of the classes and their lists, for testing purposes
+    """
+    for y in listOfClasses:
+        print (y.name)
+        for a in y.listOfAttributes:
+            print (a)
+        for r in y.listOfRelationships:
+            print (r)
+    """
+
+    myFile.close()
     return
-
-"""
-# Tests
-
-class1 = AClass ("class1")
-listOfClasses.append (class1)
-class1.listOfAttributes.append ("attribute1")
-class1.listOfRelationships.append ("relationship1")
-
-class2 = AClass ("class2")
-listOfClasses.append (class2)
-class2.listOfAttributes.append ("attribute2")
-class2.listOfRelationships.append ("relationship2")
-
-save("test")
-"""
