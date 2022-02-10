@@ -124,12 +124,10 @@ def ClassSearch(name, listOfClasses):
     #the name.
     for x in listOfClasses:
         if(x.name == name):
-            print(name +": was found.\n")
             return x #We then return the object for the other functions to use.
     
     #If we get to this point then that means we couldn't find the class so 
     #we'll return None.
-    print (name + ": was not found.\n")
     return None
 
 """
@@ -174,6 +172,8 @@ def ClassRename():
                         if relName == OldName:
                             c.listOfRelationships.remove(OldName)
                             c.listOfRelationships.append(NewName)
+                
+                print (OldName + " has been renamed to: " + NewName + "\n")
 
 def ClassDelete():
     # You can't delete things if there's nothing to rename.
