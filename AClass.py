@@ -182,7 +182,6 @@ def ClassRename():
                         if relName == OldName:
                             c.listOfRelationships.remove(OldName)
                             c.listOfRelationships.append(NewName)
-ClassAdd()
 
                     
  
