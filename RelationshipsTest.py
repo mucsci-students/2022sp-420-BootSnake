@@ -25,7 +25,8 @@ def reset():
 def test_AddOne():
     addClasses("one")
     addClasses("two")
-    RelationshipAdd("one", "two")
+    ret = RelationshipAdd("one", "two")
+    assert ret == 0
     assert "two" in listOfClasses[0].listOfRelationships[0]
     reset()
     
@@ -33,8 +34,10 @@ def test_AddOne():
 def test_AddBothWays():
     addClasses("one")
     addClasses("two")
-    RelationshipAdd("one", "two")
-    RelationshipAdd("two", "one")
+    ret = RelationshipAdd("one", "two")
+    assert ret == 0
+    ret = RelationshipAdd("two", "one")
+    assert ret == 0
     assert "two" in listOfClasses[0].listOfRelationships[0]
     assert "one" in listOfClasses[1].listOfRelationships[0]
     reset()
@@ -43,7 +46,8 @@ def test_AddBothWays():
 def test_AddFalseClass():
     addClasses("one")
     addClasses("two")
-    RelationshipAdd("four", "two")
+    ret = RelationshipAdd("four", "two")
+    assert ret == 1
     assert listOfClasses[0].listOfRelationships == []
     reset()
 
@@ -51,7 +55,8 @@ def test_AddFalseClass():
 # adding when we only have one class
 def test_AddOneClass():
     addClasses("one")
-    RelationshipAdd("one", "two")
+    ret = RelationshipAdd("one", "two")
+    assert ret == 1
     assert listOfClasses[0].listOfRelationships == []
     reset()
 
@@ -59,7 +64,8 @@ def test_AddOneClass():
 # adding when we try with a special character
 def test_AddSpecialChar():
     addClasses("one")
-    RelationshipAdd("one", "!")
+    ret = RelationshipAdd("one", "!")
+    assert ret == 1
     assert listOfClasses[0].listOfRelationships == []
     reset()
 
@@ -71,16 +77,19 @@ def test_AddSpecialChar():
 def test_DelOne():
     addClasses("one")
     addClasses("two")
-    RelationshipAdd("one", "two")
-    RelationshipDelete("one", "two")
+    ret = RelationshipAdd("one", "two")
+    assert ret == 0
+    ret = RelationshipDelete("one", "two")
+    assert ret == 0
     assert listOfClasses[0].listOfRelationships == []
     reset()
 
 
-# delete on a non existent relationship
+# delete on a non existent class/relationship
 def test_DelNoRel():
     addClasses("one")
-    RelationshipDelete("one", "two")
+    ret = RelationshipDelete("one", "two")
+    assert ret == 1
     assert listOfClasses[0].listOfRelationships == []
     reset()
 
@@ -89,7 +98,9 @@ def test_DelWrongRel():
     addClasses("one")
     addClasses("two")
     addClasses("three")
-    RelationshipAdd("one", "three")
-    RelationshipDelete("one", "two")
+    ret = RelationshipAdd("one", "three")
+    assert ret == 0
+    ret = RelationshipDelete("one", "two")
+    assert ret == 2
     assert listOfClasses[0].listOfRelationships == ['three']
     reset()
