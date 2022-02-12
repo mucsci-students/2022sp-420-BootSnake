@@ -1,4 +1,4 @@
-# Project Name  : UML BootSnake
+# Project Name  : UML_BootSnake
 # File Name     : UMLattributes.py
 # Course        : CSCI 420
 # Professor     : Dr. Stephanie Schwartz
