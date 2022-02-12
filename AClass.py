@@ -20,7 +20,6 @@ re: A module that will alllow me to use regexes to check for patterns or
 
 """
 import keyword
-from msilib.schema import Class
 import re
 
 
