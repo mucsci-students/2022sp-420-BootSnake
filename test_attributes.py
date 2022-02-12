@@ -1,5 +1,5 @@
 # Project Name  : UML BootSnake
-# File Name     : UMLattributes.py
+# File Name     : test_attributes.py
 # Course        : CSCI 420
 # Professor     : Dr. Stephanie Schwartz
 # BootSnake Team: Amelia S., Andy P., Ben M., Tram T., Travis Z.
