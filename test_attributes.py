@@ -14,9 +14,11 @@ from UML_attributes import*
 
 
 '''
-    In order to execute pytest in Python, a virtual environment must
-    be created and activated. Once the virtual environment is active,
-    type the command 'pip install pytest' to install pytest.
+    In order to execute pytest in Python, a virtual environment must be
+    created and activated so that any installation packages will be installed
+    in the virtual, rather than in the global Python installation. Once the 
+    virtual environment is active, type the command 'pip install pytest' to 
+    install pytest.
 
     To run pytest, enter the command:    'python -m pytest' 
 '''
