@@ -1,11 +1,12 @@
 """
 ---------------------------
-Last edited: 02/12/22
+Last edited: 02/13/22
 Editor: Andy Pham
 Summary of edit:
 
-Used mock patch to create two test classes designed to loop through most valid 
-and invalid types of input. I can't possibly test to see if every single kind of keyword is recognized so I can't say all invalid types of input.
+Tried making tests for ClassRename. Ran into some complications due
+to having to manually enter classes and mock inputting. Currently
+only tests ClassAdd()
 
 Description of program:
 A test file used to test all the methods in AClass with assertions.
@@ -32,7 +33,7 @@ This tests the valid types of inputs for ClassAdd.
 class mockClassAdd_Valid_Name(TestCase):
     @mock.patch('AClass.input', create=True)
     def Valid_ClassAdd_Test(self, mocked_input):
-        print("\n\n--------------TESTING ACCEPTIONS--------------------")
+        print("\n\n--------------TESTING ACCEPTED CLASS ADDS--------------------")
         listOfInputs = ['hi','HI','Hi','Hi1','h2o','Hello_World','Trailing__']
         mocked_input.side_effect = ['hi','HI','Hi','Hi1','h2o','Hello_World','Trailing__']
         index = 0
@@ -60,7 +61,7 @@ class mockClassAdd_Valid_Name(TestCase):
                 """
                 listOfClasses.remove(ClassSearch(listOfInputs[index], listOfClasses))
             except:
-                print("Class \""+listOfInputs[index]+"\" was " + Back.RED + Fore.WHITE + "NOT" + Style.RESET_ALL + " added successfully! Size should have changed!")
+                print("Class \""+listOfInputs[index]+"\" was " + Back.RED + Fore.BLACK + "NOT" + Style.RESET_ALL + " added successfully! Size should have changed!")
                 numOfFailure = numOfFailure + 1
             index = index + 1
         return numOfFailure
@@ -81,7 +82,7 @@ class mockClassAdd_Invalid_Name(TestCase):
         numOfFailure = 0
         while(index < len(listOfInputs)):
             print("Testing \""+listOfInputs[index]+"\"")
-            #The following two lines will suppress the text from ClassAdd()
+            #The following two lines will suppress the text from ClassRename()
             suppress_text = io.StringIO()
             sys.stdout = suppress_text
             ClassAdd()
@@ -92,7 +93,7 @@ class mockClassAdd_Invalid_Name(TestCase):
                 self.assertEqual(result, 1)
                 print("\""+listOfInputs[index]+"\" was rejected "+ Back.GREEN + Fore.BLACK + "successfully" + Style.RESET_ALL + "!")
             except:
-                print("\""+listOfInputs[index]+"\" was " + Back.RED + Fore.WHITE + "NOT" + Style.RESET_ALL +" rejected!")
+                print("\""+listOfInputs[index]+"\" was " + Back.RED + Fore.BLACK + "NOT" + Style.RESET_ALL +" rejected!")
                 """
                 By removing the wrongfully added input, I can then see all the 
                 other wrongfully added inputs. Otherwise, I will see EVERY test 
@@ -103,17 +104,42 @@ class mockClassAdd_Invalid_Name(TestCase):
             index = index + 1
         return numOfFailure
 
-
+class mockClassReName_Valid_Name(TestCase):
+    @mock.patch('AClass.input', create=True)
+    def Valid_Rename(self, mocked_input):
+        mocked_input.side_effects = ['class3','RenamedClass3']
+        print("\n\nRename Test - Due to rename sharing the name checker function \nwith ClassAdd(), it stands to reason that we do not need to \ncheck name validity and instead check only if it can rename and \nchange the appropriate listOfRelationships to match the new name.")
+        
+        print("\nTesting if class3 can be renamed into RenamedClass3 and if class1's relationship changes to reflect that.")
+        #suppress_text = io.StringIO()
+        #sys.stdout = suppress_text
+        ClassRename()
+        #This here will release the text so I can continue to use print().
+        #sys.stdout = sys.__stdout__
+        result1 = listOfClasses[2].name
+        result2 = listOfClasses[0].listOfRelationships[0]
+        try:
+            print(result1)
+            self.assertEqual(result1, 'RenamedClass3')
+            print("\'class3\' was "+Back.GREEN+Fore.BLACK+"successfully"+Style.RESET_ALL+" renamed to be \'RenamedClass3\'!")
+            try:
+                self.assertEqual(result2, 'RenamedClass3')
+                print("class1's relationship name was "+Back.GREEN+Fore.BLACK+"successfully"+Style.RESET_ALL+" renamed to be \'RenamedClass3\'!")
+            except:
+                print("class1's relationship name was "+Back.RED+Fore.BLACK+"NOT"+Style.RESET_ALL+" successfully renamed to be \'RenamedClass3\'!")
+        except:
+            print("\'class3\' was "+Back.RED+Fore.BLACK+"NOT"+Style.RESET_ALL+" renamed to be \'RenamedClass3\'!")
+            
 #Tests run here.
 totalNumOfFailure = 0
-test = mockClassAdd_Valid_Name()
+test = mockClassAdd_Valid_Name() 
 totalNumOfFailure = test.Valid_ClassAdd_Test() 
-test = mockClassAdd_Invalid_Name()
+test = mockClassAdd_Invalid_Name() #Sets the test object to have different tests
 totalNumOfFailure = totalNumOfFailure + test.Bad_ClassAdd_Test()      
 if(totalNumOfFailure == 0):
     print("\n\n---------------------------------\nAll tests run "+ Back.YELLOW + Fore.BLACK + "successfully" + Style.RESET_ALL + "!")
 else:
-    print("\n\n---------------------------------\n"+Back.RED + Fore.WHITE + "NOT" + Style.RESET_ALL + " all tests run succesffuly.\n\nTests failed: " + str(totalNumOfFailure))
+    print("\n\n---------------------------------\n"+Back.RED + Fore.BLACK + "NOT" + Style.RESET_ALL + " all tests run succesffuly.\n\nTests failed: " + str(totalNumOfFailure))
 
 
 
