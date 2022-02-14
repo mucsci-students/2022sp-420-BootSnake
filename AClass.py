@@ -20,7 +20,6 @@ re: A module that will alllow me to use regexes to check for patterns or
 
 """
 import keyword
-#from msilib.schema import Class
 import re
 
 
@@ -53,7 +52,7 @@ def ClassNameChecker(name):
     "-" to describe all the characters from 0 to 9, from lower case a to z and 
     from uppercase A to Z and finally an underscore.
     """
-    regex = r"([^0-9a-zA-Z_*]+)"
+    regex = r"([^0-9a-zA-Z_]+)"
     
     """
     This returns either a match object or None. We'll use this for an if check 
@@ -83,10 +82,11 @@ def ClassNameChecker(name):
         return False
     
     #The final check is to see if it's already in the list of classes.
-    elif name in listOfClasses:
-        print("No duplicates allowed! Every class name is unique.")
-        return False
     else:
+        for x in listOfClasses:
+            if(name == x.name):
+                print("No duplicates allowed! Every class name is unique.")
+                return False
         return True
     
 
@@ -123,12 +123,10 @@ def ClassSearch(name, listOfClasses):
     #the name.
     for x in listOfClasses:
         if(x.name == name):
-            #print(name +": was found.\n")
             return x #We then return the object for the other functions to use.
     
     #If we get to this point then that means we couldn't find the class so 
     #we'll return None.
-    #print (name + ": was not found.\n")
     return None
 
 """
@@ -173,6 +171,8 @@ def ClassRename():
                         if relName == OldName:
                             c.listOfRelationships.remove(OldName)
                             c.listOfRelationships.append(NewName)
+                
+                print (OldName + " has been renamed to: " + NewName + "\n")
 
 def ClassDelete():
     # You can't delete things if there's nothing to rename.
@@ -203,40 +203,3 @@ def ClassDelete():
                     if relName == deleteTarget:
                         print("Deleting " + relName + " relation")
                         c.listOfRelationships.remove(deleteTarget)
-
-
-# Testing code. To be transported to ClassTest.py on a later 
-# date.                        
-"""
-class1 = AClass("class1")
-class2 = AClass("class2")
-class3 = AClass("class3")
-listOfClasses.append(class1)
-listOfClasses.append(class2)
-listOfClasses.append(class3)
-listOfClasses[1].listOfRelationships.append("class1")
-listOfClasses[1].listOfRelationships.append("class3")
-print("All classes in the list: ")
-print("-------------------------")
-for x in listOfClasses:
-    print(x.name)
-print("-------------------------")
-print("\nClass2's relationships: ")
-print("-------------------------")
-for x in listOfClasses[1].listOfRelationships:
-    print(x)
-print("-------------------------")
-print("\nRunning test....")
-ClassDelete()
-print("\n-------------------------")
-print("All classes in the list: ")
-print("-------------------------")
-for x in listOfClasses:
-    print(x.name)
-print("-------------------------")
-print("\nClass2's relationships: ")
-print("-------------------------")
-for x in listOfClasses[0].listOfRelationships:
-    print(x)
-print("-------------------------")
-"""
