@@ -1,6 +1,6 @@
 """
 This file is a class used to implement a save and load function by reading and writing
-to JSON files
+to JSON files 
 """
 
 # Imports
