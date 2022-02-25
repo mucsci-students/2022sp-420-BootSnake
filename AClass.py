@@ -35,7 +35,8 @@ attributes and relationships.
 class AClass:
     def __init__(self,name):
         self.name = name
-        self.listOfAttributes = list()
+        self.listOfFields = list()
+        self.listOfMethods = list()
         self.listOfRelationships = list()
     
     
@@ -97,24 +98,36 @@ for duplicates, leading numbers/underscores, or special characters. With
 exception to non first character underscores. It also prevents you from naming 
 a class an empty string.
 """
-def ClassAdd():
+def ClassAdd(name : str):
     """
     When the function is called a multi-line print detailing what is considered 
     a valid class name is displayed.
     """
+     
+    #print("""
+    #        =============================================================
+    #        | Input a valid unique class name.                          |
+    #        | A valid class name is made up of alpha-numeric characters.|
+    #       | The first character must not be a number or underscore.   |
+    #       | The class name should also not be a programming keyword.  |
+    #        =============================================================
+    #    """)
+        
     
-    print("""Input a valid unique class name. 
-          A valid class name is made up of alpha-numeric characters. 
-          The first character must not be a number or underscore. 
-          The class name should also not be a programming keyword.""")
-    
-    name = input("Class name: ") #The name variable that'll be ran through ifs.
+    #name = input("Class name: ") #The name variable that'll be ran through ifs.
     
     #If it gets to this final else then it is a valid class name.
+    
     if(ClassNameChecker(name)):
         newClass = AClass(name) #We create a new object with the given name.
         listOfClasses.append(newClass) #We append the object into the list.
-        print("Class added to the list of classes. Use the list class command to display its contents.")
+        print("Class " + name + " successfully added! Use the list class command to display its contents.\n")
+    
+    # print the object(s) in the listOfClasses
+              
+    
+    for obj in listOfClasses:
+        print(obj.name)
 
 
 #Searches through class list and return given name.    
@@ -134,30 +147,20 @@ def ClassSearch(name, listOfClasses):
     It will also search through the list and rename any relationships to fit 
     the new name. 
 """
-def ClassRename():
-    # You can't rename things if there's nothing to rename.
-    if(len(listOfClasses)==0):
-        print("There's nothing here to rename.")
-    else:
-        #Asks for the rename target.
-        OldName = input("Class to rename: ")
-        #Grabs the object by feeding the name to the Class Search function.
-        classObject = ClassSearch(OldName, listOfClasses)
-        #ClassSearch returns None if it can't find it.
-        if(classObject == None):
-            print("There's no class named that!")
-        else:
-            #Asks for the new name.
-            NewName = input("Enter the new name: ")
-            
-            """
+def ClassRename(classObj : object, OldName : str, NewName : str):
+    
+    classObject = ClassSearch(OldName, listOfClasses)
+    #ClassSearch returns None if it can't find it.
+    if(classObject != None):
+        
+        """
             Checks to see if the new name is valid by feeding it into the 
             ClassNameChecker function. It returns either true or false.
-            """
-            if(ClassNameChecker(NewName)):
-                classObject.name = NewName #renames the old name here.
+        """
+        if(ClassNameChecker(NewName)):
+            classObject.name = NewName #renames the old name here.
         
-                """
+            """
                 The following nested for loops will iterate through each class 
                 object in the global list. Looking through each of their 
                 relationship lists for the old class name. If it finds it, it 
@@ -165,22 +168,26 @@ def ClassRename():
                 name. We are unable to change the value of the name due to how 
                 for loops presumably work. So we will have to remove and add to 
                 make up for that inability to change the value directly.
-                """
-                for c in listOfClasses:
-                    for relName in c.listOfRelationships:
-                        if relName == OldName:
-                            c.listOfRelationships.remove(OldName)
-                            c.listOfRelationships.append(NewName)
                 
-                print (OldName + " has been renamed to: " + NewName + "\n")
+            """
+            for c in listOfClasses:
+                for relName in c.listOfRelationships:
+                    if relName == OldName:
+                        c.listOfRelationships.remove(OldName)
+                        c.listOfRelationships.append(NewName)
+                
+            print (OldName + " has been renamed to: " + NewName + "\n")
 
-def ClassDelete():
+   
+
+def ClassDelete(deleteTarget):
     # You can't delete things if there's nothing to rename.
     if(len(listOfClasses)==0):
         print("There's nothing here to delete.")
     else:
+        
         #Asks for the class to delete.
-        deleteTarget = input("Class to delete: ")
+        #deleteTarget = input("Class to delete: ")
         #Grabs the object by feeding the name to the Class Search function.
         classObject = ClassSearch(deleteTarget, listOfClasses)
         #ClassSearch returns None if it can't find it.
@@ -188,18 +195,25 @@ def ClassDelete():
             print("There's no class named that!")
         else:
             listOfClasses.remove(classObject)
-            print("Class deleted!")
+            print("Class " + deleteTarget + " deleted!")
+                
             """
-            The following nested for loops will iterate through each class 
-            object in the global list. Looking through each of their 
-            relationship lists for the deleted class name. If it finds it, it 
-            removes it and adds into the relationship list the changed 
-            name. We are unable to change the value of the name due to how 
-            for loops presumably work. So we will have to remove and add to 
-            make up for that inability to change the value directly.
+                The following nested for loops will iterate through each class 
+                object in the global list. Looking through each of their 
+                relationship lists for the deleted class name. If it finds it, it 
+                removes it and adds into the relationship list the changed 
+                name. We are unable to change the value of the name due to how 
+                for loops presumably work. So we will have to remove and add to 
+                make up for that inability to change the value directly.
+                
             """
             for c in listOfClasses:
                 for relName in c.listOfRelationships:
                     if relName == deleteTarget:
                         print("Deleting " + relName + " relation")
                         c.listOfRelationships.remove(deleteTarget)
+                            
+            
+
+
+

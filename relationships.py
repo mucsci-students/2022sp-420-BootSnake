@@ -23,13 +23,25 @@ Returns:
 def RelationshipAdd(src: str, dest: str):
     srcClass = ClassSearch(src, listOfClasses)
     destClass = ClassSearch(dest, listOfClasses)
-    if srcClass is not None and destClass is not None:
-        if not destClass.name in srcClass.listOfRelationships:
-            srcClass.listOfRelationships.append(destClass.name)
-            return 0
-        else:
-            return 2
+    if srcClass and destClass:
+        while True:
+            
+            
+    #if srcClass is not None and destClass is not None:
+                #while True:
+            if not destClass.name in srcClass.listOfRelationships:
+                srcClass.listOfRelationships.append(destClass.name)
+                print("Relationships added successfully for classes " + src + " & "+ dest)
+                return 0
+            else:
+                print("Relationship existed!")
+                return 2
+            
+        
+    elif srcClass =='q' or destClass == 'q':
+        return 3
     else:
+        print("Both source & destination must in list of classes!")
         return 1
 """
 This function takes in two strings (class names) and uses the ClassSearch
@@ -48,6 +60,7 @@ def RelationshipDelete(src: str, dest: str):
     if srcClass is not None and destClass is not None:
         if destClass.name in srcClass.listOfRelationships:
             srcClass.listOfRelationships.remove(destClass.name)
+            print("Relationships deleted successfully for classes" + src + " & "+ dest)
             return 0
         else:
             return 2
