@@ -1,12 +1,12 @@
 # Ben M, Travis Z, Andy P
 # GUI implementation of Software engineering program
 # sprint 2
-# last edited: 3/1/22
+# last edited: 3/2/22
 
 
 # https://www.youtube.com/watch?v=H3Cjtm6NuaQ
 
-
+# =================================================================================================================================================================================================================================================================================
 from tkinter import *
 from tkinter import messagebox
 from tkinter import filedialog
@@ -18,13 +18,26 @@ from relationships import *
 from saveLoad import *
 from UML_attributes import *
 
+
+# =================================================================================================================================================================================================================================================================================
+
+
+
 # initialize window
 window = tk.Tk()
 window.title("bootsnake")
 window.geometry("400x200")
 
+
+# =================================================================================================================================================================================================================================================================================
+
+
 # list for entries in entry boxes
 entries = []
+
+
+
+# =================================================================================================================================================================================================================================================================================
 
 
 # variables to keep track of drop down menu, and lists for drop down options
@@ -55,6 +68,10 @@ methodsOptions = [
     'Delete',
     'Rename',
 ]
+
+
+
+# =================================================================================================================================================================================================================================================================================
 
 
 # calls for each file's methods
@@ -96,17 +113,21 @@ def fieldCalls(*args):
 
 def saveCall():
     filename = filedialog.asksaveasfilename()
-    save(filename)
+    if filename is not None:
+        save(filename)
 
 def loadCall():
-    filename = filedialog.askopenfilename()
-    #filename = filedialog.askopenfilename(filetypes=(("Json files", "*.json*")))
-    load(filename)
+    #filename = filedialog.askopenfilename()
+    filename = filedialog.askopenfilename(filetypes=(("Json File", "*.json"),), title="Choose JSON file.")
+    if filename is not None:
+        load(filename)
 
 
-
+# =================================================================================================================================================================================================================================================================================
 
 # for making an arbitrary number of entry boxes for functions
+# makes a new window and adds entry boxes. 
+# updates entries list with those entry box objects to be accessed by other functions
 def windowEntry(numEntries: int):
     entries.clear()
 
@@ -131,7 +152,7 @@ def windowEntry(numEntries: int):
     #newWindow.destroy()
 
 
-
+# =================================================================================================================================================================================================================================================================================
 
 
 # drop down menu and label objects
@@ -154,6 +175,10 @@ loadButton = tk.Button(window, text="Load", command=loadCall).grid(row=1, column
 
 
 
+# =================================================================================================================================================================================================================================================================================
+
+
+
 # keeping track of whether a drop down menu option was selected
 classVar.trace("w", classCalls)
 relationshipVar.trace("w", relationshipCalls)
@@ -161,6 +186,8 @@ methodsVar.trace("w", relationshipCalls)
 fieldsVar.trace("w", methodCalls)
 
 
+
+# =================================================================================================================================================================================================================================================================================
 
 # end
 window.mainloop()
