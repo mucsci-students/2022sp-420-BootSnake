@@ -1,12 +1,19 @@
 """
-Last edited: 02/07/2022
+Last edited: 03/02/2022
 Authors: Ben Moran, Andy Pham and Tram T
 
-Last edit: added functionality in RelationshipAdd() so it checks
-if the relationship already exists. Also merged with class for latest updates.
+Last edit: changed relationships to be an object that has a destination and 
+type.
 """
 
 from classModelController import *
+
+# relationship object that stores the type of relationship along with 
+# destination of the relationship.
+class relationship:
+    def __init__(self,type,dest):
+        self.type = type
+        self.dest = dest
 
 
 """
@@ -20,15 +27,16 @@ Returns:
 1 - either source or dest class does not exist
 2 - relationship already exists
 """
-def RelationshipAdd(src: str, dest: str):
+def RelationshipAdd(src: str, dest: str, type: str):
     srcClass = ClassSearch(src, listOfClasses)
     destClass = ClassSearch(dest, listOfClasses)
     if srcClass is not None and destClass is not None:
-        if not destClass.name in srcClass.listOfRelationships:
-            srcClass.listOfRelationships.append(destClass.name)
-            return "Successfully added relationship."
-        else:
-            return "Error: Relationship already exists."
+        for r in srcClass.listOfRelationships:
+            if r.dest == destClass.name:
+                return "Error: Relationship already exists."
+        newRelationship = relationship(type, dest)
+        srcClass.listOfRelationships.append(newRelationship)
+        return "Successfully added relationship."
     else:
         return "Error: Either the source or destination class does not exist."
 """
@@ -46,10 +54,25 @@ def RelationshipDelete(src: str, dest: str):
     srcClass = ClassSearch(src, listOfClasses)
     destClass = ClassSearch(dest, listOfClasses)
     if srcClass is not None and destClass is not None:
-        if destClass.name in srcClass.listOfRelationships:
-            srcClass.listOfRelationships.remove(destClass.name)
-            return "Successfully deleted relationship."
-        else:
-            return "Error: Relationship does not exist for deletion."
+        for r in srcClass.listOfRelationships:
+            if r.dest == dest:
+                srcClass.listOfRelationships.remove(r)
+                return "Successfully deleted relationship."
+        return "Error: Relationship does not exist for deletion."
     else:
         return "Error: Either the source or destination class does not exist."
+    
+
+def relationshipEdit(src: str, dest: str, type: str):
+    srcClass = ClassSearch(src, listOfClasses)
+    destClass = ClassSearch(dest, listOfClasses)
+    if srcClass is not None and destClass is not None:
+        for r in srcClass.listOfRelationships:
+            if r.dest == dest:
+                r.type = type
+                return "Successfully edited relationship."
+        return "Error: Relationship does not exist for edit."
+    else:
+        return "Error: Either the source or destination class does not exist."
+
+
