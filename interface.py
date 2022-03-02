@@ -46,7 +46,7 @@ def ListClass(name):
     
     # Loop through listOfRelationships
     for y in wantedClass.listOfRelationships:
-        messageString += wantedClass.name + " -> " + y + '\n'
+        messageString += wantedClass.name + " ---"+"("+y.type+")"+"---> " + y.dest + '\n'
 
     return messageString
 
@@ -60,7 +60,7 @@ def ListRelationships():
         return
     for c in listOfClasses:
         for r in c.listOfRelationships:
-            print("\t" + c.name + " -> " + r)                   # For each class, get each of its relationships and print them
+            print("\t" + c.name + " ---"+ "("+r.type+")"+ "---> " + r.dest)                   # For each class, get each of its relationships and print them
     print()
     return
 
