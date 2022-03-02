@@ -55,6 +55,7 @@ relationshipOptions = [
     '',
     'Add',
     'Delete',
+    'Edit',
 ]
 methodsVar = StringVar(window)
 methodsOptions = [
@@ -95,11 +96,14 @@ def classCalls(*args):
 def relationshipCalls(*args):
     err = False
     if relationshipVar.get() == 'Add':
-        windowEntry(2, "Relationship Add")
-        err = RelationshipAdd(entries[0], entries[1])
+        windowEntry(3, "Relationship Add")
+        err = RelationshipAdd(entries[0], entries[1], entries[2])
     elif relationshipVar.get() == 'Delete':
         windowEntry(2, "Relationship Delete")
         err = RelationshipDelete(entries[0], entries[1])
+    elif relationshipVar.get() == 'Edit':
+        windowEntry(3, "Relationship Edit")
+        err = RelationshipDelete(entries[0], entries[1], entries[2])
     if err is not False:
         throwMessage(err)
     relationshipVar.set("")
