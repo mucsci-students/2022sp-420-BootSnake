@@ -2,7 +2,7 @@
 Last Edit: 02/09/2022
 Edited by: Amelia Spanier and Ben Moran
 """
-from AClass import *
+from classModelController import *
 from relationships import *
 from UML_attributes import *
 from interface import *
