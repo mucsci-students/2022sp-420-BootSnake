@@ -163,16 +163,12 @@ def ClassRename(OldName : str, NewName : str):
                 object in the global list. Looking through each of their 
                 relationship lists for the old class name. If it finds it, it 
                 removes it and adds into the relationship list the changed 
-                name. We are unable to change the value of the name due to how 
-                for loops presumably work. So we will have to remove and add to 
-                make up for that inability to change the value directly.
-                
+                name.
             """
             for c in listOfClasses:
                 for relName in c.listOfRelationships:
-                    if relName == OldName:
-                        c.listOfRelationships.remove(OldName)
-                        c.listOfRelationships.append(NewName)
+                    if relName.dest == OldName:
+                        relName.dest = NewName
                 
             print (OldName + " has been renamed to: " + NewName + "\n")
             return OldName + " has been renamed to: " + NewName
@@ -218,3 +214,4 @@ def ClassDelete(deleteTarget):
                         returnString = returnString + "\nDeleting " + relName + " relation"
                         c.listOfRelationships.remove(deleteTarget)
             return returnString
+        
