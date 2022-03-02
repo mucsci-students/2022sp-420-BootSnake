@@ -183,7 +183,7 @@ def ClassRename(classObj : object, OldName : str, NewName : str):
 def ClassDelete(deleteTarget):
     # You can't delete things if there's nothing to rename.
     if(len(listOfClasses)==0):
-        print("There's nothing here to delete.")
+        print("There's nothing here to delete! Enter 'q' to quit!")
     else:
         
         #Asks for the class to delete.
