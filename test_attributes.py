@@ -9,7 +9,7 @@
 
 import pytest
 
-from AClass import *
+from classModelController import *
 from UML_attributes import*
 
 

@@ -6,7 +6,7 @@ Last edit: added functionality in RelationshipAdd() so it checks
 if the relationship already exists. Also merged with class for latest updates.
 """
 
-from AClass import *
+from classModelController import *
 
 
 """

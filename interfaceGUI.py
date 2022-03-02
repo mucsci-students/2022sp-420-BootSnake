@@ -11,7 +11,7 @@ from tkinter import filedialog
 import tkinter as tk
 from tkinter import ttk
 
-from AClass import *
+from classModelController import *
 from relationships import *
 from saveLoad import *
 from UML_attributes import *
