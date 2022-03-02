@@ -26,11 +26,11 @@ def RelationshipAdd(src: str, dest: str):
     if srcClass is not None and destClass is not None:
         if not destClass.name in srcClass.listOfRelationships:
             srcClass.listOfRelationships.append(destClass.name)
-            return 0
+            return "Successfully added relationship."
         else:
-            return 2
+            return "Error: Relationship already exists."
     else:
-        return 1
+        return "Error: Either the source or destination class does not exist."
 """
 This function takes in two strings (class names) and uses the ClassSearch
 function to verify they exist. It then checks that the relationship
@@ -48,8 +48,8 @@ def RelationshipDelete(src: str, dest: str):
     if srcClass is not None and destClass is not None:
         if destClass.name in srcClass.listOfRelationships:
             srcClass.listOfRelationships.remove(destClass.name)
-            return 0
+            return "Successfully deleted relationship."
         else:
-            return 2
+            return "Error: Relationship does not exist for deletion."
     else:
-        return 1
+        return "Error: Either the source or destination class does not exist."

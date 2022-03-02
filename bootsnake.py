@@ -25,11 +25,15 @@ def Main():
             print("[1] Add\n[2] Rename\n[3] Delete")
             userIn = input("UML:> ")
             if "1" in userIn:
-                ClassAdd()
+                name = input("Input class name: ")
+                ClassAdd(name)
             elif "2" in userIn:
-                ClassRename()
+                name = input("Input class to rename: ")
+                newName = input("Input new name: ")
+                ClassRename(name, newName)
             elif "3" in userIn: 
-                ClassDelete()
+                name = input("Input class name: ")
+                ClassDelete(name)
 
         elif "2" in userIn:
             print("Attribute:")
@@ -70,9 +74,11 @@ def Main():
             userIn = input("UML:> ")
             if "1" in userIn:
                 name = input("Class name: ")
-                ListClass(name)
+                mes = ListClass(name)
+                print(mes)
             elif "2" in userIn:
-                ListClasses()
+                mes = ListClasses()
+                print(mes)
                 continue
             elif "3" in userIn: 
                 ListRelationships()
