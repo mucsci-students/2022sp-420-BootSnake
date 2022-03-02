@@ -48,14 +48,17 @@ def Main():
 
         elif "3" in userIn:
             print("Relationship:")
-            print("[1] Add\n[2] Delete")
+            print("[1] Add\n[2] Delete\n[3] Edit")
             userIn = input("UML:> ")
             src = input("Source class name: ")
             dest= input("Destination class name: ")
+            type = ""
             if "1" in userIn:
-                RelationshipAdd(src, dest)
+                RelationshipAdd(src, dest, typeChecker())
             elif "2" in userIn:
                 RelationshipDelete(src, dest)
+            elif "3" in userIn:
+                relationshipEdit(src, dest, typeChecker())
 
         elif "4" in userIn:
             print("[1] Save\n[2] Load")
@@ -93,4 +96,18 @@ def Main():
 
         print()
 
+def typeChecker():
+    type = ""
+    print("[1] Aggregation\n[2] Composition\n[3] Inheritance\n[4] Realization")
+    while (type == ""):
+        addInput = input("Relationship type: ")
+        if "1" in addInput:
+            type = "Aggregation"
+        elif "2" in addInput:
+            type = "Composition"
+        elif "3" in addInput:
+            type = "Inheritance"
+        elif "4" in addInput:
+            type = "Realization"
+    return type
 Main()
