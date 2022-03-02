@@ -145,7 +145,7 @@ def ClassSearch(name, listOfClasses):
     It will also search through the list and rename any relationships to fit 
     the new name. 
 """
-def ClassRename(classObj : object, OldName : str, NewName : str):
+def ClassRename(OldName : str, NewName : str):
     
     classObject = ClassSearch(OldName, listOfClasses)
     #ClassSearch returns None if it can't find it.

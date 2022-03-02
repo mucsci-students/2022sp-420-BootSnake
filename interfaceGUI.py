@@ -61,20 +61,13 @@ methodsOptions = [
 def classCalls(*args):
     if classVar.get() == 'Add':
         windowEntry(1)
-        entry_list = ""
-        for entry in entries:
-            entry_list = entry_list + str(entry.get() + '\n')
-        #ClassAdd(entries[0].get())
-        return
+        ClassAdd(entries[0].get())
     elif classVar.get() == 'Delete':
         windowEntry(1)
-        return
-        #ClassDelete()
+        ClassDelete(entries[0].get())
     elif classVar.get() == 'Rename':
         windowEntry(2)
-        return
-        #ClassRename()
-
+        ClassRename(entries[0].get(), entries[1].get())
 
 def relationshipCalls(*args):
     if relationshipVar.get() == 'Add':
@@ -113,19 +106,32 @@ def loadCall():
 
 
 
-
 # for making an arbitrary number of entry boxes for functions
 def windowEntry(numEntries: int):
+    entries.clear()
+
+    # create new pop up window
     newWindow = Toplevel(window)
     newWindow.title("Entry")
     newWindow.geometry("400x200")
 
-    startButton = Button(newWindow, text='Go!', command=newWindow.destroy)
+    # create start button and entry boxes based on input
+    startVar = tk.IntVar()
+    startButton = Button(newWindow, text='Go!', command=lambda: startVar.set(1))
     startButton.grid(row=1, column=0, pady=20)
     for x in range(numEntries):
         entry = Entry(newWindow)
         entry.grid(row=0, column=x, pady=20, padx=5)
         entries.append(entry)
+    
+    # waits for button to be pressed before returning to function
+    startButton.wait_variable(startVar)
+
+    # close window automatically, we cant close until we are done with the entries, so we may not be able to do this with this current implementation
+    #newWindow.destroy()
+
+
+
 
 
 # drop down menu and label objects
