@@ -84,7 +84,7 @@ def ParamDelete(wantedMethod, delAmnt, paramName):
         elif delAmnt == 'one':
             for param in wantedMethod.listOfParams:
                 if param.name.casefold().strip() == paramName.casefold().strip():
-                    wantedMethod.listOfParams.remove(params)
+                    wantedMethod.listOfParams.remove(param)
                     print("UML> Attribute deleted!")
                     for o in wantedMethod.listOfParams:
                         print(o.name + " : " + o.type)
