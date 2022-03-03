@@ -125,7 +125,7 @@ def ClassAdd(name : str):
     using terminal then the return value will not be used. HOWEVER, GUI will 
     act on the return value and create the appropriate labels and what not.
     """
-    return userInput
+    return "Invalid class name! No empty inputs, no spaces, no special\n characters aside from non-leading underscores, no leading numbers, and no\n programming keywords!"
 
 
 #Searches through class list and return given name.    
