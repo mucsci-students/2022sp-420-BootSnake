@@ -2,7 +2,7 @@
 Last Edit: 02/09/2022
 Edited by: Amelia Spanier and Ben Moran
 """
-from AClass import *
+from classModel import *
 from relationships import *
 from UML_attributes import *
 from interface import *
@@ -25,11 +25,15 @@ def Main():
             print("[1] Add\n[2] Rename\n[3] Delete")
             userIn = input("UML:> ")
             if "1" in userIn:
-                ClassAdd()
+                name = input("Input class name: ")
+                ClassAdd(name)
             elif "2" in userIn:
-                ClassRename()
+                name = input("Input class to rename: ")
+                newName = input("Input new name: ")
+                ClassRename(name, newName)
             elif "3" in userIn: 
-                ClassDelete()
+                name = input("Input class name: ")
+                ClassDelete(name)
 
         elif "2" in userIn:
             print("Attribute:")
@@ -44,14 +48,17 @@ def Main():
 
         elif "3" in userIn:
             print("Relationship:")
-            print("[1] Add\n[2] Delete")
+            print("[1] Add\n[2] Delete\n[3] Edit")
             userIn = input("UML:> ")
             src = input("Source class name: ")
             dest= input("Destination class name: ")
+            type = ""
             if "1" in userIn:
-                RelationshipAdd(src, dest)
+                RelationshipAdd(src, dest, typeChecker())
             elif "2" in userIn:
                 RelationshipDelete(src, dest)
+            elif "3" in userIn:
+                relationshipEdit(src, dest, typeChecker())
 
         elif "4" in userIn:
             print("[1] Save\n[2] Load")
@@ -61,7 +68,7 @@ def Main():
                 save(filename)
                 continue
             elif "2" in userIn:
-                #Load(filename)
+                load(filename)
                 continue
 
         elif "5" in userIn:
@@ -70,12 +77,14 @@ def Main():
             userIn = input("UML:> ")
             if "1" in userIn:
                 name = input("Class name: ")
-                ListClass(name)
+                mes = ListClass(name)
+                print(mes)
             elif "2" in userIn:
-                ListClasses()
+                mes = ListClasses()
+                print(mes)
                 continue
             elif "3" in userIn: 
-                ListRelationships()
+                print(ListRelationships())
                 continue 
 
         elif "6" in userIn:
@@ -87,4 +96,18 @@ def Main():
 
         print()
 
+def typeChecker():
+    type = ""
+    print("[1] Aggregation\n[2] Composition\n[3] Inheritance\n[4] Realization")
+    while (type == ""):
+        addInput = input("Relationship type: ")
+        if "1" in addInput:
+            type = "Aggregation"
+        elif "2" in addInput:
+            type = "Composition"
+        elif "3" in addInput:
+            type = "Inheritance"
+        elif "4" in addInput:
+            type = "Realization"
+    return type
 Main()
