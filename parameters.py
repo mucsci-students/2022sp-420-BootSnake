@@ -5,7 +5,7 @@ Authors: Amelia Spanier, Tram Trinh
 
 import re
 import keyword
-from AClass import *
+from classModel import *
 from attributes import *
 
 regex = re.compile('[@!$%^&()<>?/\\\|}{\[\]\']')
