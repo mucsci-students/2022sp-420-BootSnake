@@ -15,6 +15,13 @@ class Param:
         self.name = name
         self.type = paramType
 
+"""
+CheckNameType
+Input: given parameter name, given parameter type, method expecting param addition
+Description: Checks that both name & type of the new param are valid and that a param with the same
+name does not exist within the method. Both name & type must be valid in order for the param to be
+added to the method's list of params
+"""
 def CheckNameType(paramName: str, paramType: str, methodName):
         
     if (not paramName.strip()) or (not paramType.strip()):  
@@ -53,21 +60,21 @@ Description: Creates a parameter with a valid name & type and appends to a given
 """
 def ParamAdd(className, methodName, paramName, paramType):
 
-    wantedClass = ClassSearch(className)
+    wantedClass = ClassSearch(className, listOfClasses)        # get requested class from list of classes
 
     if not wantedClass:
         print("Could not find class with name " + className + ". Please input an existing class.")
         return None
 
-    wantedMethod = searchMethod(className, methodName)
+    wantedMethod = searchMethod(className, methodName)          # get requested method from class's list of methods
 
     if wantedMethod:
         
-        validParam = CheckNameType(paramName, paramType, wantedMethod)
+        validParam = CheckNameType(paramName, paramType, wantedMethod)      # check that name and type of param are valid
 
         if validParam:
-            thisParam = Param(paramName, paramType)
-            wantedMethod.listOfParams.append(thisParam)
+            thisParam = Param(paramName, paramType)             # new param with given name & type
+            wantedMethod.listOfParams.append(thisParam)         # append new param to method's list of params
             print("Parameter " + paramName +" successfully added!")
             print("List of parameters for method " + methodName + ":")
             for o in wantedMethod.listOfParams:
@@ -83,15 +90,14 @@ def ParamAdd(className, methodName, paramName, paramType):
 """
 ParamListAdd
 Input: parameter list, parameter's name, parameter's type
-Description: Adds a parameter to a disconnected parameter list for specific use in adding multiple parameters in
-parameter change
+Description: Specialized param add for parameter change method use
 """
 def ParamListAdd(wantedMethod, paramName, paramType):
-    validParam = CheckNameType(paramName, paramType, wantedMethod)
+    validParam = CheckNameType(paramName, paramType, wantedMethod)      # check that name and type of param are valid
 
     if validParam:
-        thisParam = Param(paramName, paramType)
-        wantedMethod.listOfParams.append(thisParam)
+        thisParam = Param(paramName, paramType)                 # new param with given name & type
+        wantedMethod.listOfParams.append(thisParam)             # append new param to method's list of params
         print("Parameter " + paramName + " : " + paramType +" successfully added!")
         for o in wantedMethod.listOfParams:
             print(o.name + " : " + paramType)
