@@ -3,12 +3,13 @@ Last Edit: 02/09/2022
 Edited by: Amelia Spanier and Ben Moran
 """
 
+import subprocess
 import sys
 
 
 
 from pydoc import classname
-from AClass import *
+from classModel import *
 from relationships import *
 from attributes import *
 from parameters import *
@@ -51,7 +52,7 @@ def Main(args: list):
     
         # run gui
     else:
-        print("execute guiMain!")
+        subprocess.Popen('python interfaceGUI.py')
     
 def umlCliController() -> None:
 

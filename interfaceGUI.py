@@ -17,8 +17,9 @@ from tkinter import ttk
 from classModel import *
 from relationships import *
 from saveLoad import *
-from UML_attributes import *
+from attributes import *
 from interface import *
+from parameters import *
 
 
 # =================================================================================================================================================================================================================================================================================
@@ -71,7 +72,12 @@ fieldsOptions = [
     'Delete',
     'Rename',
 ]
-
+parameterVar = StringVar(window)
+parameterOptions = [
+    '',
+    'Add',
+    'Change',
+]
 
 
 # =================================================================================================================================================================================================================================================================================
@@ -120,28 +126,49 @@ def relationshipCalls(*args):
 def methodCalls(*args):
     err = False
     if methodsVar.get() == 'Add':
-        windowEntry(3, "Method Add")
-        #err = addMethod(entries[0])
+        windowEntry(2, "Method Add")
+        err = addMethod(entries[0], entries[1], [])
     elif methodsVar.get() == 'Delete':
         windowEntry(3, "Method Delete")
-        #err = delMethod(entries[0])
+        err = delMethod(entries[0], entries[1])
     elif methodsVar.get() == 'Rename':
         windowEntry(2, "Method Rename")
-        #err = relMethod(entries[0])
+        err = renMethod(entries[0], entries[1], entries[2])
+    if err is not False:
+        throwMessage(err)
     methodsVar.set("")
+
+
 
 def fieldCalls(*args):
     err = False
     if fieldsVar.get() == 'Add':
         windowEntry(2, "Field Add")
-        #err = addField(entries[0])
+        err = addField(entries[0], entries[1])
     elif fieldsVar.get() == 'Delete':
         windowEntry(2, "Field Delete")
-        #err = delField(entries[0])
+        err = delField(entries[0], entries[1])
     elif fieldsVar.get() == 'Rename':
         windowEntry(3, "Field Rename")
-        #err = relField(entries[0])
+        err = renField(entries[0], entries[1], entries[2])
+    if err is not False:
+        throwMessage(err)
     fieldsVar.set("")
+
+
+
+def parameterCalls(*args):
+    err = False
+    if parameterVar.get() == 'Add':
+        windowEntry(4, "Parameter Add")
+        err = ParamAdd(entries[0], entries[1], entries[2], entries[3])
+    elif parameterVar.get() == 'Change':
+        windowEntry(3, "Parameter Change")
+        err = changeParam(entries[0], entries[1], entries[2])
+    if err is not False:
+        throwMessage(err)
+    parameterVar.set("")
+
 
 def saveCall():
     err = False
@@ -237,7 +264,9 @@ fieldsDrop = tk.OptionMenu(window, fieldsVar, *fieldsOptions).grid(row=1, column
 
 methodsLabel = tk.Label(window, text="Methods").grid(row=0, column=3)
 methodsDrop = tk.OptionMenu(window, methodsVar, *methodsOptions).grid(row=1, column=3)
-# startButton = tk.Button(window, text="Start", command=test).grid(row=1, column=2)
+
+parameterLabel = tk.Label(window, text="Paramters").grid(row=0, column=4)
+parameterDrop = tk.OptionMenu(window, parameterVar, *parameterOptions).grid(row=1, column=4)
 
 listClassButton = tk.Button(window, text="List Class", command=listClassCall).grid(row=2, column=0)
 listClassesButton = tk.Button(window, text="List Classes", command=listClassesCall).grid(row=2, column=1)
@@ -255,8 +284,10 @@ loadButton = tk.Button(window, text="Load", command=loadCall).grid(row=3, column
 # keeping track of whether a drop down menu option was selected
 classVar.trace("w", classCalls)
 relationshipVar.trace("w", relationshipCalls)
-methodsVar.trace("w", relationshipCalls)
-fieldsVar.trace("w", methodCalls)
+methodsVar.trace("w", methodCalls)
+fieldsVar.trace("w", fieldCalls)
+parameterVar.trace("w", parameterCalls)
+
 
 
 
