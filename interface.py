@@ -1,5 +1,5 @@
 from email import message
-from classModelController import *
+from classModel import *
 
 """
 This function loops through the list of classes and sends them to ListClass()
@@ -27,16 +27,17 @@ def ListClass(name):
 
     # Check to see if user input a valid class name
     if (wantedClass == None):
-        return "Class " + wantedClass + " does not exist."
+        return "Class " + name + " does not exist."
     
     messageString += name + "\nFields: \n\t"
 
     # Loop through listOfAttributes
+
     for x in wantedClass.listOfFields:
         messageString += x + " \n"
 
 
-    messageString += name + "\nMethods: \n\t"
+    messageString += "\nMethods: \n\t"
 
     # Loop through listOfAttributes
     for x in wantedClass.listOfMethods:
@@ -55,14 +56,14 @@ This function loops through the list of classes and prints a list of
 the relationships each of them has
 """
 def ListRelationships():
+    message = ''
     if len(listOfClasses) == 0:
-        print("There are currently no classes.")    # Inform user if there are no classes
-        return
+        message += "There are currently no classes."    # Inform user if there are no classes
+        return message
     for c in listOfClasses:
         for r in c.listOfRelationships:
-            print("\t" + c.name + " ---"+ "("+r.type+")"+ "---> " + r.dest)                   # For each class, get each of its relationships and print them
-    print()
-    return
+            message += "\t" + c.name + " ---"+ "("+r.type+")"+ "---> " + r.dest + '\n'               # For each class, get each of its relationships and print them
+    return message
 
 """
 This function reads a text file of helpful instructions for the user and

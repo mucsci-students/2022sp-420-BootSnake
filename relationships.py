@@ -6,7 +6,7 @@ Last edit: changed relationships to be an object that has a destination and
 type.
 """
 
-from classModelController import *
+from classModel import *
 
 # relationship object that stores the type of relationship along with 
 # destination of the relationship.

@@ -7,14 +7,14 @@
 # https://www.youtube.com/watch?v=H3Cjtm6NuaQ
 
 # =================================================================================================================================================================================================================================================================================
-from email import message
+
 from tkinter import *
 from tkinter import messagebox
 from tkinter import filedialog
 import tkinter as tk
 from tkinter import ttk
 
-from classModelController import *
+from classModel import *
 from relationships import *
 from saveLoad import *
 from UML_attributes import *
@@ -97,13 +97,22 @@ def relationshipCalls(*args):
     err = False
     if relationshipVar.get() == 'Add':
         windowEntry(3, "Relationship Add")
-        err = RelationshipAdd(entries[0], entries[1], entries[2])
+        if entries[2] == "Aggregation" or entries[2] == "Composition" or entries[2] == "Inheritance" or entries[2] == "Realization":
+            err = RelationshipAdd(entries[0], entries[1], entries[2])
+        else:
+            throwMessage("Incorrect relationship type. The available options are: Aggregation, Composition, Inheritance, Realization")
+            return
     elif relationshipVar.get() == 'Delete':
         windowEntry(2, "Relationship Delete")
         err = RelationshipDelete(entries[0], entries[1])
     elif relationshipVar.get() == 'Edit':
         windowEntry(3, "Relationship Edit")
-        err = RelationshipDelete(entries[0], entries[1], entries[2])
+        print(entries[2])
+        if entries[2] == "Aggregation" or entries[2] == "Composition" or entries[2] == "Inheritance" or entries[2] == "Realization":
+            err = relationshipEdit(entries[0], entries[1], entries[2])
+        else:
+            throwMessage("Incorrect relationship type. The available options are: Aggregation, Composition, Inheritance, Realization")
+            return
     if err is not False:
         throwMessage(err)
     relationshipVar.set("")
@@ -111,21 +120,27 @@ def relationshipCalls(*args):
 def methodCalls(*args):
     err = False
     if methodsVar.get() == 'Add':
-        return
+        windowEntry(3, "Method Add")
+        #err = addMethod(entries[0])
     elif methodsVar.get() == 'Delete':
-        return
+        windowEntry(3, "Method Delete")
+        #err = delMethod(entries[0])
     elif methodsVar.get() == 'Rename':
-        return
+        windowEntry(2, "Method Rename")
+        #err = relMethod(entries[0])
     methodsVar.set("")
 
 def fieldCalls(*args):
     err = False
     if fieldsVar.get() == 'Add':
-        return
+        windowEntry(2, "Field Add")
+        #err = addField(entries[0])
     elif fieldsVar.get() == 'Delete':
-        return
+        windowEntry(2, "Field Delete")
+        #err = delField(entries[0])
     elif fieldsVar.get() == 'Rename':
-        return
+        windowEntry(3, "Field Rename")
+        #err = relField(entries[0])
     fieldsVar.set("")
 
 def saveCall():
@@ -139,11 +154,17 @@ def saveCall():
 def loadCall():
     err = False
     #filename = filedialog.askopenfilename()
-    filename = filedialog.askopenfilename(filetypes=(("Json File", "*.json"),), title="Choose JSON file.")
+    filename = filedialog.askopenfilename(filetypes=(("Json File", "*.json"),), title="Choose JSON file")
     if filename != "":
         err = load(filename)
     if err is not False:
         throwMessage(err)
+
+
+def listClassCall():
+    windowEntry(1, "List Class")
+    message = ListClass(entries[0])
+    throwMessage(message)
 
 
 
@@ -154,7 +175,8 @@ def listClassesCall():
 
 
 def listRelationshipsCall():
-    return
+    message = ListRelationships()
+    throwMessage(message)
 
 
 # =================================================================================================================================================================================================================================================================================
@@ -217,9 +239,9 @@ methodsLabel = tk.Label(window, text="Methods").grid(row=0, column=3)
 methodsDrop = tk.OptionMenu(window, methodsVar, *methodsOptions).grid(row=1, column=3)
 # startButton = tk.Button(window, text="Start", command=test).grid(row=1, column=2)
 
-
-listClassesButton = tk.Button(window, text="List Classes", command=listClassesCall).grid(row=2, column=0)
-listRelationshipsButton = tk.Button(window, text="List Relationships", command=listRelationshipsCall).grid(row=2, column=1)
+listClassButton = tk.Button(window, text="List Class", command=listClassCall).grid(row=2, column=0)
+listClassesButton = tk.Button(window, text="List Classes", command=listClassesCall).grid(row=2, column=1)
+listRelationshipsButton = tk.Button(window, text="List Relationships", command=listRelationshipsCall).grid(row=2, column=2)
 
 saveButton = tk.Button(window, text="Save", command=saveCall).grid(row=3, column=0)
 loadButton = tk.Button(window, text="Load", command=loadCall).grid(row=3, column=1)

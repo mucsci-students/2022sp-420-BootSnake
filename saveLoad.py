@@ -8,7 +8,7 @@ import json
 import os.path
 
 from textwrap import indent
-from classModelController import *
+from classModel import *
 from json import JSONEncoder
 from os.path import exists
 

@@ -2,7 +2,7 @@
 Last Edit: 02/09/2022
 Edited by: Amelia Spanier and Ben Moran
 """
-from classModelController import *
+from classModel import *
 from relationships import *
 from UML_attributes import *
 from interface import *
@@ -68,7 +68,7 @@ def Main():
                 save(filename)
                 continue
             elif "2" in userIn:
-                #Load(filename)
+                load(filename)
                 continue
 
         elif "5" in userIn:
@@ -84,7 +84,7 @@ def Main():
                 print(mes)
                 continue
             elif "3" in userIn: 
-                ListRelationships()
+                print(ListRelationships())
                 continue 
 
         elif "6" in userIn:
