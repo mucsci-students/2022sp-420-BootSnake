@@ -90,7 +90,7 @@ def ParamAdd(className, methodName, paramName, paramType):
 """
 ParamListAdd
 Input: parameter list, parameter's name, parameter's type
-Description: Specialized param add for parameter change method use
+Description: Specialized param add for parameter change method use (possible to merge with regular ParamAdd?)
 """
 def ParamListAdd(wantedMethod, paramName, paramType):
     validParam = CheckNameType(paramName, paramType, wantedMethod)      # check that name and type of param are valid
