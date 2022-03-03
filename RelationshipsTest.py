@@ -1,6 +1,6 @@
 # content of test_sample.py
 from relationships import *
-from AClass import *
+from classModelController import *
 
 
 ################################################################################################################################################################

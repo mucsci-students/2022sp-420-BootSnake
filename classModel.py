@@ -1,23 +1,22 @@
 """
----------------------------
-Last edited: 02/08/22
-Editor: Andy Pham and Travis Z
-Summary of edit:
-Created ClassDelete. It is very similar to ClassRename in how it's coded.
-It searches for the object to delete, then it searches for the relationships
-that also need to be deleted and deletes them both. 
 
 ---------------------------
+Last edited: 03/01/22
+The editor: Andy Pham
+Summary of edit:
+Refactored the code to return strings or False so that GUI could use that info 
+to create approriate labels. 
+---------------------------
+
+
 
 There are two imports for the class file (as of now).
-
 keyword: A module that has the iskeyword() function. This function is useful
          for finding if someone inputted a keyword as a class name. Which is 
          not allowed.
-
 re: A module that will alllow me to use regexes to check for patterns or 
     special characters.
-
+    
 """
 import keyword
 import re
@@ -112,22 +111,23 @@ def ClassAdd(name : str):
     #       | The class name should also not be a programming keyword.  |
     #        =============================================================
     #    """)
-        
-    
-    #name = input("Class name: ") #The name variable that'll be ran through ifs.
-    
-    #If it gets to this final else then it is a valid class name.
-    
-    if(ClassNameChecker(name)):
+            
+    userInput = ClassNameChecker(name)
+    if(userInput):
         newClass = AClass(name) #We create a new object with the given name.
         listOfClasses.append(newClass) #We append the object into the list.
         print("Class " + name + " successfully added! Use the list class command to display its contents.\n")
+        # Changes userInput to be a string instead of a True bool.
+        userInput = "Class " + name + " successfully added!"
     
-    # print the object(s) in the listOfClasses
-              
-    
-    for obj in listOfClasses:
-        print(obj.name)
+    """
+    Here we return the string or False to whatever called ClassAdd. If you're 
+    using terminal then the return value will not be used. HOWEVER, GUI will 
+    act on the return value and create the appropriate labels and what not.
+    """
+    if userInput == False:
+        userInput = "Invalid class name! No empty inputs, no spaces, no special\n characters aside from non-leading underscores, no leading numbers, and no\n programming keywords!"
+    return userInput
 
 
 #Searches through class list and return given name.    
@@ -147,7 +147,7 @@ def ClassSearch(name, listOfClasses):
     It will also search through the list and rename any relationships to fit 
     the new name. 
 """
-def ClassRename(classObj : object, OldName : str, NewName : str):
+def ClassRename(OldName : str, NewName : str):
     
     classObject = ClassSearch(OldName, listOfClasses)
     #ClassSearch returns None if it can't find it.
@@ -165,25 +165,26 @@ def ClassRename(classObj : object, OldName : str, NewName : str):
                 object in the global list. Looking through each of their 
                 relationship lists for the old class name. If it finds it, it 
                 removes it and adds into the relationship list the changed 
-                name. We are unable to change the value of the name due to how 
-                for loops presumably work. So we will have to remove and add to 
-                make up for that inability to change the value directly.
-                
+                name.
             """
             for c in listOfClasses:
                 for relName in c.listOfRelationships:
-                    if relName == OldName:
-                        c.listOfRelationships.remove(OldName)
-                        c.listOfRelationships.append(NewName)
+                    if relName.dest == OldName:
+                        relName.dest = NewName
                 
             print (OldName + " has been renamed to: " + NewName + "\n")
+            return OldName + " has been renamed to: " + NewName
+        return False #This means the ClassNameChecker failed.
+    return "Class not found!"
 
    
 
 def ClassDelete(deleteTarget):
+    returnString = ""
     # You can't delete things if there's nothing to rename.
     if(len(listOfClasses)==0):
-        print("There's nothing here to delete! Enter 'q' to quit!")
+        print("There's nothing here to delete.")
+        return False
     else:
         
         #Asks for the class to delete.
@@ -193,10 +194,11 @@ def ClassDelete(deleteTarget):
         #ClassSearch returns None if it can't find it.
         if(classObject == None):
             print("There's no class named that!")
+            return False
         else:
             listOfClasses.remove(classObject)
             print("Class " + deleteTarget + " deleted!")
-                
+            returnString = "Class " + deleteTarget + " deleted!"
             """
                 The following nested for loops will iterate through each class 
                 object in the global list. Looking through each of their 
@@ -205,15 +207,13 @@ def ClassDelete(deleteTarget):
                 name. We are unable to change the value of the name due to how 
                 for loops presumably work. So we will have to remove and add to 
                 make up for that inability to change the value directly.
-                
+                NOTE: This will not work with the new changes to relationships. I will need to make changes here based on the changes to relationships.
             """
             for c in listOfClasses:
                 for relName in c.listOfRelationships:
                     if relName == deleteTarget:
                         print("Deleting " + relName + " relation")
+                        returnString = returnString + "\nDeleting " + relName + " relation"
                         c.listOfRelationships.remove(deleteTarget)
-                            
-            
-
-
-
+            return returnString
+        

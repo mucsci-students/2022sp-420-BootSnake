@@ -14,7 +14,7 @@ A test file used to test all the methods in AClass with assertions.
 """
 
 #To test class methods, I have to import them all and the global class list.
-from AClass import *
+from classModelController import *
 
 #The following 2 imports are to silence prints from AClass.
 import sys
