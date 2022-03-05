@@ -9,7 +9,7 @@
 
 import re # checks if the string contains any special characters
 import keyword
-from AClass import *
+from classModel import *
 
 
 """
