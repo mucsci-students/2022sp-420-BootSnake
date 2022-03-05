@@ -1,1 +1,0 @@
-To run the program, enter 'python bootsnake.py --cli'
