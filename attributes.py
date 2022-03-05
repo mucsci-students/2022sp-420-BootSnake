@@ -76,11 +76,14 @@ def addField(classname : str, fieldname :str):
         if(checkName(wantedClass, fieldname)):
             wantedClass.listOfFields.append(fieldname.lower().strip())
             print("UML> Field " + fieldname + " successfully added!")
+            
     
             wantedClass.listOfFields.sort()
             print(wantedClass.listOfFields)
+            return "UML> Field " + fieldname + " successfully added!"
     else:
         print("Class " + classname + " not existed! Enter a valid class!")
+        return "Class " + classname + " not existed! Enter a valid class!"
         
    
 
@@ -119,6 +122,7 @@ def delField (classname: str, fieldname:str):
                         wantedClass.listOfFields.remove(fieldname.lower().strip())
                         print("UML> Field '" + fieldname +"' deleted!")
                         print(wantedClass.listOfFields)
+                        return "UML> Field '" + fieldname +"' deleted!")
                         break
                             
                     # If user enters ALL/all to remove all fields.
@@ -126,21 +130,25 @@ def delField (classname: str, fieldname:str):
                         wantedClass.listOfFields.clear()
                         print("All Fields successfully deleted! Enter 'q' to exit!")
                         print(wantedClass.listOfFields)
+                        return "All Fields successfully deleted! Enter 'q' to exit!"
                         break
                              
                 else:
                     print("Field " + fieldname + " not found! Try again!")
                     print(wantedClass.listOfFields)
+                    return "Field " + fieldname + " not found! Try again!"
                     break
                    
                 break   
                 
         else: 
             print("No fields for class " + classname  + "! Enter 'q' to exit!")
+            return "No fields for class " + classname  + "! Enter 'q' to exit!"
             
                    
     else:
         print("Class " + classname + " not existed! Enter a valid class!")
+        return "Class " + classname + " not existed! Enter a valid class!"
         
       
 
@@ -178,6 +186,7 @@ def renField (classname: str, fieldname: str, newname: str):
                                 wantedClass.listOfFields[i] = newname.lower().strip()
                                 print("UML> Field " +fieldname + " successfully renamed!")
                                 print(wantedClass.listOfFields)
+                                return "UML> Field " +fieldname + " successfully renamed!"
                                 break 
                             break
                         break  
@@ -186,6 +195,7 @@ def renField (classname: str, fieldname: str, newname: str):
                 else:
                     print("Field " + fieldname + " not found!")
                     wantedClass.listOfFields
+                    return "Field " + fieldname + " not found!"
                     break
                 
                 break
@@ -193,8 +203,10 @@ def renField (classname: str, fieldname: str, newname: str):
                 
         else: 
             print("No fields for class " + classname + "! Enter 'q' to exit")
+            return "No fields for class " + classname + "! Enter 'q' to exit"
     else:
         print("Class " + classname + " not found! Try again!")
+        return "Class " + classname + " not found! Try again!"
                
       
 ###############################################################################
@@ -247,17 +259,19 @@ def addMethod(classname: str, methodname: str, paramlist: list()):
                     print(newMethObj.listOfParams)
                     
                 
-                 
+                return "Method " + methodname + " and parameter(s) added!"
                 #else:
                     #print("Method " + methodname + " with the same param(s)"+
                     #      paramlist + " existed!")
             else:
-                print("Method " + methodname + " existed! No duplicates allowed!")     
+                print("Method " + methodname + " existed! No duplicates allowed!")   
+                return "Method " + methodname + " existed! No duplicates allowed!"  
                
       
           
     else:
         print("Class " + classname + " not existed! Enter a valid class!")
+        return "Class " + classname + " not existed! Enter a valid class!"
     
 
 ###############################################################################
@@ -293,6 +307,7 @@ def renMethod (classname: str, methodname: str, newmethod: str):
                                 
                             mObj.name = newmethod.title().strip()
                             print("UML> Method " + newmethod + " successfully renamed!")
+                            return "UML> Method " + newmethod + " successfully renamed!"
                                
                         
                     #print("Method " + methodname + " with same "+
@@ -302,14 +317,17 @@ def renMethod (classname: str, methodname: str, newmethod: str):
                       
                 else:
                     print("Method " + methodname + " not found!")
+                    return "Method " + methodname + " not found!"
                     break
                 break
                
         else: 
             print("No Methods found for class " + classname  + " ! Enter 'q' to exit!")
+            return "No Methods found for class " + classname
               
     else:
         print("Class " + classname + " not found! Try again!") 
+        return "Class " + classname + " not found! Try again!"
          
 ###############################################################################              
 
@@ -350,7 +368,7 @@ def delMethod (classname: str, methodname: str):
                                     for o in wantedClass.listOfMethods:
                                         print(o.name)
                                 
-                            
+                            return "UML> Method " + methodname + " of class " + classname + " deleted!"
                             break    
                         
                            
@@ -370,15 +388,17 @@ def delMethod (classname: str, methodname: str):
                                
                                 for o in wantedClass.listOfMethods:
                                     print(o.name)
-                             
+                                return "All methods of " + classname + " successfully" + " deleted!. Enter 'q' to exit!"
                             else:
                                 print("Method " + methodname + " not found! Try again!")
+                                return "Method " + methodname + " not found! Try again!"
                                 break
                     
                         break 
                         
             else: 
                 print("No methods for class " + classname  + "! Enter 'q' to exit!")
+                return "No methods for class " + classname
     
                                 
            
@@ -417,25 +437,31 @@ def changeParam(classname: str, methodname: str, param: str):
                     methObj.listOfParams.remove(paramO)
                     print("Parameter(s) " + param + " of the method " +
                           "'"+ methodname +"' deleted!")
+                    return "Parameter(s) " + param + " of the method " + "'"+ methodname +"' deleted!"
                 # If user enters ALL/all to remove all params.      
                 elif param.strip().casefold() =='All':
                      methObj.listOfParams.clear()
                      print("All parameters successfully deleted!")
+                     return "All parameters successfully deleted!"
                         
                 else:
                     print("Method " + methodname + "'s parameter " + param + " not found!")
                     for o in methObj.listOfParams:
                         print(o.name +" : " + o.type)
+                    return "Method " + methodname + "'s parameter " + param + " not found!"
               
             else:
-                print("Method " + methodname + " not found! Try again!")    
+                print("Method " + methodname + " not found! Try again!")   
+                return "Method " + methodname + " not found! Try again!" 
                 
                
         else: 
             print("No Methods existed for class " + classname  + "! Select a valid class!")
+            return "No Methods existed for class " + classname  + "! Select a valid class!"
               
     else:
         print("Class " + classname + " not found! Try again!")
+        return "Class " + classname + " not found! Try again!"
 
 
 

@@ -3,7 +3,6 @@ Last Edit: 02/09/2022
 Edited by: Amelia Spanier and Ben Moran
 """
 
-import subprocess
 import sys
 
 
@@ -12,19 +11,17 @@ from pydoc import classname
 from classModel import *
 from relationships import *
 from attributes import *
-from parameters import *
+# from parameters import *
 from interface import *
 from saveLoad import *
 
 """
 Main method in which user will be redirected to the proper method based
 upon input.
-
 In Python, 3 ways to read command line args: sys.argv, getopt, argparse
 modules. sys.argv is the list of commandline arguments passed to the 
 Python program, where sys.argv[0] is the name of the program invoked 
 and sys.argv[1] is the 1st argument passed in the program.
-
 SYNTAX:
     import sys
     
@@ -32,8 +29,6 @@ SYNTAX:
     len(sys.argv)       -> number of elements including the program's name
     (len(sys.argv)-1)   -> number of elemnts excluding the program's name
     str(sys.argv)       -> argument list
-
-
 """
 
 def Main(args: list):
@@ -52,7 +47,7 @@ def Main(args: list):
     
         # run gui
     else:
-        subprocess.Popen('python interfaceGUI.py')
+        print("execute guiMain!")
     
 def umlCliController() -> None:
 
@@ -283,6 +278,7 @@ def umlCliController() -> None:
                                         #paramlist = list()
                                         addMethod (clsname, methodname, param)
                                         break 
+                                    addMethod (clsname, methodname, param)
                                     break
                                 
                                 # let user continue adding methods.
@@ -525,7 +521,7 @@ def umlCliController() -> None:
                             while dest.strip().casefold() != 'q':
                                 reltype = input("Relationship type: ")
                                 while reltype.strip().lower() != 'q':
-                                    RelationshipAdd(src, dest,reltype)
+                                    print(RelationshipAdd(src, dest,reltype))
                                     break
                                 
                                 break
@@ -542,7 +538,7 @@ def umlCliController() -> None:
                         while src.strip().casefold() != 'q':
                             dest = input("Destination class name: ")
                             while dest.strip().casefold() != 'q':
-                                RelationshipDelete(src, dest)
+                                print(RelationshipDelete(src, dest))
                                 break
                                 
                             
@@ -569,12 +565,12 @@ def umlCliController() -> None:
             userIn = input("UML:> ")
             if "1" in userIn:
                 name = input("Class name: ")
-                ListClass(name)
+                print(ListClass(name))
             elif "2" in userIn:
-                ListClasses()
+                print(ListClasses())
             #continue
             elif "3" in userIn: 
-                ListRelationships()
+                print(ListRelationships())
                 #continue 
 
         elif "7" in userIn:
@@ -591,27 +587,15 @@ def umlCliController() -> None:
 """
 The __name__ variable has double underscores on both sides called dunder name that 
 stands for double underscores.
-
 The __name__ is a special variable in Python that assigns a different value to it
 depending on how a script is executed directly or imported as a module. When importing
 a module, Python executes the file associated with the module.
-
 When running the script directly, Python sets the __name__ variable to '__main__'.
-
 However, if a script is imported a file as a module, Python sets the module name to 
 the __name__ variable
-
 """  
 
 if __name__ == "__main__":
     Main(sys.argv)
     
-    
-    
-                 
-
-
-
-
-
     

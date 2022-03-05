@@ -29,19 +29,19 @@ def ListClass(name):
     if (wantedClass == None):
         return "Class " + name + " does not exist."
     
-    messageString += name + "\nFields: \n\t"
+    messageString += name + "\nFields: \n"
 
     # Loop through listOfAttributes
 
     for x in wantedClass.listOfFields:
-        messageString += x + " \n"
+        messageString += "\t" + x + " \n"
 
 
     messageString += "\nMethods: \n\t"
 
     # Loop through listOfAttributes
     for x in wantedClass.listOfMethods:
-        messageString += x + " \n"
+        messageString += x.name + " \n"
     
     messageString += "\nRelationships: \n\t" 
     

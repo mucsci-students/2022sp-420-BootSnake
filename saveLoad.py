@@ -49,6 +49,15 @@ Save to a JSON format file, make sure to save a valid name
 """
 
 def save (filename):
+
+    # Search to see if filename already exists
+    if os.path.exists(filename):
+        print('File already exists. Overwrite? (y/n)')
+        overwrite = input()
+        if overwrite == 'N' or overwrite == 'n':
+            print('Choose a different filename.')
+            return
+
     # Create a list where we'll put the dictionary objects for all classes into
     myClasses = list()
     
@@ -56,9 +65,31 @@ def save (filename):
     with open (filename, "w") as myFile:
         for x in listOfClasses:
             # Encode each class and its contents into the format that json needs to write to and add it to the list
-            dictObj = {'class' : x.name , 'attributes' : x.listOfAttributes , 'relationships' : x.listOfRelationships}
-            myClasses.append(dictObj)
+            # TODO: potentially fix what goes in the dictObj
+
+            # Lists so that we can add any number needed of attributes or relationships to each class
+            myFields = list()
+            myMethods = list()
+            myRelationships = list()
+
+            # Step through each type of attribute and relationship and encode it so we can save it
+            for y in x.listOfFields:
+                fieldObj = {'name' : y.name , 'type' : y.type}
+                myFields.append(fieldObj)
+            
+            for z in x.listOfMethods:
+                methodObj = {'name' : z.name , 'return_type' : z.returnType , 'params', z.listOfParams}
+                myMethods.append(methodObj)
+
+            for c in x.listOfRelationships:
+                relationshipObj = {'source' : c.source , 'destination' : c.dest , 'type' : c.type}
+                myRelationships.append(relationshipObj)
+
+            # Put together all of the lists and class name, encode it, and add it to the list
+            classObj = {'class' : x.name , 'fields' : myFields , 'methods' : myMethods, 'relationships' : x.listOfRelationships}
+            myClasses.append(classObj)
         
+        # Writes to file
         jsonFile = json.dumps (myClasses, indent = 4, cls = ClassEncoder)
         myFile.write (jsonFile)
     return
