@@ -8,15 +8,21 @@ import json
 import os.path
 
 from textwrap import indent
-from classModel import *
 from json import JSONEncoder
 from os.path import exists
+
+# Imports from other classes
+from classModel import *
+from relationships import *
+from attributes import *
+from parameters import *
+
 
 
 
 """
     Write a custom JSONEncoder to make class JSON serializable.
-    Use JSON module's JSONEncoder class, extend it for customized
+    Use JSON module"s JSONEncoder class, extend it for customized
     output. This custom JSONEcoder will override the default()
     method to serialize any additional types (string, dictionary,
     lists, etc....)
@@ -49,8 +55,9 @@ Save to a JSON format file, make sure to save a valid name
 """
 
 def save (filename):
-    # Create a list where we'll put the dictionary objects for all classes into
+    # Create a list where we"ll put the dictionary objects for all classes into
     myClasses = list()
+    myRelations = list()
     
     # Loop through classes to encode each class with its respective attributes and relationships
     with open (filename, "w") as myFile:
@@ -66,29 +73,31 @@ def save (filename):
 
             # Step through each type of attribute and relationship and encode it so we can save it
             for y in x.listOfFields:
-                fieldObj = {'name' : y.name , 'type' : y.type}
+                fieldObj = {"name": y.name , "type": y.type}
                 myFields.append(fieldObj)
             
             # Step through the list of methods after fields
             for z in x.listOfMethods:
                 # For each method, add the list of parameters
                 for q in z.listOfParams:
-                    paramObj = {'name' : q.name , 'type' : q.type}
+                    paramObj = {"name": q.name , "type": q.type}
                     myParams.append(paramObj)
-                methodObj = {'name' : z.name , 'return_type' : z.type , 'params': myParams}
+                methodObj = {"name" : z.name , "return_type": z.type , "params": myParams}
                 myMethods.append(methodObj)
 
-            # Step through the relationships
             for c in x.listOfRelationships:
-                relationshipObj = {'source' : x.name , 'destination' : c.dest , 'type' : c.type}
-                myRelationships.append(relationshipObj)
+                relationshipObj = {"source": x.name , "destination": c.dest , "type": c.type}
+                myRelations.append(relationshipObj)
 
             # Put together all of the lists and class name, encode it, and add it to the list
-            classObj = {'class' : x.name , 'fields' : myFields , 'methods' : myMethods, 'relationships' : myRelationships}
+            classObj = {"name": x.name , "fields": myFields , "methods": myMethods}
             myClasses.append(classObj)
         
+        # Put classes and relationships together
+        globalDict = {"classes": myClasses , "relationships": myRelations}
+
         # Writes to file
-        jsonFile = json.dumps (myClasses, indent = 4, cls = ClassEncoder)
+        jsonFile = json.dumps (globalDict, indent = 2, cls = ClassEncoder)
         myFile.write (jsonFile)
     return
     
@@ -104,15 +113,33 @@ def load (filename):
     # Load the data from the file
     data = json.load(myFile)
     
+    # Get list of classes
+    classList = data["classes"]
     # Because the data from the file is in a list, step through it
-    for x in data:
+    for x in classList:
         # Create an AClass object for each item in the list
-        i = AClass (x['class'])
+        i = AClass (x["name"])
         listOfClasses.append(i)
 
-        # Extend the lists of attributes and relationships with their respective values
-        i.listOfAttributes.extend(x['attributes'])
-        i.listOfRelationships.extend(x['relationships'])
+        # Create list for fields, and then step through the list and add each of them to the class
+        fieldList = x["fields"]
+        for y in fieldList:
+            addField(x["name"], y["name"], y["type"])
+
+        # Create list for methods
+        methodList = x["methods"]
+        for z in methodList:
+            paramList = list() #an empty parameter list
+            addMethod(x["name"], z["name"], z["return_type"], paramList)
+            # List for parameters
+            paramList = z["params"]
+            for q in paramList:
+                ParamAdd(x["name"], z["name"], q["name"], q["type"])
+
+    # Get list of relationships
+    relationList = data["relationships"]
+    for r in relationList:
+        RelationshipAdd(r["source"], r["destination"], r["type"])
 
     myFile.close()
     return

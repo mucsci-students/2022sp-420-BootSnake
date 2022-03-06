@@ -241,7 +241,7 @@ def addMethod(classname: str, methodname: str, methtype: str,  paramlist: list()
             # check if the method object already existed in the listOfMethods
             if not searchMethod(classname, methodname.strip().title()):
                 
-                newMethObj = MethodClass(methodname.strip().title(), methtype.strip())
+                newMethObj = MethodClass(methodname, methtype)
                 wantedClass.listOfMethods.append(newMethObj)
                 print("Method " + methodname + " successfully added!")
                 print(newMethObj.name)
@@ -291,7 +291,7 @@ def renMethod (classname: str, methodname: str, newmethod: str):
                    
                         if checkMethName(wantedClass, newmethod.strip().title()):
                                 
-                            mObj.name = newmethod.title().strip()
+                            mObj.name = newmethod
                             print("UML> Method " + methodname + " successfully renamed!")
                             
                             # sort the list of method objects   
