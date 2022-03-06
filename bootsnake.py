@@ -474,7 +474,7 @@ def umlCliController() -> None:
                                         if delAmnt == 'one':
                                             paramName = input("Which parameter do you want to delete?: ")
                                             
-                                        elif (delAmnt != 'one') or (delAmnt != 'all'):
+                                        elif (delAmnt != 'one') and (delAmnt != 'all'):
                                             break
                                             
                                         ParamDelete(wantedMethod, delAmnt, paramName)
