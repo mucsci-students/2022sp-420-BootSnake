@@ -696,12 +696,12 @@ def umlCliController() -> None:
             userIn = input("UML:> ")
             if "1" in userIn:
                 name = input("Class name: ")
-                ListClass(name)
+                print(ListClass(name))
             elif "2" in userIn:
-                ListClasses()
+                print(ListClasses())
             #continue
             elif "3" in userIn: 
-                ListRelationships()
+                print(ListRelationships())
                 #continue 
 
         elif "7" in userIn:
