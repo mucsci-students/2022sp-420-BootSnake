@@ -49,15 +49,6 @@ Save to a JSON format file, make sure to save a valid name
 """
 
 def save (filename):
-
-    # Search to see if filename already exists
-    if os.path.exists(filename):
-        print('File already exists. Overwrite? (y/n)')
-        overwrite = input()
-        if overwrite == 'N' or overwrite == 'n':
-            print('Choose a different filename.')
-            return
-
     # Create a list where we'll put the dictionary objects for all classes into
     myClasses = list()
     
@@ -70,6 +61,7 @@ def save (filename):
             # Lists so that we can add any number needed of attributes or relationships to each class
             myFields = list()
             myMethods = list()
+            myParams = list()
             myRelationships = list()
 
             # Step through each type of attribute and relationship and encode it so we can save it
@@ -77,16 +69,22 @@ def save (filename):
                 fieldObj = {'name' : y.name , 'type' : y.type}
                 myFields.append(fieldObj)
             
+            # Step through the list of methods after fields
             for z in x.listOfMethods:
-                methodObj = {'name' : z.name , 'return_type' : z.returnType , 'params': z.listOfParams}
+                # For each method, add the list of parameters
+                for q in z.listOfParams:
+                    paramObj = {'name' : q.name , 'type' : q.type}
+                    myParams.append(paramObj)
+                methodObj = {'name' : z.name , 'return_type' : z.type , 'params': myParams}
                 myMethods.append(methodObj)
 
+            # Step through the relationships
             for c in x.listOfRelationships:
-                relationshipObj = {'source' : c.source , 'destination' : c.dest , 'type' : c.type}
+                relationshipObj = {'source' : x.name , 'destination' : c.dest , 'type' : c.type}
                 myRelationships.append(relationshipObj)
 
             # Put together all of the lists and class name, encode it, and add it to the list
-            classObj = {'class' : x.name , 'fields' : myFields , 'methods' : myMethods, 'relationships' : x.listOfRelationships}
+            classObj = {'class' : x.name , 'fields' : myFields , 'methods' : myMethods, 'relationships' : myRelationships}
             myClasses.append(classObj)
         
         # Writes to file
@@ -94,16 +92,12 @@ def save (filename):
         myFile.write (jsonFile)
     return
     
-
+ 
 
 """
 Load a JSON format file, only if one has already been saved
 """
 def load (filename):
-    if not os.path.exists(filename):
-        print("File Not Found\n")
-        return
-
     # Open the file by the filename given
     myFile = open (filename)
 
@@ -119,16 +113,6 @@ def load (filename):
         # Extend the lists of attributes and relationships with their respective values
         i.listOfAttributes.extend(x['attributes'])
         i.listOfRelationships.extend(x['relationships'])
-
-    # A way to print all of the classes and their lists, for testing purposes
-    """
-    for y in listOfClasses:
-        print (y.name)
-        for a in y.listOfAttributes:
-            print (a)
-        for r in y.listOfRelationships:
-            print (r)
-    """
 
     myFile.close()
     return
