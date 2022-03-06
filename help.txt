@@ -1,1 +1,2 @@
+The bootsnake program executes the GUI automatically by entering the command
 To run the program, enter 'python bootsnake.py --cli'
