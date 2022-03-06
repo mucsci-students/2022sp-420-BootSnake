@@ -126,13 +126,13 @@ def relationshipCalls(*args):
 def methodCalls(*args):
     err = False
     if methodsVar.get() == 'Add':
-        windowEntry(3, "Method Add", ["Class Name", 'Method Name', 'Method Type'])
+        windowEntry(3, "Method Add", ["Class Name", 'Method Name', 'Return Type'])
         err = addMethod(entries[0], entries[1], entries[2], [])
     elif methodsVar.get() == 'Delete':
         windowEntry(3, "Method Delete", ["Class Name", 'Method Name'])
         err = delMethod(entries[0], entries[1])
     elif methodsVar.get() == 'Rename':
-        windowEntry(2, "Method Rename", ["Class Name", 'Method Name', 'New Method Name'])
+        windowEntry(3, "Method Rename", ["Class Name", 'Method Name', 'New Method Name'])
         err = renMethod(entries[0], entries[1], entries[2])
     if err is not False:
         throwMessage(err)

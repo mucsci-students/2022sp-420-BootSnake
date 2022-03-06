@@ -280,7 +280,7 @@ def umlCliController() -> None:
                                 # prompt users for the field to be renamed.
                                 methodname = input("UML> Enter a method(s) to add or q to 'quit': ")    
                                 while methodname.strip().casefold() != 'q': 
-                                    methtype = input("UML > Enter a method's type or 'q' to quit: ")
+                                    methtype = input("UML > Enter a method's return type or 'q' to quit: ")
                                     while methtype !='q':
                                     # prompt user for the list of params 
                                     #    param = input("UML> Optional: Add a parameter(s)?, or enter 'quit': ")  
@@ -696,12 +696,12 @@ def umlCliController() -> None:
             userIn = input("UML:> ")
             if "1" in userIn:
                 name = input("Class name: ")
-                ListClass(name)
+                print(ListClass(name))
             elif "2" in userIn:
-                ListClasses()
+                print(ListClasses())
             #continue
             elif "3" in userIn: 
-                ListRelationships()
+                print(ListRelationships())
                 #continue 
 
         elif "7" in userIn:
