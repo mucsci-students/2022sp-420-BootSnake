@@ -11,7 +11,7 @@ from pydoc import classname
 from classModel import *
 from relationships import *
 from attributes import *
-# from parameters import *
+from parameters import *
 from interface import *
 from saveLoad import *
 from subprocess import call
@@ -101,7 +101,7 @@ def umlCliController() -> None:
                                 # prompt users for the class to be renamed.
                                 NewName = input("Enter the new name: ")
                                 while NewName.strip().casefold() != 'q':
-                                    ClassRename(classObj, OldName, NewName)
+                                    ClassRename(OldName, NewName)
                                     break
                                 break
                                 
@@ -149,11 +149,15 @@ def umlCliController() -> None:
                                 fieldname = input("UML> Enter field(s) or q to 'quit': ")
                                 # Start a loop that will run until user quits.
                                 while fieldname.strip().casefold() != 'q':
-        
-                                    # Add fields to a list of fields if it is valid
-                                    #  & continue untill user quits.
+                                    type = input("UML> Enter a field's type or 'q' to quit: ")
+                                    while type != 'q':
+                                        
+                                        # Add fields to a list of fields, if it is valid,
+                                        #  & continue untill user quits.
                                    
-                                    addField(clsname, fieldname)
+                                        addField(clsname, fieldname.strip(), type.strip())
+                                        break
+                                     
                                     break
                                
                                 else:
@@ -179,14 +183,15 @@ def umlCliController() -> None:
                             wantedClass = ClassSearch(clsname, listOfClasses) 
                             if wantedClass:
                                 print( "\nField List for " + clsname + " Class: ")
-                                print(wantedClass.listOfFields)
+                                for o in wantedClass.listOfFields:
+                                    print(o.name)
                                 # prompt users for the field to be renamed.
                                 fieldname = input("UML> Enter field(s) to rename or q to 'quit': ")    
                                 while fieldname.strip().casefold() != 'q': 
                                     # prompt user for the new field's name
                                     newname = input("UML> Enter a new name, or enter 'quit':")  
                                     while newname.strip().casefold() != 'q':
-                                        renField (clsname, fieldname, newname)       
+                                        renField (clsname, fieldname.strip(), newname.strip())       
                                         break
                                                 
                                     break
@@ -218,7 +223,8 @@ def umlCliController() -> None:
                                 
                                 #display a list of available fields
                                 print( "\nField List for class: " + clsname)
-                                print(wantedClass.listOfFields)
+                                for o in wantedClass.listOfFields:
+                                    print(o.name)
                                 
                                 # prompt users for the field' to delete or q to 'quit'
                                 fieldname = input("UML> Enter a field /'All' to delete, or enter 'quit': ") 
@@ -228,9 +234,9 @@ def umlCliController() -> None:
                                     #print(wantedClass.listOfFields) 
                                     delField (clsname, fieldname)       
                                     break
-                                    if fieldname.strip().casefold() == 'All':
-                                        del_attr (clsname, fieldname)
-                                        break
+                                    #if fieldname.strip().casefold() == 'All':
+                                    #    del_attr (clsname, fieldname)
+                                    #    break
                                     
                                     #else:
                                         #break
@@ -254,7 +260,7 @@ def umlCliController() -> None:
                 print("Methods:")
                 print("[1] Add\n[2] Rename\n[3] Delete")
                 print("Parameters:")
-                print("[4] Add\n[5] Rename\n[6] Change")
+                print("[4] Add\n[5] Delete\n[6] Change\n[7] Rename")
                 userIn = input("UML:> ")
                 while userIn != 'q':
                     if "1" in userIn:
@@ -273,13 +279,17 @@ def umlCliController() -> None:
                                 # prompt users for the field to be renamed.
                                 methodname = input("UML> Enter a method(s) to add or q to 'quit': ")    
                                 while methodname.strip().casefold() != 'q': 
-                                # prompt user for the list of params 
-                                    param = input("UML> Optional: Add a parameter(s)?, or enter 'quit':")  
-                                    while param.strip().casefold() != 'q':
-                                        #paramlist = list()
-                                        addMethod (clsname, methodname, param)
+                                    methtype = input("UML > Enter a method's type or 'q' to quit: ")
+                                    while methtype !='q':
+                                    # prompt user for the list of params 
+                                    #    param = input("UML> Optional: Add a parameter(s)?, or enter 'quit': ")  
+                                    #    while param.strip().casefold() != 'q':
+                                    
+                                        paramList = list() #an empty parameter list
+                                        
+                                        addMethod (clsname, methodname, methtype, paramList)
                                         break 
-                                    addMethod (clsname, methodname, param)
+                                        #break
                                     break
                                 
                                 # let user continue adding methods.
@@ -374,7 +384,7 @@ def umlCliController() -> None:
                         # allow users to continue stay in a given class     
                         else:
                             break
-                        
+                  
                     elif "4" in userIn: 
                         # print a listOfClasses, if any.
                         for obj in listOfClasses:
@@ -403,9 +413,9 @@ def umlCliController() -> None:
                                 while methname.strip().casefold() != 'q':
                                     wantedMethod = searchMethod(clsname, methname)
                                     if wantedMethod:
-                                        paramName = input("UML> Enter a parameter(s):")
+                                        paramName = input("UML> Enter a parameter(s): ")
                                         while paramName.strip().casefold() != 'q':
-                                            paramType = input("UML> Enter a parameter type:")
+                                            paramType = input("UML> Enter a parameter type: ")
                                             while paramType.strip().casefold() !='q':
                                                 ParamAdd(clsname, methname.title(), paramName, paramType) 
                                                 break
@@ -415,9 +425,60 @@ def umlCliController() -> None:
                                 
                                 
                                     # allow user to continue to add parameters for the method    
-                                #else:
                                     
-                                    #break
+                                    else:
+              
+                                        print("Could not find method with name " + methname +"! Please input an existing method!")
+                                        break
+                                
+                                break    
+                                
+                            else: 
+                                print("class " + clsname +" not existed! Enter a valid class!")
+                                break 
+                                     
+                        # allow users to continue stay in a given class     
+                        else:
+                            break
+                        
+                    elif "5" in userIn: 
+                        # print a listOfClasses, if any.
+                        for obj in listOfClasses:
+                            print(obj.name)
+                        
+                        
+                        #display a list of available methods
+                        print( "\nMethod List for available classes: ")
+                        for obj in listOfClasses:
+                            for o in obj.listOfMethods:
+                                print (o.name)
+                        
+                        # prompt users for the class to which method is deleted 
+                        clsname = input("To which class is method's parameter(s) deleted? or enter q to 'quit': ")
+                        while clsname.strip().casefold() != 'q':
+                            # call ClassSearch to look for the provided class.
+                            # display a list of available methods
+                            wantedClass = ClassSearch(clsname, listOfClasses)
+                            if wantedClass:
+                                
+                                
+                                # prompt users for the method to add param or q to 'quit'
+                                methname = input("UML> To which method is parameter(s) deleted? " +
+                                                "or  enter 'q' to 'quit': ") 
+                               
+                                while methname.strip().casefold() != 'q':
+                                    wantedMethod = searchMethod(clsname, methname)
+                                    if wantedMethod:
+                                        paramName =''
+                                        delAmnt = input("UML> Delete 'one' parameter or 'all' parameters?: ")
+                                        if delAmnt == 'one':
+                                            paramName = input("Which parameter do you want to delete?: ")
+                                            
+                                        elif (delAmnt != 'one') or (delAmnt != 'all'):
+                                            break
+                                            
+                                        ParamDelete(wantedMethod, delAmnt, paramName)
+                                        
                                     else:
               
                                         print("Could not find method with name " + methname +"! Please input an existing method!")
@@ -433,66 +494,70 @@ def umlCliController() -> None:
                         else:
                             break
 
+
                     elif "6" in userIn: 
                         # print a listOfClasses, if any.
                         for obj in listOfClasses:
                             print(obj.name)
                         
+                        
+                        #display a list of available methods
+                        print( "\nMethod List for available classes: ")
+                        for obj in listOfClasses:
+                            for o in obj.listOfMethods:
+                                for x in o.listOfParams:
+                                    print (o.name  + ": [" + x.name +"]")
+                        
                         # prompt users for the class to which method is deleted 
-                        clsname = input("To which class is method's parameter changed? or enter q to 'quit': ")
+                        clsname = input("To which class is method's parameter(s) changed? or enter q to 'quit': ")
                         while clsname.strip().casefold() != 'q':
                             # call ClassSearch to look for the provided class.
-                            # display a list of available fields
+                            # display a list of available methods
                             wantedClass = ClassSearch(clsname, listOfClasses)
                             if wantedClass:
                                 
-                                #display a list of available methods
-                                print( "\nMethod List for class: " + clsname)
-                                for obj in wantedClass.listOfMethods:
-                                    print (obj.name)
                                 
-                                #display a list of available params
-                                print( "\nParameter List for class: " + clsname)
-                                for obj in wantedClass.listOfMethods:
-                                    for x in obj.listOfParams:
-                                        print (x.name + " : " + x.type)
-                                
-                                # prompt users for the method to update param or q to 'quit'
-                                methname = input("UML> Which method's paramater(s) is changed or enter 'quit': ") 
-                                  
+                                # prompt users for the method to add param or q to 'quit'
+                                methname = input("UML> To which method is parameter(s) changed? " +
+                                                "or  enter 'q' to 'quit': ") 
+                               
                                 while methname.strip().casefold() != 'q':
-                                    parname = input("UML> Enter the Parameter(s) or 'ALL'" +
-                                                    " to delete or 'q' to quit!")
-                                    while parname.strip().casefold() != 'q':
-                                    
-                                        changeParam (clsname, methname,parname)
-                                        
-                                        addparm = input("UML> Add additional parameters? Enter'Y' or 'q' to quit!")
-                                        
-                                        while addparm.strip().casefold() !='q':
-                                            #if addparm.strip().casefold() == 'Y':
-                                            pinput = input("UML> Enter the parameter or 'q' to quit:")
-                                            while pinput.strip().casefold() !='q':
-                                                ptype = input("UML> Enter the parameter's type:")
-                                                while ptype.strip().casefold() != 'q':
-                                                    mObj = searchMethod(clsname, methname)
-                                                    ParamListAdd(mObj, pinput, ptype)       
-                                                    break
-                                                
-                                                break
-                                            break
-                                       
-                                        else:
-                                            break            
+                                    wantedMethod = searchMethod(clsname, methname)
+                                    if wantedMethod:
+                                        # prompt users for the method to delete or q to 'quit'
+                                        parname = input("UML> Enter a parameter " +
+                                                "or 'All' to change, or 'q' to 'quit': ") 
+                                
+                                        #while 
+                                        if parname.strip().casefold() != 'q':
+                                   
+                                            delParam (clsname, methname, parname)       
                                             
-                                    else:    
-                                        break
+                                            #if
+                                            while delParam:
+                                                paramChange = input("UML> Add/enter a parameter(s) or 'q' to quit: ")
+                                                while paramChange.strip().casefold() != 'q':
+                                                    changeType = input("UML> Enter a parameter's type: ")
+                                                    while changeType.strip().casefold() != 'q':
+                                                        ParamAdd(clsname, methname.title(), paramChange, changeType) 
+                                                        break
+                                                    
+                                                    break
+                                                else:
+                                                    break
+                                            else:
+                                                break
+                                        else:
+                                            break
+                                                
                                         
-                                     
-                                # allow user to continue to change parameters    
-                                else:
-                                    print("No methods existed for class " + clsname + "!")
-                                    break
+                                    else:
+              
+                                        print("Could not find method with name " + methname +"! Please input an existing method!")
+                                        break
+                                #else:
+                                break    
+                                
                             else: 
                                 print("class " + clsname +" not existed! Enter a valid class!")
                                 break 
@@ -500,10 +565,64 @@ def umlCliController() -> None:
                         # allow users to continue stay in a given class     
                         else:
                             break
+                    
+                    elif "7" in userIn: 
+                        # print a listOfClasses, if any.
                         
-                # user opts out of deletion
-                break
-              
+                        print( "\nList of all classes: ")
+                        for obj in listOfClasses:
+                            print (obj.name)
+                        
+                        
+                        # prompt users for the class to which method is deleted 
+                        clsname = input("To which class is method's parameter renamed? or enter q to 'quit': ")
+                        while clsname.strip().casefold() != 'q':
+                            # call ClassSearch to look for the provided class.
+                            # display a list of available fields
+                            wantedClass = ClassSearch(clsname, listOfClasses)
+                           
+                            if wantedClass:
+                                #display a list of available params
+                                print( "\nParameter List for all methods: ")
+                                for obj in wantedClass.listOfMethods: 
+                                    for x in obj.listOfParams:
+                                        print (obj.name + x.name + " : " + x.type)
+                                # prompt users for the method to update param or q to 'quit'
+                                methname = input("UML> Which method's paramater(s) is renamed or enter 'quit': ") 
+                                  
+                                while methname.strip().casefold() != 'q':
+                                    if wantedClass.listOfMethods:
+                                        if searchMethod(clsname, methname):
+                                            parname = input("UML> Enter the Parameter(s)" +
+                                                    " to rename or 'q' to quit!")
+                                            while parname.strip().casefold() != 'q':
+                                                newparam = input("UML> Enter a new parameter's name: ")
+                                                while newparam.strip().casefold() != 'q':
+                                                    renameParam (clsname, methname, parname, newparam)
+                                                    break
+                                            
+                                                break
+                                            else:
+                                                break
+                                                       
+                                        else:
+                                            print("Method " + methname +" not found!. Try again!")    
+                                            break
+                                    else:
+                                        print("No Method "  + " existed for class " + clsname + "!")
+                                        break
+                                
+                                break 
+                            else: 
+                                print("class " + clsname +" not existed! Enter a valid class!")
+                                break 
+                                     
+                        # allow users to continue stay in a given class     
+                        else:
+                            break
+                # user opts out of Methods
+                break        
+                      
                         
         elif "4" in userIn:
             while 4:
@@ -522,7 +641,7 @@ def umlCliController() -> None:
                             while dest.strip().casefold() != 'q':
                                 reltype = input("Relationship type: ")
                                 while reltype.strip().lower() != 'q':
-                                    print(RelationshipAdd(src, dest,reltype))
+                                    RelationshipAdd(src, dest,reltype)
                                     break
                                 
                                 break
@@ -539,7 +658,7 @@ def umlCliController() -> None:
                         while src.strip().casefold() != 'q':
                             dest = input("Destination class name: ")
                             while dest.strip().casefold() != 'q':
-                                print(RelationshipDelete(src, dest))
+                                RelationshipDelete(src, dest)
                                 break
                                 
                             
@@ -566,12 +685,12 @@ def umlCliController() -> None:
             userIn = input("UML:> ")
             if "1" in userIn:
                 name = input("Class name: ")
-                print(ListClass(name))
+                ListClass(name)
             elif "2" in userIn:
-                print(ListClasses())
+                ListClasses()
             #continue
             elif "3" in userIn: 
-                print(ListRelationships())
+                ListRelationships()
                 #continue 
 
         elif "7" in userIn:
@@ -588,15 +707,27 @@ def umlCliController() -> None:
 """
 The __name__ variable has double underscores on both sides called dunder name that 
 stands for double underscores.
+
 The __name__ is a special variable in Python that assigns a different value to it
 depending on how a script is executed directly or imported as a module. When importing
 a module, Python executes the file associated with the module.
+
 When running the script directly, Python sets the __name__ variable to '__main__'.
+
 However, if a script is imported a file as a module, Python sets the module name to 
 the __name__ variable
+
 """  
 
 if __name__ == "__main__":
     Main(sys.argv)
     
+    
+    
+                 
+
+
+
+
+
     
