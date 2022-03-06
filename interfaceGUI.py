@@ -126,8 +126,8 @@ def relationshipCalls(*args):
 def methodCalls(*args):
     err = False
     if methodsVar.get() == 'Add':
-        windowEntry(2, "Method Add", ["Class Name", 'Method Name'])
-        err = addMethod(entries[0], entries[1], [])
+        windowEntry(3, "Method Add", ["Class Name", 'Method Name', 'Method Type'])
+        err = addMethod(entries[0], entries[1], entries[2], [])
     elif methodsVar.get() == 'Delete':
         windowEntry(3, "Method Delete", ["Class Name", 'Method Name'])
         err = delMethod(entries[0], entries[1])
@@ -143,8 +143,8 @@ def methodCalls(*args):
 def fieldCalls(*args):
     err = False
     if fieldsVar.get() == 'Add':
-        windowEntry(2, "Field Add", ["Class Name", 'Field Name'])
-        err = addField(entries[0], entries[1])
+        windowEntry(3, "Field Add", ["Class Name", 'Field Name', 'Field Type'])
+        err = addField(entries[0], entries[1], entries[3])
     elif fieldsVar.get() == 'Delete':
         windowEntry(2, "Field Delete", ["Class Name", 'Field Name'])
         err = delField(entries[0], entries[1])
@@ -163,8 +163,11 @@ def parameterCalls(*args):
         windowEntry(4, "Parameter Add", ["Class Name", "Method Name", "Parameter Name", "Parameter Type"])
         err = ParamAdd(entries[0], entries[1], entries[2], entries[3])
     elif parameterVar.get() == "Delete":
-        windowEntry(3, "Parameter Delete", ["Method Name", "Delete Amount", "Parameter Name"])
-        err = ParamDelete(entries[0], entries[1], entries[2])
+        windowEntry(3, "Parameter Delete", ["Class Name", "Method Name", "Parameter Name"])
+        err = delParam(entries[0], entries[1], entries[2])
+    elif parameterVar.get() == "Rename":
+        windowEntry(4, "Parameter Rename", ["Class Name", "Method Name", "Parameter Name", "New Param Name"])
+        err = delParam(entries[0], entries[1], entries[2], entries[3])
     if err is not False:
         throwMessage(err)
     parameterVar.set("")
@@ -283,6 +286,7 @@ listRelationshipsButton = tk.Button(window, text="List Relationships", command=l
 saveButton = tk.Button(window, text="Save", command=saveCall).place(x=0, y=110)
 loadButton = tk.Button(window, text="Load", command=loadCall).place(x=50, y=110)
 
+quitButton = tk.Button(window, text="Quit", command=exit).place(x=0, y=150)
 
 messageBox.place(x=400, y=40)
 
