@@ -14,6 +14,7 @@ from attributes import *
 from parameters import *
 from interface import *
 from saveLoad import *
+from subprocess import call
 
 """
 Main method in which user will be redirected to the proper method based
@@ -47,7 +48,7 @@ def Main(args: list):
     
         # run gui
     else:
-        print("execute guiMain!")
+        call(['python3', 'interfaceGUI.py'])
     
 def umlCliController() -> None:
 
