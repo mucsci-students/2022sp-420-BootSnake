@@ -26,7 +26,7 @@ def ParamAdd(className, methodName, paramName, paramType):
 
     if not wantedClass:
         print("Could not find class with name " + className + ". Please input an existing class.")
-        return None
+        return "Could not find class with name " + className + ". Please input an existing class."
 
     wantedMethod = searchMethod(className, methodName)          # get requested method from class's list of methods
 
@@ -42,12 +42,14 @@ def ParamAdd(className, methodName, paramName, paramType):
             for o in wantedMethod.listOfParams:
                 print(o.name + " : " + o.type)
 
+            return "Parameter " + paramName + " successfully added!"
+
         else:
-            return None
+            return "Invalid parameter name! No empty inputs, no spaces, no special\n characters aside from non-leading underscores, no leading numbers, and no\n programming keywords!"
 
     else:
         print("Could not find method with name " + methodName + ". Please input an existing method.")
-        return None
+        return "Could not find method with name " + methodName + ". Please input an existing method."
 
 """
 ParamListAdd
@@ -65,7 +67,7 @@ def ParamListAdd(wantedMethod, paramName, paramType):
             print(o.name + " : " + paramType)
 
     else:
-        return None
+        return "Invalid parameter name! No empty inputs, no spaces, no special\n characters aside from non-leading underscores, no leading numbers, and no\n programming keywords!"
 
 """
 ParamDelete
@@ -80,17 +82,19 @@ def ParamDelete(wantedMethod, delAmnt, paramName):
             wantedMethod.listOfParams.clear()           # If user wants to delete all params, clear list
             print("All parameters successfully deleted!")
             print(wantedMethod.listOfParams)
+            return "All parameters successfully deleted!"
 
         elif delAmnt == 'one':
             for param in wantedMethod.listOfParams:
                 if param.name.casefold().strip() == paramName.casefold().strip():
                     wantedMethod.listOfParams.remove(param)
-                    print("UML> Attribute deleted!")
+                    print("UML> Parameter deleted!")
                     for o in wantedMethod.listOfParams:
                         print(o.name + " : " + o.type)
                     break
     else:
         print("No params exist in this method!")
+        return "No params exist in this method!"
 
 """
 CheckNameType
