@@ -122,7 +122,7 @@ def delField (classname: str, fieldname:str):
                         wantedClass.listOfFields.remove(fieldname.lower().strip())
                         print("UML> Field '" + fieldname +"' deleted!")
                         print(wantedClass.listOfFields)
-                        return "UML> Field '" + fieldname +"' deleted!")
+                        return "UML> Field '" + fieldname +"' deleted!"
                         break
                             
                     # If user enters ALL/all to remove all fields.

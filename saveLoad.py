@@ -78,7 +78,7 @@ def save (filename):
                 myFields.append(fieldObj)
             
             for z in x.listOfMethods:
-                methodObj = {'name' : z.name , 'return_type' : z.returnType , 'params', z.listOfParams}
+                methodObj = {'name' : z.name , 'return_type' : z.returnType , 'params' : z.listOfParams}
                 myMethods.append(methodObj)
 
             for c in x.listOfRelationships:
