@@ -89,7 +89,7 @@ def addField(classname : str, fieldname : str, fieldtype: str):
         # validate the fieldname and fieldtype.
         if checkName(wantedClass, fieldname.strip().casefold()) and checkName(wantedClass, fieldtype.casefold().strip()):
                         
-            newField = FieldClass(fieldname, type)
+            newField = FieldClass(fieldname, fieldtype)
             wantedClass.listOfFields.append(newField)
             print("UML> Field " + fieldname + " successfully added!")
             

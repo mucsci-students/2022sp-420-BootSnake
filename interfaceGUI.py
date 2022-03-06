@@ -106,7 +106,7 @@ def relationshipCalls(*args):
         if entries[2] == "Aggregation" or entries[2] == "Composition" or entries[2] == "Inheritance" or entries[2] == "Realization":
             err = RelationshipAdd(entries[0], entries[1], entries[2])
         else:
-            throwMessage("Incorrect relationship type. The available options are: Aggregation, Composition, Inheritance, Realization")
+            throwMessage("Incorrect relationship type. The available options are: \nAggregation \nComposition \nInheritance \nRealization")
             return
     elif relationshipVar.get() == 'Delete':
         windowEntry(2, "Relationship Delete", ["Source Class", "Dest Class", "Type"])
@@ -117,7 +117,7 @@ def relationshipCalls(*args):
         if entries[2] == "Aggregation" or entries[2] == "Composition" or entries[2] == "Inheritance" or entries[2] == "Realization":
             err = relationshipEdit(entries[0], entries[1], entries[2])
         else:
-            throwMessage("Incorrect relationship type. The available options are: Aggregation, Composition, Inheritance, Realization")
+            throwMessage("Incorrect relationship type. The available options are: \nAggregation \nComposition \nInheritance \nRealization")
             return
     if err is not False:
         throwMessage(err)
@@ -144,7 +144,7 @@ def fieldCalls(*args):
     err = False
     if fieldsVar.get() == 'Add':
         windowEntry(3, "Field Add", ["Class Name", 'Field Name', 'Field Type'])
-        err = addField(entries[0], entries[1], entries[3])
+        err = addField(entries[0], entries[1], entries[2])
     elif fieldsVar.get() == 'Delete':
         windowEntry(2, "Field Delete", ["Class Name", 'Field Name'])
         err = delField(entries[0], entries[1])
@@ -173,6 +173,9 @@ def parameterCalls(*args):
     parameterVar.set("")
 
 
+# =================================================================================================================================================================================================================================================================================
+
+
 def saveCall():
     err = False
     filename = filedialog.asksaveasfilename()
@@ -189,6 +192,10 @@ def loadCall():
         err = load(filename)
     if err is not False:
         throwMessage(err)
+
+
+
+# =================================================================================================================================================================================================================================================================================
 
 
 def listClassCall():
@@ -250,13 +257,13 @@ def windowEntry(numEntries: int, title: str, labels : list):
 
 
 
-messageBox = tk.Text(window, height=10, width=35, wrap='word')
+messageBox = tk.Text(window, height=15, width=35, wrap='word')
 messageBox.insert('end', "Messages will appear here.")
 # make a new message with given string
 def throwMessage(mes: str):
-    messageBox.delete(1.0, 'end')
-    messageBox.insert('end', mes)
-    #messagebox.showinfo("Message", mes)
+    if mes is not None:
+        messageBox.delete(1.0, 'end')
+        messageBox.insert('end', mes)
 
 
 # =================================================================================================================================================================================================================================================================================

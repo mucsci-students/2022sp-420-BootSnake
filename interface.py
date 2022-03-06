@@ -34,14 +34,16 @@ def ListClass(name):
     # Loop through listOfAttributes
 
     for x in wantedClass.listOfFields:
-        messageString += "\t" + x + " \n"
+        messageString += "\t" + x.name  + " : " + x.type + " \n"
 
 
     messageString += "\nMethods: \n\t"
 
     # Loop through listOfAttributes
     for x in wantedClass.listOfMethods:
-        messageString += x.name + " \n"
+        messageString += x.name + " : " + x.type + " \n"
+        for p in x.listOfParams:
+            messageString += "\t\t" + p.name + " : " + p.type + "\n"
     
     messageString += "\nRelationships: \n\t" 
     
@@ -62,7 +64,7 @@ def ListRelationships():
         return message
     for c in listOfClasses:
         for r in c.listOfRelationships:
-            message += "\t" + c.name + " ---"+ "("+r.type+")"+ "---> " + r.dest + '\n'               # For each class, get each of its relationships and print them
+            message += c.name + " ---"+ "("+r.type+")"+ "---> " + r.dest + '\n'               # For each class, get each of its relationships and print them
     return message
 
 """
