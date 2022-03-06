@@ -77,6 +77,7 @@ parameterOptions = [
     '',
     'Add',
     'Delete',
+    'Rename',
 ]
 
 
@@ -129,7 +130,7 @@ def methodCalls(*args):
         windowEntry(3, "Method Add", ["Class Name", 'Method Name', 'Return Type'])
         err = addMethod(entries[0], entries[1], entries[2], [])
     elif methodsVar.get() == 'Delete':
-        windowEntry(3, "Method Delete", ["Class Name", 'Method Name'])
+        windowEntry(2, "Method Delete", ["Class Name", 'Method Name'])
         err = delMethod(entries[0], entries[1])
     elif methodsVar.get() == 'Rename':
         windowEntry(3, "Method Rename", ["Class Name", 'Method Name', 'New Method Name'])
@@ -167,7 +168,7 @@ def parameterCalls(*args):
         err = delParam(entries[0], entries[1], entries[2])
     elif parameterVar.get() == "Rename":
         windowEntry(4, "Parameter Rename", ["Class Name", "Method Name", "Parameter Name", "New Param Name"])
-        err = delParam(entries[0], entries[1], entries[2], entries[3])
+        err = renameParam(entries[0], entries[1], entries[2], entries[3])
     if err is not False:
         throwMessage(err)
     parameterVar.set("")

@@ -2,7 +2,7 @@
     Team Members: Andy P, Amelia S, Ben M, Tram T, Travis Z
     
 # Steps to run the editor
-1. Download the most recent version of Python
+1. Download the most recent version of Python (Python3 is required for the GUI)
 
 2. Download the files              
               
