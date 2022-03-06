@@ -15,6 +15,7 @@ from parameters import *
 from interface import *
 from saveLoad import *
 from subprocess import call
+from os.path import exists
 
 """
 Main method in which user will be redirected to the proper method based
@@ -673,9 +674,19 @@ def umlCliController() -> None:
             userIn = input("UML:> ")
             filename = input("Enter filename: ")
             if "1" in userIn:
+                # Search to see if filename already exists
+                if os.path.exists(filename):
+                    print('File already exists. Overwrite? (y/n)')
+                    overwrite = input()
+                    if overwrite == 'N' or overwrite == 'n':
+                        print('Choose a different filename.')
+                        break
                 save(filename)
                 continue
             elif "2" in userIn:
+                if not os.path.exists(filename):
+                    print("File Not Found\n")
+                    break
                 load(filename)
                 continue
 
