@@ -1,5 +1,5 @@
 # content of test_sample.py
-from relationships import *
+from relationshipsModel import *
 from classModel import *
 
 
