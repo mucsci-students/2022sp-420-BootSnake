@@ -77,6 +77,7 @@ parameterOptions = [
     '',
     'Add',
     'Delete',
+    'Rename',
 ]
 
 
@@ -106,7 +107,7 @@ def relationshipCalls(*args):
         if entries[2] == "Aggregation" or entries[2] == "Composition" or entries[2] == "Inheritance" or entries[2] == "Realization":
             err = RelationshipAdd(entries[0], entries[1], entries[2])
         else:
-            throwMessage("Incorrect relationship type. The available options are: Aggregation, Composition, Inheritance, Realization")
+            throwMessage("Incorrect relationship type. The available options are: \nAggregation \nComposition \nInheritance \nRealization")
             return
     elif relationshipVar.get() == 'Delete':
         windowEntry(2, "Relationship Delete", ["Source Class", "Dest Class", "Type"])
@@ -117,7 +118,7 @@ def relationshipCalls(*args):
         if entries[2] == "Aggregation" or entries[2] == "Composition" or entries[2] == "Inheritance" or entries[2] == "Realization":
             err = relationshipEdit(entries[0], entries[1], entries[2])
         else:
-            throwMessage("Incorrect relationship type. The available options are: Aggregation, Composition, Inheritance, Realization")
+            throwMessage("Incorrect relationship type. The available options are: \nAggregation \nComposition \nInheritance \nRealization")
             return
     if err is not False:
         throwMessage(err)
@@ -126,13 +127,13 @@ def relationshipCalls(*args):
 def methodCalls(*args):
     err = False
     if methodsVar.get() == 'Add':
-        windowEntry(2, "Method Add", ["Class Name", 'Method Name'])
-        err = addMethod(entries[0], entries[1], [])
+        windowEntry(3, "Method Add", ["Class Name", 'Method Name', 'Return Type'])
+        err = addMethod(entries[0], entries[1], entries[2], [])
     elif methodsVar.get() == 'Delete':
-        windowEntry(3, "Method Delete", ["Class Name", 'Method Name'])
+        windowEntry(2, "Method Delete", ["Class Name", 'Method Name'])
         err = delMethod(entries[0], entries[1])
     elif methodsVar.get() == 'Rename':
-        windowEntry(2, "Method Rename", ["Class Name", 'Method Name', 'New Method Name'])
+        windowEntry(3, "Method Rename", ["Class Name", 'Method Name', 'New Method Name'])
         err = renMethod(entries[0], entries[1], entries[2])
     if err is not False:
         throwMessage(err)
@@ -143,8 +144,8 @@ def methodCalls(*args):
 def fieldCalls(*args):
     err = False
     if fieldsVar.get() == 'Add':
-        windowEntry(2, "Field Add", ["Class Name", 'Field Name'])
-        err = addField(entries[0], entries[1])
+        windowEntry(3, "Field Add", ["Class Name", 'Field Name', 'Field Type'])
+        err = addField(entries[0], entries[1], entries[2])
     elif fieldsVar.get() == 'Delete':
         windowEntry(2, "Field Delete", ["Class Name", 'Field Name'])
         err = delField(entries[0], entries[1])
@@ -163,11 +164,17 @@ def parameterCalls(*args):
         windowEntry(4, "Parameter Add", ["Class Name", "Method Name", "Parameter Name", "Parameter Type"])
         err = ParamAdd(entries[0], entries[1], entries[2], entries[3])
     elif parameterVar.get() == "Delete":
-        windowEntry(3, "Parameter Delete", ["Method Name", "Delete Amount", "Parameter Name"])
-        err = ParamDelete(entries[0], entries[1], entries[2])
+        windowEntry(3, "Parameter Delete", ["Class Name", "Method Name", "Parameter Name"])
+        err = delParam(entries[0], entries[1], entries[2])
+    elif parameterVar.get() == "Rename":
+        windowEntry(4, "Parameter Rename", ["Class Name", "Method Name", "Parameter Name", "New Param Name"])
+        err = renameParam(entries[0], entries[1], entries[2], entries[3])
     if err is not False:
         throwMessage(err)
     parameterVar.set("")
+
+
+# =================================================================================================================================================================================================================================================================================
 
 
 def saveCall():
@@ -186,6 +193,10 @@ def loadCall():
         err = load(filename)
     if err is not False:
         throwMessage(err)
+
+
+
+# =================================================================================================================================================================================================================================================================================
 
 
 def listClassCall():
@@ -247,13 +258,13 @@ def windowEntry(numEntries: int, title: str, labels : list):
 
 
 
-messageBox = tk.Text(window, height=10, width=35, wrap='word')
+messageBox = tk.Text(window, height=15, width=35, wrap='word')
 messageBox.insert('end', "Messages will appear here.")
 # make a new message with given string
 def throwMessage(mes: str):
-    messageBox.delete(1.0, 'end')
-    messageBox.insert('end', mes)
-    #messagebox.showinfo("Message", mes)
+    if mes is not None:
+        messageBox.delete(1.0, 'end')
+        messageBox.insert('end', mes)
 
 
 # =================================================================================================================================================================================================================================================================================
@@ -283,6 +294,7 @@ listRelationshipsButton = tk.Button(window, text="List Relationships", command=l
 saveButton = tk.Button(window, text="Save", command=saveCall).place(x=0, y=110)
 loadButton = tk.Button(window, text="Load", command=loadCall).place(x=50, y=110)
 
+quitButton = tk.Button(window, text="Quit", command=exit).place(x=0, y=150)
 
 messageBox.place(x=400, y=40)
 
