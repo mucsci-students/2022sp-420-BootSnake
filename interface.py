@@ -23,13 +23,13 @@ def ListClass(name):
     # Use the searchClass function to find a matching name to user input
     wantedClass = ClassSearch(name, listOfClasses)
 
-    messageString = ''
+    messageString = 'Class : ' + wantedClass.name
 
     # Check to see if user input a valid class name
     if (wantedClass == None):
         return "Class " + name + " does not exist."
     
-    messageString += name + "\nFields: \n"
+    messageString += "\nFields: \n"
 
     # Loop through listOfAttributes
 
@@ -37,11 +37,11 @@ def ListClass(name):
         messageString += "\t" + x.name  + " : " + x.type + " \n"
 
 
-    messageString += "\nMethods: \n\t"
+    messageString += "\nMethods: \n"
 
     # Loop through listOfAttributes
     for x in wantedClass.listOfMethods:
-        messageString += x.name + " : " + x.type + " \n"
+        messageString += "\t" + x.name + " : " + x.type + " \n"
         for p in x.listOfParams:
             messageString += "\t\t" + p.name + " : " + p.type + "\n"
     
