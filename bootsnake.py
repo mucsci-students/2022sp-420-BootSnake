@@ -9,11 +9,11 @@ import sys
 
 from pydoc import classname
 from classModel import *
-from relationships import *
-from attributes import *
-from parameters import *
-from interface import *
-from saveLoad import *
+from relationshipsModel import *
+from attributesModel import *
+from parametersModel import *
+from interfaceView import *
+from saveLoadModel import *
 from subprocess import call
 from os.path import exists
 

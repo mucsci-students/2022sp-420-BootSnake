@@ -13,9 +13,9 @@ from os.path import exists
 
 # Imports from other classes
 from classModel import *
-from relationships import *
-from attributes import *
-from parameters import *
+from relationshipsModel import *
+from attributesModel import *
+from parametersModel import *
 
 
 

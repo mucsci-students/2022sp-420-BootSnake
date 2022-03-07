@@ -16,7 +16,7 @@ A test file used to test all the methods in classModel.
 from classModel import *
 
 #This will be used to test ClassRename and how it impacts relationships.
-from relationships import *
+from relationshipsModel import *
 
 #The following 2 imports are to silence prints from AClass.
 import sys
