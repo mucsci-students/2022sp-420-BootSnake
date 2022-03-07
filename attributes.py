@@ -450,7 +450,10 @@ def delParam (classname: str, methodname: str, paramname: str):
                             wantedMethod.listOfParams.sort(key = lambda x : x.name)
                             for o in wantedMethod.listOfParams:
                                 print(o.name)
-                            return "All parameters of " + classname + " successfully deleted!"   
+                            return "All parameters of " + classname + " successfully deleted!"
+                        else:
+                            print("Parameter " + paramname + " not found!")
+                            return "Parameter " + paramname + " not found!"
                 else:
                     print("Method " + methodname + " not found! Try again!")
                     return "Method " + methodname + " not found! Try again!"
