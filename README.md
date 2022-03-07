@@ -25,3 +25,6 @@
               
               B) By default it runs in GUI mode, to run in command line interface add --cli 
                  (python bootsnake.py --cli)
+            
+              Notes:
+                 On Linux, run the gui with "python3 interfaceGUI.py" and the CLI with "python bootsnake.py" or python3
