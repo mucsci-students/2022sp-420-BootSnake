@@ -11,10 +11,11 @@ from tkinter import ttk
 
 from classModel import *
 from relationshipsModel import *
-from saveLoadModel import *
+from saveLoad import *
 from attributesModel import *
 from interfaceView import *
 from parametersModel import *
+import canvas as c
 
 
 
@@ -25,9 +26,7 @@ Main function to create the GUI.
 '''
 
 
-
-def donothing():
-   x = 0
+#global my_canvas
    
 
     
@@ -49,11 +48,23 @@ def loadCall():
             err = load(filename)
         #if err is not False:
             #throwMessage(err)
+"""
+# set up a canvas in main panel
+def makeCanvas(frame: tk.Frame):
+    # when putting a canvas in a function, create a global variable 
+    # to ensure that boxes are working properly. 
+    global my_canvas
 
+    #h = Scrollbar(frame, orient=HORIZONTAL)
+    #v = Scrollbar(frame, orient=VERTICAL)
+    sizex = 500
+    sizey = 500
+    my_canvas = tk.Canvas(frame, bg= "white", scrollregion = (0, 0, sizex, sizey))
+        
+    return my_canvas
+"""
+def gui_run():
 
-
-def run():
-    
 # initialize window    
     window = tk.Tk()
     window.title("BootSnake")
@@ -70,7 +81,7 @@ def run():
 
     menubar = tk.Menu(window)
     filemenu = tk.Menu(menubar, tearoff=0)
-    filemenu.add_command(label="New", command=donothing)
+    filemenu.add_command(label="New")
     filemenu.add_command(label="Open", command=loadCall)
     filemenu.add_command(label="Save", command=saveCall)
     filemenu.add_separator()
@@ -78,13 +89,13 @@ def run():
     menubar.add_cascade(label="File", menu=filemenu)
 
     menu_edit = tk.Menu(menubar, tearoff=0)
-    menu_edit.add_command(label = "Undo", command = donothing)
-    menu_edit.add_command(label = "Redo", command = donothing)
+    menu_edit.add_command(label = "Undo")
+    menu_edit.add_command(label = "Redo")
     menubar.add_cascade(label = "Edit", menu = menu_edit)
     
     helpmenu = tk.Menu(menubar, tearoff=0)
-    helpmenu.add_command(label="Help Index", command=donothing)
-    helpmenu.add_command(label="About...", command=donothing)
+    helpmenu.add_command(label="Help Index")
+    helpmenu.add_command(label="About...")
     menubar.add_cascade(label="Help", menu=helpmenu)
 
     window.config(menu=menubar)
@@ -101,10 +112,32 @@ def run():
     """
     # Widget Construction    
     mainFrame = tk.Frame(window, bd=5, relief=tk.FLAT)
+    mainFrame.pack(expand=1, fill=BOTH)
     sideFrame = tk.Frame(window)
     
-    # put draggable canvas here!!! and message box
-    mainPanel = (mainFrame)
+    # create a canvas here by calling the method makeCanvas()
+    canvasPanel = c.makeCanvas(mainFrame)
+    
+    
+
+    # add horizontal & vertical scrollbar to the canvas panel
+    # https://riptutorial.com/tkinter/example/27784/scrolling-a-canvas-widget-horizontally-and-vertically
+    # https://www.youtube.com/watch?v=0WafQCaok6g
+    
+    
+    hbar = tk.Scrollbar(mainFrame, orient = tk.HORIZONTAL, command=c.my_canvas.xview)
+    hbar.pack(fill = tk.X, side = tk.BOTTOM)
+
+    vbar = tk.Scrollbar(mainFrame, orient = tk.VERTICAL, command=c.my_canvas.yview)
+    vbar.pack(fill = tk.Y, side = tk.LEFT)
+    
+
+    # configure the canvas
+    c.my_canvas.pack(side=LEFT,expand=True,fill=BOTH) # move this will change the position of the scrollbars
+    c.my_canvas.configure(xscrollcommand=hbar.set, yscrollcommand=vbar.set)
+    c.my_canvas.bind('<Configure>', lambda e: c.my_canvas.configure(scrollregion=c.my_canvas.bbox("all")))
+   
+
 
 
     # make control-tabs for classAdd, relAdd, method, fields, and param
@@ -139,14 +172,8 @@ def run():
     classPanel.add(fieldTab, text = "Fields")
     classPanel.insert(2, fieldTab)
 
-    sidePanel.pack(expand=1, fill="both")
+    sidePanel.pack(expand=1, fill=BOTH)
     
-    # add horizontal & vertical scrollbar to the main panel
-    hbar = tk.Scrollbar(mainFrame, orient = tk.HORIZONTAL, command = donothing)
-    hbar.pack(fill = tk.X, side = tk.BOTTOM)
-
-    vbar = tk.Scrollbar(mainFrame, orient = tk.VERTICAL, command = donothing)
-    vbar.pack(fill = tk.Y, side = tk.RIGHT)
     
     
     # Widget Placement
@@ -158,7 +185,7 @@ def run():
     sideFrame.columnconfigure(2, weight = 1)
     sideFrame.rowconfigure(0, weight = 1)
     
-    #mainPanel.pack(fill = tk.BOTH, expand = tk.YES)
+    
     
     # sidepanel that holds tabs
     sidePanel.grid(row = 0, column = 2, sticky = "nse", rowspan=2)
@@ -219,7 +246,7 @@ def run():
         err = False
         if classVar.get() == 'Add':
             windowEntry(1, "Class Add", ["Class Name"])
-         
+               
        
         elif classVar.get() == 'Delete':
             windowEntry(1, "Class Delete", ["Class Name"])
@@ -314,20 +341,25 @@ def run():
 
     def listClassCall():
         windowEntry(1, "List Class", ["Class Name"])
-        message = ListClass(entries[0])
-        throwMessage(message)
+        
+        #message = ListClass(entries[0])
+        #throwMessage(message)
+        #popup(message)
+        
 
 
 
     def listClassesCall():
         message = ListClasses()
-        throwMessage(message)
+        #throwMessage(message)
+        messagebox.showinfo("List Classes", message)
 
 
 
     def listRelationshipsCall():
         message = ListRelationships()
-        throwMessage(message)
+        #throwMessage(message)
+        messagebox.showinfo("List Relationships", message)
 
 
 # =====================================================================================
@@ -393,12 +425,20 @@ def run():
         if classVar.get() == 'Add':
             res = ClassAdd(entry) 
             label.configure(text=res) 
-            entries.clear() 
+            entries.clear()
+            msg = c.addBoxInfo(entry)
+            label.configure(text=msg)
+            
+           
+        
+            
+            
 
         if classVar.get() == 'Delete':
             res = ClassDelete(entry) 
             label.configure(text=res) 
             entries.clear()  
+
 
 #=================================================================================
     """ 
@@ -481,7 +521,9 @@ def run():
         if relationshipVar.get()=='Add':
             res = RelationshipAdd(entry,entry2,type) 
             label.configure(text=res) 
-            entries.clear()  
+            entries.clear()
+            print(type)
+            c.addRelLine(entry,entry2,type)
         else:
             res=relationshipEdit(entry, entry2,type)
             label.configure(text=res)
@@ -720,6 +762,7 @@ def run():
             entries.clear()   
 
 
+# =============================================================================
 
     messageBox = tk.Text(window, height=15, width=35, wrap='word')
     messageBox.insert('end', "Messages will appear here.")
@@ -728,6 +771,8 @@ def run():
         if mes is not None:
             messageBox.delete(1.0, 'end')
             messageBox.insert('end', mes)
+
+
 
 
 # =============================================================================
@@ -768,13 +813,15 @@ def run():
     parameterDrop = tk.OptionMenu(paramTab, parameterVar, *parameterOptions)#.place(x=275, y=30)
     parameterDrop.grid(column=0,row=1)
     
-    listClassesButton = tk.Button(listClassTab, text="List Classes", command=listClassesCall)#.place(x=75, y=70)
-    listClassesButton.grid(column=0,row=0)
+    #listClassButton = tk.Button(listClassTab, text="List Class", command=listClassCall)#.place(x=75, y=70)
+    #listClassButton.grid(column=0,row=3)
+    listClassesButton = tk.Button(listClassTab, text="List Classes", command=listClassesCall)
+    listClassesButton.grid(column=0,row=3)
     
     listRelationshipsButton = tk.Button(listClassTab, text="List Relationships", command=listRelationshipsCall)#.place(x=165, y=70)
-    listRelationshipsButton.grid(column=0,row=3)
+    listRelationshipsButton.grid(column=0,row=9)
     
-    messageBox.place(x=0, y=0)
+    #messageBox.place(x=30, y=100)
 
 
 # =============================================================================
@@ -799,4 +846,4 @@ def run():
 ###################################################################################################
 
 if __name__ == "__main__":
-    run()
+    gui_run()
