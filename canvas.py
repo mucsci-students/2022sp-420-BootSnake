@@ -61,20 +61,20 @@ class makeSquare():
         my_rectangle = my_canvas.create_rectangle(x1, y1, x2, y2, fill = 'red', width = 2, tag=name)
         # create a label for a class rectangle.
         # if changing the order of widget is not an option, use the cavas' tag_raise method
-        boxlabel = my_canvas.create_text(((x1+x2)/2),y1, text = name, font=('Helvetica 12 bold'), anchor=S) 
+        boxlabel = my_canvas.create_text(((x1+x2)/2),y1, text = name, font=('Roboto'), anchor=S) #'Helvetica 12 bold'
         spacing = 2* len(name)
 
         yincrement = 20
         # create a field line, field label, and field text inside a class rectangle.
         fline = my_canvas.create_line(x1, y1, x2, y2, fill='green', width =2)
-        flabel = my_canvas.create_text(x1 - 50, y1 - 50, text = 'Field(s):', anchor=W)
+        flabel = my_canvas.create_text(x1 - 35, y1 - 35, text = 'Field(s):', anchor=W)
         ftext = my_canvas.create_text(x1 - 45, y1 - 45, text ="", anchor = N)
         
 
 
         # create a method line, method label, and method text inside a class rectangle.
         mline = my_canvas.create_line(x1, y1, x2, y2, fill ='black', width = 2)
-        mlabel = my_canvas.create_text(x1 - 30, y1 - 30, text = 'Method(s):', anchor=W)
+        mlabel = my_canvas.create_text(x1 - 10, y1 - 10, text = 'Method(s):', anchor=W)
         mtext = my_canvas.create_text(x1 - 15, y1 - 15, text ="", anchor = N)
         
         
@@ -89,7 +89,7 @@ class makeSquare():
         self.mlabel = mlabel
         self.mtext = mtext
         self.relation = list()
-        #canDrag(my_rectangle)
+        dragBox(my_rectangle)
 
 
 
@@ -101,7 +101,7 @@ def addRec(name:str):
     
     placed = False # ensure that a box is not previously occupied at the same place.
     x1 = 50
-    y1 = 60
+    y1 = 80
     x2 = 160
     y2 = 20
     
@@ -182,20 +182,20 @@ def updateRecSize(wbox: int):
     my_canvas.coords((boxlist[wbox].my_rectangle), x1, y1, x2, y2)
     my_canvas.coords((boxlist[wbox].boxlabel), ((x1+x2)/2), y1+15)
 
-    mid = (x1+x2)/2
+    midpoint = (x1+x2)/2
     # set line
     xf, yf = my_canvas.coords(boxlist[wbox].flabel)
-    my_canvas.coords((boxlist[wbox].fline), x1, y1+20, x2, y1+20)
+    my_canvas.coords((boxlist[wbox].fline), x1, y1+15, x2, y1+15)
     my_canvas.coords((boxlist[wbox].flabel), x1+5, yf)
     my_canvas.coords((boxlist[wbox].ftext), x1+10, yf)
     my_canvas.itemconfigure((boxlist[wbox].fline))
     my_canvas.itemconfigure((boxlist[wbox].flabel))
     xm, ym = my_canvas.coords(boxlist[wbox].mlabel)
-    my_canvas.coords((boxlist[wbox].mline), x1, y1+30,x2, y1+30)
+    my_canvas.coords((boxlist[wbox].mline), x1, y1+40,x2, y1+40)
     my_canvas.coords((boxlist[wbox].mlabel), x1+5, ym)
     my_canvas.coords((boxlist[wbox].mtext), x1+10, ym)
 
-    return mid
+    return midpoint
 
     
 
@@ -218,7 +218,7 @@ def searchBox(name:str):
         if boxlist[i].name== name:
             return i
 
-    i += 1
+        i += 1
 
 
 def searchBoxLoc(name:str):
@@ -251,10 +251,30 @@ def addBoxInfo(name: str):
 
 
 
+#####################################################################
+#https://www.youtube.com/watch?v=Z4zePg2M5H8
+"""
+def dragBox(my_rectangle):
+    my_canvas.bind(my_rectangle,"<B1-Motion>",dragByMouse)
 
 
 
+def dragByMouse(e):
+    #e.x
+    #e.y
+    global move
+    move = True
 
+    my_label = Label(my_canvas)
+    my_label.pack()
+    my_label.config(text="Ciirdubates:x:")
+
+    # find the index of the clicked-on box
+    i = 0
+    for o in boxlist:
+        
+
+"""
 #########################################################################
 
 class relLine():
@@ -262,22 +282,107 @@ class relLine():
     
     This class contains a constructor to initialize the relationship types when
     created.
+
+    https://www.youtube.com/watch?v=yXdf12H-2x8
     
     """
     def __init__(self, x1,y1, x2,y2, src, dest, reltype):
         srcloc = searchBoxLoc(src)
         destloc = searchBoxLoc(dest)
         
-        relline = my_canvas.create_line(x1,y1,x2, y2, arrow=tk.LAST, fill=reltype) 
+        # get the coordinators of the source and dest boxes.
+        x1src, y1src, x2src, y2src = my_canvas.coords(src)
+        x1dest, y1dest, x2dest, y2dest = my_canvas.coords(dest)
+
+        # get the midpoint coordinators of the source & dest boxes.
+        x1 = abs(x2src -x1src)/2
+        y1 = abs(y2src - y1src)/2
+        x2 = abs(x2dest -x1dest)/2
+        y2 = abs(y2dest - y1dest)/2
+
+        if (reltype == "Aggregation"):
+            color = "green"
+            dashline = False
+            
+            if y2dest <= y1src:
+                y1 = y1src-15
+                shape = my_canvas.create_polygon(x1,y1src, x1-5, y1src-5, x1, y1src-15,
+                                            x1+5, y1src-5, width=1, outline=color)
+            
+            if y1dest >= y2src:
+                y1 = y2src+15
+                shape = my_canvas.create_polygon(x1,y2src, x1-5, y2src+5, x1, y2src+15,
+                                            x1+5, y2src+5, width=1, outline=color)
+            else:
+                x1 = x2src+15
+                shape = my_canvas.create_polygon(x2src,y1, x2src+5, y1-5, x2src+15, y1,
+                                            x2src+5, y1+5, width=1, outline=color)
+
+        elif (reltype == "Composition"):
+            color = "yellow"
+            dashline = False
+            if y2dest <= y1src:
+                y1 = y1src-15
+                shape = my_canvas.create_polygon(x1,y1src, x1-5, y1src-5, x1, y1src-15,
+                                            x1+5, y1src-5, width=1, outline=color)
+            
+            if y1dest >= y2src:
+                y1 = y2src+15
+                shape = my_canvas.create_polygon(x1,y2src, x1-5, y2src+5, x1, y2src+15,
+                                            x1+5, y2src+5, width=1, outline=color)
+            else:
+                x1 = x2src+15
+                shape = my_canvas.create_polygon(x2src,y1, x2src+5, y1-5, x2src+15, y1,
+                                            x2src+5, y1+5, width=1, outline=color)
+        # empty arrow
+        elif (reltype == "Inheritance"):
+            color = "red"
+            dashline = False
+            if y2dest <= y1src:
+                y1 = y1src-15
+                shape = my_canvas.create_polygon(x1,y1src, x1-5, y1src-15, x1+5, y1src-15,
+                                            width=1, outline=color)
+
+            if y2dest >= y1src:
+                y1 = y2src+15
+                shape = my_canvas.create_polygon(x1,y2src, x1-5, y2src+15, x1+5, y2src+15,
+                                            width=1, outline=color)
+            else:
+                x1 = x2src+15
+                shape = my_canvas.create_polygon(x2src,y1, x2src+15, y1-5, x2src+15, y1+5,
+                                             width=1, outline=color)
+        else:
+            color = "purple"
+            dashline = True
+            if y2dest <= y1src:
+                y1 = y1src-15
+                shape = my_canvas.create_polygon(x1,y1src, x1-5, y1src-15, x1+5, y1src-15,
+                                            width=1, outline=color)
+
+            if y2dest >= y1src:
+                y1 = y2src+15
+                shape = my_canvas.create_polygon(x1,y2src, x1-5, y2src+15, x1+5, y2src+15,
+                                            width=1, outline=color)
+            else:
+                x1 = x2src+15
+                shape = my_canvas.create_polygon(x2src,y1, x2src+15, y1-5, x2src+15, y1+5,
+                                             width=1, outline=color)
+
+
+        if not dashline:
+            relline = my_canvas.create_line(x1,y1,x2, y2, fill=color, width=2) 
+        else:
+            relline = my_canvas.create_line(x1,y1,x2, y2, fill=color, width=2, dash=(200, 200)) 
+        
         my_canvas.tag_lower(relline)
-        boxlist[srcloc].relation.append((src, relline, dest))
-        boxlist[destloc].relation.append((dest, relline, src))
+        boxlist[srcloc].relation.append((src, relline, dest, shape, reltype))
+        boxlist[destloc].relation.append((dest, relline, src, shape, reltype))
         
     
 def addRelLine(src:str, dest:str, reltype:str):
     srcloc = searchBox(src)
     destloc = searchBox(dest)
-   
+    """
     if (reltype == "Aggregation"):
         color = "green"
         
@@ -289,7 +394,7 @@ def addRelLine(src:str, dest:str, reltype:str):
 
     else:
         color = "purple"
-
+    """
     srcrec = boxlist[searchBox(src)].my_rectangle
     destrec = boxlist[searchBox(dest)].my_rectangle
     xsrc = my_canvas.coords(srcrec)[0]
@@ -297,8 +402,7 @@ def addRelLine(src:str, dest:str, reltype:str):
     xdest = my_canvas.coords(destrec)[0]
     ydest = my_canvas.coords(destrec)[1]
 
-
     #instantiate the line
-    myLine = relLine(xsrc, ysrc, xdest, ydest,srcrec, destrec,color)
+    myLine = relLine(xsrc, ysrc, xdest, ydest,srcrec, destrec,reltype)
 
     

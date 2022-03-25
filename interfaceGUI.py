@@ -15,7 +15,7 @@ import tkinter as tk
 from tkinter import ttk
 
 from classModel import *
-from relationships import *
+from relationshipsModel import *
 from saveLoad import *
 from attributes import *
 from interface import *

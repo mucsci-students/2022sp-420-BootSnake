@@ -429,10 +429,6 @@ def gui_run():
             msg = c.addBoxInfo(entry)
             label.configure(text=msg)
             
-           
-        
-            
-            
 
         if classVar.get() == 'Delete':
             res = ClassDelete(entry) 

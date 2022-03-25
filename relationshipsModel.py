@@ -11,8 +11,10 @@ from classModel import *
 # relationship object that stores the type of relationship along with 
 # destination of the relationship.
 class relationship:
-    def __init__(self,type,dest):
+    def __init__(self,type,src,dest):
+        
         self.type = type
+        self.src = src
         self.dest = dest
 
 
@@ -28,23 +30,26 @@ Returns:
 2 - relationship already exists
 """
 def RelationshipAdd(src: str, dest: str, type: str):
-    msg: str =""
+    msg =""
+    res = None
     srcClass = ClassSearch(src, listOfClasses)
     destClass = ClassSearch(dest, listOfClasses)
     if srcClass is not None and destClass is not None:
         for r in srcClass.listOfRelationships:
             if r.dest == destClass.name:
-                msg = f"Relationship already exists."
-                print(msg)
+                print("Error: Relationship already exists.")
+                msg = f" Relationship already exists."
                 return msg
-        newRelationship = relationship(type, dest)
-        srcClass.listOfRelationships.append(newRelationship)
-        msg = f"Successfully added relationship."
-        print(msg)
-        return msg 
+        
+        newRelationship = relationship(type,src, dest)
+        res = srcClass.listOfRelationships.append(newRelationship)
+        print("Successfully added relationship.")
+        msg =f"Relationship added successfully for {src} & {dest}"
+        return msg
+    
     else:
-        msg = f"Error: Either the source or destination class does not exist."
-        print(msg)
+        print("Error: Either the source or destination class does not exist.")
+        msg = f"Either the {src} or {dest} class does not exist."
         return msg
 """
 This function takes in two strings (class names) and uses the ClassSearch
@@ -59,46 +64,47 @@ Returns:
 """
 def RelationshipDelete(src: str, dest: str):
     
-    msg: str =""
+    msg =""
+    res = None
     
     srcClass = ClassSearch(src, listOfClasses)
     destClass = ClassSearch(dest, listOfClasses)
     if srcClass is not None and destClass is not None:
         for r in srcClass.listOfRelationships:
             if r.dest == dest:
-                srcClass.listOfRelationships.remove(r)
-                msg = f"Successfully deleted relationship!"
-                print(msg)
-                return msg
+                res = srcClass.listOfRelationships.remove(r)
+                print("Successfully deleted relationship.")
+                msg = f"Successfully deleted {src} & {dest}"
         
-        msg = f"Error: Relationship does not exist for deletion."
-        print(msg)
+        print("Error: Relationship does not exist for deletion!")
+        msg = f"Relationship does not exist for deletion!"
         return msg
-    
     else:
-        msg = f"Error: Either the source or destination class does not exist."
-        print(msg)
+        print("Error: Either the source or destination class does not exist.")
+        msg = f"Either {src} or {dest} does not exist"
         return msg
-    
 
 def relationshipEdit(src: str, dest: str, type: str):
     
-    msg: str =""
+    msg=""
+    res = None
+
     srcClass = ClassSearch(src, listOfClasses)
     destClass = ClassSearch(dest, listOfClasses)
     if srcClass is not None and destClass is not None:
         for r in srcClass.listOfRelationships:
             if r.dest == dest:
-                r.type = type
-                msg = f"Successfully edited relationship!"
-                print(msg)
+                res = r.type = type
+                print("Successfully edited relationship.")
+                msg = f"Successfully edited relationship {src} & {dest}"
                 return msg
-        msg = f"Error: Relationship does not exist for edit."
-        print(msg)
+        
+        print("Error: Relationship does not exist for edit.")
+        msg = f"Relationship does not exist for edit."
         return msg
     else:
-        msg = f"Error: Either the source or destination class does not exist."
-        print(msg)
+        print("Error: Either the source or destination class does not exist.")
+        msg = f"Either the {src} or {dest} does not exist"
         return msg
 
 
