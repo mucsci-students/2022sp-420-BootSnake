@@ -107,4 +107,3 @@ def relationshipEdit(src: str, dest: str, type: str):
         msg = f"Either the {src} or {dest} does not exist"
         return msg
 
-

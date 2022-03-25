@@ -253,7 +253,7 @@ def addBoxInfo(name: str):
 
 #####################################################################
 #https://www.youtube.com/watch?v=Z4zePg2M5H8
-"""
+
 def dragBox(my_rectangle):
     my_canvas.bind(my_rectangle,"<B1-Motion>",dragByMouse)
 
@@ -267,14 +267,15 @@ def dragByMouse(e):
 
     my_label = Label(my_canvas)
     my_label.pack()
-    my_label.config(text="Ciirdubates:x:")
+    my_label.config(text="Coordinators:x " + str(e.x) + " y " + str(e.y))
 
     # find the index of the clicked-on box
     i = 0
     for o in boxlist:
+        return
         
 
-"""
+
 #########################################################################
 
 class relLine():

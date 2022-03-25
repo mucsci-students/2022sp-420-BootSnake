@@ -525,8 +525,6 @@ def gui_run():
             label.configure(text=res)
             entries.clear()
 
-
-
 #=================================================================================
     """ 
         The attrWinEnt function generates a pop-up window that stores 2 entry
