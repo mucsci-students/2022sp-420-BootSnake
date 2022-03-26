@@ -72,7 +72,7 @@ def test_classAdd_InvalidName():
         result = len(listOfClasses)
         #We will try the assert, if it fails we go to except.
         try:
-            if result != 1:
+            if result == 1:
                 print("\""+listOfInputs[index]+"\" was rejected "+ Back.GREEN + Fore.BLACK + "successfully" + Style.RESET_ALL + "!")
         except:
             print("\""+listOfInputs[index]+"\" was " + Back.RED + Fore.BLACK + "NOT" + Style.RESET_ALL +" rejected!")
