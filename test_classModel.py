@@ -28,7 +28,7 @@ from unittest import *
 #The following import is to help color code tests for ease of viewing.
 from colorama import *
 
-def classAdd_ValidName():
+def test_classAdd_ValidName():
     listOfInputs = ['hi','HI','Hi','Hi1','h2o','Hello_World','Trailing__']
     print("\n\n--------------TESTING ACCEPTED CLASS ADDS--------------------")
     index = 0
@@ -53,7 +53,7 @@ def classAdd_ValidName():
         index = index + 1
     return numOfFailure
 
-def classAdd_InvalidName():
+def test_classAdd_InvalidName():
     print("\n\n--------------TESTING REJECTIONS--------------------")
     duplicate = AClass('duplicate')
     listOfClasses.append(duplicate)
@@ -82,7 +82,7 @@ def classAdd_InvalidName():
     listOfClasses.remove(duplicate)
     return numOfFailure
 
-def classRename_validRename():
+def test_classRename_validRename():
     print("Rename Test - Due to rename sharing the name checker function \nwith ClassAdd(), it stands to reason that we do not need to \ncheck name validity and instead check only if it can rename and \nchange the appropriate listOfRelationships to match the new name.")
     
     print("Running test on 2 classes titled \"class1\" and \"class2\" respectively. \nclass1 has a relationship with class2.")
@@ -116,7 +116,7 @@ def classRename_validRename():
         print("\'class2\' was "+Back.RED+Fore.BLACK+"NOT"+Style.RESET_ALL+" renamed to be \'RenamedClass2\'!")
     listOfClasses.clear()
 
-def classDelete_validDelete():
+def test_classDelete_validDelete():
     print("Running test on listOfClasses when it only has 1 class, titled \"dontDeleteMePlz\"")
     class1 = AClass("dontDeleteMePlz")
     listOfClasses.append(class1)
@@ -133,15 +133,15 @@ def classDelete_validDelete():
         print("ClassDelete did "+Back.RED+Fore.BLACK+"NOT"+Style.RESET_ALL+" delete the requested delete target.")
     
 #input("Press enter to run tests on ClassAdd...\n")
-totalNumOfFailure = classAdd_ValidName()
-totalNumOfFailure += classAdd_InvalidName()
+totalNumOfFailure = test_classAdd_ValidName()
+totalNumOfFailure += test_classAdd_InvalidName()
 if(totalNumOfFailure == 0):
     print("\n\n---------------------------------\nAll tests for ClassAdd ran "+ Back.YELLOW + Fore.BLACK + "successfully" + Style.RESET_ALL + "!")
 else:
     print("\n\n---------------------------------\n"+Back.RED + Fore.BLACK + "NOT" + Style.RESET_ALL + " all tests for ClassAdd ran successfully.\n\nTests failed: " + str(totalNumOfFailure))
 #input("Press enter to run a test on ClassRename...\n")
-classRename_validRename()
+test_classRename_validRename()
 #input("Press enter to run a test on ClassDelete...\n")
-classDelete_validDelete()
+test_classDelete_validDelete()
 
 
