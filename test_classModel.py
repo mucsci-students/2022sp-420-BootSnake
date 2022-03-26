@@ -132,16 +132,16 @@ def classDelete_validDelete():
     except:
         print("ClassDelete did "+Back.RED+Fore.BLACK+"NOT"+Style.RESET_ALL+" delete the requested delete target.")
     
-input("Press enter to run tests on ClassAdd...\n")
+#input("Press enter to run tests on ClassAdd...\n")
 totalNumOfFailure = classAdd_ValidName()
 totalNumOfFailure += classAdd_InvalidName()
 if(totalNumOfFailure == 0):
     print("\n\n---------------------------------\nAll tests for ClassAdd ran "+ Back.YELLOW + Fore.BLACK + "successfully" + Style.RESET_ALL + "!")
 else:
     print("\n\n---------------------------------\n"+Back.RED + Fore.BLACK + "NOT" + Style.RESET_ALL + " all tests for ClassAdd ran successfully.\n\nTests failed: " + str(totalNumOfFailure))
-input("Press enter to run a test on ClassRename...\n")
+#input("Press enter to run a test on ClassRename...\n")
 classRename_validRename()
-input("Press enter to run a test on ClassDelete...\n")
+#input("Press enter to run a test on ClassDelete...\n")
 classDelete_validDelete()
 
 
