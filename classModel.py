@@ -19,8 +19,12 @@ re: A module that will alllow me to use regexes to check for patterns or
     
 """
 import keyword
+from msilib.schema import Class
 import re
+from turtle import undo
+from undoRedoModel import undoList, redoList, undoListInsertable
 
+from relationshipsModel import RelationshipAdd
 
 #A global list that will be used to keep all the classes.
 listOfClasses = list() 
@@ -98,24 +102,14 @@ exception to non first character underscores. It also prevents you from naming
 a class an empty string.
 """
 def ClassAdd(name : str):
-    """
-    When the function is called a multi-line print detailing what is considered 
-    a valid class name is displayed.
-    """
-     
-    #print("""
-    #        =============================================================
-    #        | Input a valid unique class name.                          |
-    #        | A valid class name is made up of alpha-numeric characters.|
-    #       | The first character must not be a number or underscore.   |
-    #       | The class name should also not be a programming keyword.  |
-    #        =============================================================
-    #    """)
-            
+    #We need to check if the param is valid, so I have a helper for that.
     userInput = ClassNameChecker(name)
     if(userInput):
         newClass = AClass(name) #We create a new object with the given name.
         listOfClasses.append(newClass) #We append the object into the list.
+        #Insert comment here
+        if(undoListInsertable):
+            undoList.insert(0,(ClassDelete, name))
         print("Class " + name + " successfully added! Use the list class command to display its contents.\n")
         # Changes userInput to be a string instead of a True bool.
         userInput = "Class " + name + " successfully added!"
@@ -171,7 +165,10 @@ def ClassRename(OldName : str, NewName : str):
                 for relName in c.listOfRelationships:
                     if relName.dest == OldName:
                         relName.dest = NewName
-                
+            
+            #Insert comment here
+            undoList.insert(0,ClassRename,(NewName,OldName))
+            
             print (OldName + " has been renamed to: " + NewName + "\n")
             return OldName + " has been renamed to: " + NewName
         return False #This means the ClassNameChecker failed.
@@ -186,7 +183,6 @@ def ClassDelete(deleteTarget):
         print("There's nothing here to delete.")
         return False
     else:
-        
         #Asks for the class to delete.
         #deleteTarget = input("Class to delete: ")
         #Grabs the object by feeding the name to the Class Search function.
@@ -209,11 +205,16 @@ def ClassDelete(deleteTarget):
                 make up for that inability to change the value directly.
                 NOTE: This will not work with the new changes to relationships. I will need to make changes here based on the changes to relationships.
             """
+            reverseList = list()
             for c in listOfClasses:
                 for relName in c.listOfRelationships:
                     if relName == deleteTarget:
                         print("Deleting " + relName + " relation")
                         returnString = returnString + "\nDeleting " + relName + " relation"
                         c.listOfRelationships.remove(deleteTarget)
+                        reverseList.insert(0,(RelationshipAdd, (c, deleteTarget)))
+                        
+            reverseList.append((ClassAdd, deleteTarget))
+            undoList.insert(0,reverseList)
             return returnString
         

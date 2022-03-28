@@ -49,7 +49,7 @@ def Main(args: list):
     
         # run gui
     else:
-        call(['python3', 'interfaceGUI.py'])
+        call(['python3', 'interfaceGUIView.py'])
     
 def umlCliController() -> None:
 
