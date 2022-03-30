@@ -10,8 +10,8 @@
 import pytest
 
 from classModel import *
-from attributes import *
-from parameters import *
+from attributesModel import *
+from parametersModel import *
 
 
 '''
