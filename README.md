@@ -2,7 +2,11 @@
     Team Members: Andy P, Amelia S, Ben M, Tram T, Travis Z
     
 # Steps to run the editor
-1. Download the most recent version of Python (Python3 is required for the GUI)
+1. Downloads:
+             
+              A) Download the most recent version of Python (Python3 is required for the GUI)
+              
+              B) If you are on Windows, download pyreadline3 (python -m pip install pyreadline3) 
 
 2. Download the files              
               
