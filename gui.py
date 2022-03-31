@@ -16,7 +16,7 @@ from tkinter import ttk
 
 from classModel import *
 from relationshipsModel import *
-from saveLoadModel import *
+import saveLoadModel as s
 from attributesModel import *
 from interfaceView import *
 from parametersModel import *
@@ -35,7 +35,7 @@ def saveCall():
     err = False
     filename = filedialog.asksaveasfilename()
     if filename != "":
-        err= save(filename)
+        err= s.save(filename)
     #if err is not False:
         #throwMessage(err)
 
@@ -44,7 +44,7 @@ def loadCall():
         #filename = filedialog.askopenfilename()
         filename = filedialog.askopenfilename(filetypes=(("Json File", "*.json"),), title="Choose JSON file")
         if filename != "":
-            err = load(filename)
+            err = s.load(filename)
         #if err is not False:
             #throwMessage(err)
 
