@@ -22,6 +22,7 @@ from parametersModel import *
 from interfaceView import *
 from saveLoadModel import *
 from bootsnake import *
+from undoRedoModel import *
 
 
 
@@ -52,7 +53,13 @@ from bootsnake import *
                               commands in the system.
                               
             exit           -> quit the program.
+        
+        REFERENCE:          http://pymotw.com/2/cmd/
     
+    To run the tab completion on Windows, 
+        install:python -m pip install pyreadline ==> It does not work.
+        uninstall pyreadline (py -3 -m pip uninstall pyreadline).
+        
     """
     
 
@@ -71,9 +78,6 @@ cmmands = ['addclass', 'delclass', 'renameclass',
           ]
 
 
-def main():
-   TabCompletion().cmdloop()
-
 
 # verify the number of arguments, if any, provided by the user for each given
 # command in the system.
@@ -87,7 +91,7 @@ def checkArgs(argNum: int, argInput: int) -> None:
 
 class TabCompletion(cmd.Cmd):
     
-    print("""
+    intro = ("""
                     =========================================================                                               
                     |                 WELCOME TO BOOTSNAKE!                 |                                              
                     =========================================================
@@ -95,6 +99,12 @@ class TabCompletion(cmd.Cmd):
                             'exit' command quits the BootSnake program            
        
         """)
+    
+    doc_header = 'doc_header'
+    misc_header = 'misc_header'
+    undoc_header = 'undoc_header'
+    
+    ruler = '-'
     
     prompt = ("UML>: ")
   
@@ -613,7 +623,7 @@ class TabCompletion(cmd.Cmd):
         
         """
         
-        print("Need to implement!")
+        undo()
         
     
     # redo command
@@ -886,7 +896,7 @@ class TabCompletion(cmd.Cmd):
     
 ###############################################################################
 if __name__ == "__main__":
-   main()
-   #TabCompletion().cmdloop()
+   TabCompletion().cmdloop()
+  
             
     

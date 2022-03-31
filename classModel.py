@@ -37,6 +37,8 @@ class AClass:
         self.listOfFields = list()
         self.listOfMethods = list()
         self.listOfRelationships = list()
+        ppositionx: int = None
+        positiony: int = None
     
     
     

@@ -16,10 +16,10 @@ from tkinter import ttk
 
 from classModel import *
 from relationshipsModel import *
-from saveLoad import *
-from attributes import *
-from interface import *
-from parameters import *
+from saveLoadModel import *
+from attributesModel import *
+from interfaceView import *
+from parametersModel import *
 
 
 # =================================================================================================================================================================================================================================================================================

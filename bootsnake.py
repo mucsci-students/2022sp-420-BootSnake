@@ -23,6 +23,7 @@ from attributesModel import *
 from parametersModel import *
 from interfaceView import *
 from saveLoadModel import *
+from tabCompletion import *
 from gui import *
 
 from subprocess import call
@@ -54,16 +55,18 @@ def Main(args: list):
     if len(args) == 2:
         # execute the program in cli
         if args[1] == "--cli":
-            umlCliController()
+            #umlCliController()
+            TabCompletion().cmdloop()
         else: 
             print("Invalid input!")
     
         # run gui
     else:
-        run()
+        gui_run()
     
 def umlCliController() -> None:
 
+    
     while True:
         print("""
                 ==========================================
@@ -760,6 +763,9 @@ def umlCliController() -> None:
             Exit()
 
             #print()
+
+
+
 
 #########################################################################################
 

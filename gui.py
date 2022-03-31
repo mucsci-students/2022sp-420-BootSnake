@@ -1,6 +1,11 @@
-# Project Name:  UML BootSnake
-# File Name:     gui.py
+# Project Name  : UML_BootSnake
+# File Name     : gui.py
+# Course        : CSCI 420
+# Professor     : Dr. Stephanie Schwartz
+# BootSnake Team: Amelia S., Andy P., Ben M., Tram T., Travis Z.
 
+
+###############################################################################
 
 from tkinter import *
 from tkinter import messagebox
@@ -11,7 +16,7 @@ from tkinter import ttk
 
 from classModel import *
 from relationshipsModel import *
-from saveLoad import *
+from saveLoadModel import *
 from attributesModel import *
 from interfaceView import *
 from parametersModel import *
@@ -24,12 +29,6 @@ import canvas as c
 '''
 Main function to create the GUI.
 '''
-
-
-#global my_canvas
-   
-
-    
 
 
 def saveCall():
@@ -48,21 +47,23 @@ def loadCall():
             err = load(filename)
         #if err is not False:
             #throwMessage(err)
-"""
-# set up a canvas in main panel
-def makeCanvas(frame: tk.Frame):
-    # when putting a canvas in a function, create a global variable 
-    # to ensure that boxes are working properly. 
-    global my_canvas
 
-    #h = Scrollbar(frame, orient=HORIZONTAL)
-    #v = Scrollbar(frame, orient=VERTICAL)
-    sizex = 500
-    sizey = 500
-    my_canvas = tk.Canvas(frame, bg= "white", scrollregion = (0, 0, sizex, sizey))
+
+def clearAll():
+    c.my_canvas.delete("all")
+    c.boxlist = []
+
+
+
+
+def openAbout():
+    message = f"BootSnake 2022 v.2"
+    messagebox.showinfo("BootSnake About...", message)
+
         
-    return my_canvas
-"""
+
+# =============================================================================
+
 def gui_run():
 
 # initialize window    
@@ -81,7 +82,7 @@ def gui_run():
 
     menubar = tk.Menu(window)
     filemenu = tk.Menu(menubar, tearoff=0)
-    filemenu.add_command(label="New")
+    filemenu.add_command(label="New", command=clearAll)
     filemenu.add_command(label="Open", command=loadCall)
     filemenu.add_command(label="Save", command=saveCall)
     filemenu.add_separator()
@@ -95,13 +96,12 @@ def gui_run():
     
     helpmenu = tk.Menu(menubar, tearoff=0)
     helpmenu.add_command(label="Help Index")
-    helpmenu.add_command(label="About...")
+    helpmenu.add_command(label="About...", command=openAbout)
     menubar.add_cascade(label="Help", menu=helpmenu)
 
     window.config(menu=menubar)
     
-    
-    
+   
     """ 
         
         The Frame widget acts as a container, grouping and organizing other 
@@ -190,7 +190,6 @@ def gui_run():
     # sidepanel that holds tabs
     sidePanel.grid(row = 0, column = 2, sticky = "nse", rowspan=2)
 
-
     # ========================================================================#
 
     # variables to keep track of drop down menu, and lists for drop down options
@@ -232,16 +231,13 @@ def gui_run():
 
     # ========================================================================#
 
-
     # list for entries in entry boxes
     entries = []
-
-
 
     # =========================================================================#
 
 
-    # calls for each file's methods
+    # calls for UML class to create windows for classAdd/classDelete/classRename
     def classCalls(*args):
         err = False
         if classVar.get() == 'Add':
@@ -260,6 +256,7 @@ def gui_run():
             throwMessage(err)
             classVar.set("")
 
+    # calls for UML Relation to create windows for RelationshipsAdd/RelationshipDelete/RelationshipsEdit
     def relationshipCalls(*args):
         err = False
         if relationshipVar.get() == 'Add':
@@ -271,7 +268,9 @@ def gui_run():
         
         elif relationshipVar.get() == 'Edit':
             relWinEntCombo(2,1, "Relationship Edit", ["Source Class", "Dest Class"])
-            
+
+
+    # calls for UML Class' Method to create windows for MethodAdd/MethodDelete/MethodEdit        
     def methodCalls(*args):
         err = False
         if methodsVar.get() == 'Add':
@@ -291,7 +290,7 @@ def gui_run():
                 methodsVar.set("")
 
 
-
+    # calls for UML Methods' Fields to create windows for FieldAdd/FieldDelete/FieldRename
     def fieldCalls(*args):
         err = False
         if fieldsVar.get() == 'Add':
@@ -314,7 +313,7 @@ def gui_run():
         
 
 
-
+    # calls for UML Methods' param to create windows for ParamAdd/ParamDelete
     def parameterCalls(*args):
         err = False
         if parameterVar.get() == 'Add':
@@ -338,23 +337,18 @@ def gui_run():
 
 # =============================================================================#
 
-
+    # calls for UML listClass to create windows for listClasses/listRelationships
     def listClassCall():
         windowEntry(1, "List Class", ["Class Name"])
         
         #message = ListClass(entries[0])
         #throwMessage(message)
         #popup(message)
-        
-
-
 
     def listClassesCall():
         message = ListClasses()
         #throwMessage(message)
         messagebox.showinfo("List Classes", message)
-
-
 
     def listRelationshipsCall():
         message = ListRelationships()
@@ -372,6 +366,8 @@ def gui_run():
     #   title of window
     #   list of labels for each entry box
     
+
+    # create Class window function
     def windowEntry(numEntries: int, title: str, labels : list):
 
         # create new pop up window
@@ -379,9 +375,9 @@ def gui_run():
         root.title(title)
         root.geometry("550x200")
         
-        
         entryObjList = []
         # labels start at row 6, entry boxes/combo at row 7
+        
         for x in range(numEntries):
             label = Label(root, text=labels[x]).grid(row=6, column=x, pady=20, padx=5)
             entry = Entry(root)
@@ -397,8 +393,6 @@ def gui_run():
         lineseparator.grid(row = 4, column = 0, sticky = "ew", columnspan=10)
         #lineseparator.pack(fill= 'x')
 
-    
-
         # Label for outputing message.
         msgLabel = tk.Label(root, text = "")
         msgLabel.grid(row = 3, column = 0)
@@ -411,14 +405,13 @@ def gui_run():
 
         # Bind the enter key to the user's pressing button. This acts the same as the
         # user presses the button.
-        root.bind('<Return>', lambda event:classCommand(entryObjList[0].get(),msgLabel))
-                    
+        root.bind('<Return>', lambda event:classCommand(entryObjList[0].get(),msgLabel))            
 
         entries.clear()
 
     """ 
-        The classCommand function calls the appropriate function when the button
-        get pressed.
+    The classCommand function binds the button pressing to the 
+    classAdd & ClassDelete functions.
     """
     def classCommand(entry, label: tk.Label):
 
@@ -438,9 +431,11 @@ def gui_run():
 
 #=================================================================================
     """ 
-        The relWinEntCombo function generates a pop-up window that stores 2 entry
-        boxes for entering source and destination classes, 1 combobox containing
-        the types of relationship, and 1 button to confirm.
+        The relWinEntCombo function generates a window for Relationships containing:
+        2 entry boxes [source and destination classes] & 1 combobox the relationship
+        type.
+
+        params: number of box entry, # of combo, reltype, and alert message
     """
     def relWinEntCombo(numEntries: int, combo: int, title: str, labels : list):
 
@@ -451,8 +446,8 @@ def gui_run():
 
         
         # window's label, entry boxes, and combox for types.
-
         entryObjList = []
+        
         # labels start at row 6, entry boxes/combo at row 7
         for x in range(numEntries):
             label = Label(root, text=labels[x]).grid(row=6, column=x, pady=20, padx=5)
@@ -468,7 +463,7 @@ def gui_run():
 
         cbLabel = tk.Label(root,text = "Type")
         cbLabel.grid(column=3, row=6)
-        typevar = tk.IntVar()#tk.StringVar() 
+        typevar = tk.IntVar()
         relList=["Aggregation", "Composition", "Inheritance", "Realization"]
             
         typeCombo=ttk.Combobox(root, values=relList,width=15)
@@ -489,7 +484,6 @@ def gui_run():
         lineseparator.grid(row = 4, column = 0, sticky = "ew", columnspan=10)
         #lineseparator.pack(fill= 'x')
 
-    
 
         # Label for outputing message.
         msgLabel = tk.Label(root, text = "")
@@ -510,16 +504,17 @@ def gui_run():
         entries.clear()
 
     """ 
-        The relationCommand function calls the appropriate function when the button
-        get pressed.
+        The relationCommand function binds the button to the relationshipAdd/Edit
     """
     def relationCommand(entry, entry2, type, label: tk.Label):
         if relationshipVar.get()=='Add':
             res = RelationshipAdd(entry,entry2,type) 
             label.configure(text=res) 
             entries.clear()
-            print(type)
-            c.addRelLine(entry,entry2,type)
+            #print(type)
+            #c.addRelLine(entry,entry2,type)
+            res = c.makeRelLine(entry,entry,type)
+            label.configure(text=res) 
         else:
             res=relationshipEdit(entry, entry2,type)
             label.configure(text=res)
@@ -527,18 +522,18 @@ def gui_run():
 
 #=================================================================================
     """ 
-        The attrWinEnt function generates a pop-up window that stores 2 entry
-        boxes for entering source and destination classes, 1 combobox containing
-        the types of relationship, and 1 button to confirm.
+        The attrWinEnt function generates a window for Attributes [methods/fields].
+        
+        params: # of entry boxes, return type, and alert message.
+        
     """
     def attrWinEnt(numEntries: int,  title: str, labels : list):
 
-        # Make a window for relationship add
+        # Make a window 
         root = tk.Toplevel()
         root.title(title)
         root.geometry("550x200")
 
-        
         # window's label, entry boxes, and combox for types.
 
         entryObjList = []
@@ -557,8 +552,6 @@ def gui_run():
         lineseparator = ttk.Separator(root, orient = "horizontal")
         lineseparator.grid(row = 4, column = 0, sticky = "ew", columnspan=10)
         #lineseparator.pack(fill= 'x')
-
-    
 
         # Label for outputing message.
         msgLabel = tk.Label(root, text = "")
@@ -579,8 +572,9 @@ def gui_run():
         entries.clear()
 
     """ 
-        The relationCommand function calls the appropriate function when the button
-        get pressed.
+        The attrCommand function binds the button to the Add/Rename functions
+        for Methods/Fields/Params.
+        
     """
     def attrCommand(entry, entry1, entry2, label: tk.Label):
         if methodsVar.get()=='Add':
@@ -611,13 +605,15 @@ def gui_run():
         
 #=================================================================================
     """ 
-        The attrWinEnt function generates a pop-up window that stores 2 entry
-        boxes for entering source and destination classes, 1 combobox containing
-        the types of relationship, and 1 button to confirm.
+        The attrWinEnt function generates a window for ClassDelete/MethodDelete/
+        FieldDelete/RelationshipsDelete.
+
+        params: # of entry boxes, type, and alert message.
+
     """
     def delAttrWinEnt(numEntries: int,  title: str, labels : list):
 
-        # Make a window for relationship add
+        # Make a window
         root = tk.Toplevel()
         root.title(title)
         root.geometry("550x200")
@@ -642,8 +638,6 @@ def gui_run():
         lineseparator.grid(row = 4, column = 0, sticky = "ew", columnspan=10)
         #lineseparator.pack(fill= 'x')
 
-    
-
         # Label for outputing message.
         msgLabel = tk.Label(root, text = "")
         msgLabel.grid(row = 3, column = 0)
@@ -662,8 +656,9 @@ def gui_run():
         entries.clear()
 
     """ 
-        The delAttrCommand function calls the appropriate function when the button
-        get pressed.
+        The delAttrCommand function binds the button to ClassDelete/MethodDelete/
+        FieldDelete/RelationshipsDelete.
+        
     """
     def delAttrCommand(entry, entry1, label: tk.Label):
         if methodsVar.get() == 'Delete':
@@ -688,9 +683,8 @@ def gui_run():
             entries.clear()  
 #=================================================================================
     """ 
-        The paramWinEnt function generates a pop-up window that stores 2 entry
-        boxes for entering source and destination classes, 1 combobox containing
-        the types of relationship, and 1 button to confirm.
+        The paramWinEnt function generates a window for ParamAdd & ParamRename.
+
     """
     def paramWinEnt(numEntries: int,  title: str, labels : list):
 
@@ -719,14 +713,12 @@ def gui_run():
         lineseparator.grid(row = 4, column = 0, sticky = "ew", columnspan=10)
         #lineseparator.pack(fill= 'x')
 
-    
-
         # Label for outputing message.
         msgLabel = tk.Label(root, text = "")
         msgLabel.grid(row = 3, column = 0)
 
         # button to confirm 
-        okButton = tk.Button(master =root, text="Go!", command=lambda:delAttrCommand( 
+        okButton = tk.Button(master =root, text="Go!", command=lambda:paramCommand( 
                             entryObjList[0].get(),entryObjList[1].get(),
                             entryObjList[2].get(),entryObjList[3].get(),  msgLabel))
         okButton.grid(row = 9, column = 0, padx = 20, pady = 20)
@@ -741,8 +733,8 @@ def gui_run():
         entries.clear()
 
     """ 
-        The paramCommand function calls the appropriate function when the button
-        get pressed.
+        The paramCommand function binds the button to the ParamAdd/ParamRename methods
+        
     """
     def paramCommand(entry, entry1, entry2, entry3, label: tk.Label):
         if parameterVar.get() == 'Add':
@@ -757,7 +749,7 @@ def gui_run():
 
 
 # =============================================================================
-
+    # message Box is not used.
     messageBox = tk.Text(window, height=15, width=35, wrap='word')
     messageBox.insert('end', "Messages will appear here.")
     # make a new message with given string
@@ -765,9 +757,6 @@ def gui_run():
         if mes is not None:
             messageBox.delete(1.0, 'end')
             messageBox.insert('end', mes)
-
-
-
 
 # =============================================================================
     """ 
@@ -828,16 +817,11 @@ def gui_run():
     parameterVar.trace("w", parameterCalls)
 
 
-
-
 # =============================================================================
-
     
     window.mainloop()
 
-
-
-###################################################################################################
+# =============================================================================
 
 if __name__ == "__main__":
     gui_run()

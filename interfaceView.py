@@ -39,7 +39,7 @@ def ListClass(name):
     # Loop through listOfAttributes
 
     for x in wantedClass.listOfFields:
-        messageString += "\t" + x + " \n"
+        messageString += "\t" + x.name + " \n"
 
 
     messageString += "\nMethods: \n\t"
