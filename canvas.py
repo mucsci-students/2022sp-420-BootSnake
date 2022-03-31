@@ -140,6 +140,14 @@ def addRec(name:str):
             placed = True
 
 
+
+    my_class = ClassSearch(name, listOfClasses)
+    if my_class.positionx1 != 0 or my_class.positiony1 != 0 or my_class.positionx2 != 0 or my_class.positiony2 != 0:
+        x1 = my_class.positionx1 - 30
+        y1 = my_class.positiony1 - 30
+        x2 = my_class.positionx2 
+        y2 = my_class.positiony2 
+
     # instantiate class rectangle
     classRec = makeSquare(name, x1, y1,x2,y2)
     # the order of the widgets matters when displayed (bring to front), 
@@ -380,7 +388,13 @@ def on_drag(e):
     
     #print(boxlist[i].relation)
     
-    
+    my_class = ClassSearch(boxlist[i].name, listOfClasses)
+    my_class.positionx1 = x1
+    my_class.positiony1 = y1
+    my_class.positionx2 = x2
+    my_class.positiony2 = y2
+
+
     if len(boxlist[i].relation) > 0:
         for o in boxlist[i].relation:
             # ('src','dest',reltype,relline )
