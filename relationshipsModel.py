@@ -75,4 +75,3 @@ def relationshipEdit(src: str, dest: str, type: str):
     else:
         return "Error: Either the source or destination class does not exist."
 
-

@@ -18,8 +18,9 @@ from parametersModel import *
     In order to execute pytest in Python, a virtual environment must be
     created and activated so that any installation packages will be installed
     in the virtual, rather than in the global Python installation. Once the 
-    virtual environment is active, type the command 'pip install pytest' to 
-    install pytest. 
+    virtual environment is active, type the command the following command
+    to install pytest.
+            'pip install pytest'  
     
     Do the following steps to run the pytest in the installed virtual env.
     

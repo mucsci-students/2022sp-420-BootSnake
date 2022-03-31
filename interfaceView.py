@@ -7,11 +7,16 @@ to print out the classes and their contents. It first does a check to see if
 the list is empty.
 """
 def ListClasses():
-    if len(listOfClasses) == 0:
-        return "There are currently no classes."
+    
     messageString = ''
+    if len(listOfClasses) == 0:
+        print("There are currently no classes")
+        messageString = f"There are currently no classes."
+    
+    
     for c in listOfClasses:
         messageString += ListClass(c.name)
+    print(messageString)
     return messageString
 
 """
@@ -23,27 +28,25 @@ def ListClass(name):
     # Use the searchClass function to find a matching name to user input
     wantedClass = ClassSearch(name, listOfClasses)
 
-    messageString = 'Class : ' + wantedClass.name
+    messageString = ''
 
     # Check to see if user input a valid class name
     if (wantedClass == None):
         return "Class " + name + " does not exist."
     
-    messageString += "\nFields: \n"
+    messageString += name + "\nFields: \n"
 
     # Loop through listOfAttributes
 
     for x in wantedClass.listOfFields:
-        messageString += "\t" + x.name  + " : " + x.type + " \n"
+        messageString += "\t" + x.name + " \n"
 
 
-    messageString += "\nMethods: \n"
+    messageString += "\nMethods: \n\t"
 
     # Loop through listOfAttributes
     for x in wantedClass.listOfMethods:
-        messageString += "\t" + x.name + " : " + x.type + " \n"
-        for p in x.listOfParams:
-            messageString += "\t\t" + p.name + " : " + p.type + "\n"
+        messageString += x.name + " \n"
     
     messageString += "\nRelationships: \n\t" 
     
@@ -51,6 +54,7 @@ def ListClass(name):
     for y in wantedClass.listOfRelationships:
         messageString += wantedClass.name + " ---"+"("+y.type+")"+"---> " + y.dest + '\n'
 
+    print(messageString)
     return messageString
 
 """
@@ -61,10 +65,13 @@ def ListRelationships():
     message = ''
     if len(listOfClasses) == 0:
         message += "There are currently no classes."    # Inform user if there are no classes
+        print(message)
         return message
+    
     for c in listOfClasses:
         for r in c.listOfRelationships:
-            message += c.name + " ---"+ "("+r.type+")"+ "---> " + r.dest + '\n'               # For each class, get each of its relationships and print them
+            message += "\t" + c.name + " ---"+ "("+r.type+")"+ "---> " + r.dest + '\n'               # For each class, get each of its relationships and print them
+    print(message)
     return message
 
 """
