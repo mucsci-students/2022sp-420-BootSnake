@@ -41,7 +41,7 @@ def test_InvalidNameType():
     addMethod("class1", "method1", "str", paramlist)
     ret = ParamAdd("class1", "method1", "@", "str")
     assert not listOfClasses[0].listOfMethods[0].listOfParams, "Invalid parameter added to method, should not happen"
-    assert ret == "Parameter does not fit criteria for validity."
+    assert ret == "@ not found!"
 
     reset()
     ClassAdd("class1")
@@ -49,7 +49,7 @@ def test_InvalidNameType():
     addMethod("class1", "method1", "str", paramlist)
     ret = ParamAdd("class1", "method1", "param1", "9")
     assert not listOfClasses[0].listOfMethods[0].listOfParams, "Invalid parameter added to method, should not happen"
-    assert ret == "Parameter does not fit criteria for validity."
+    assert ret == "param1 not found!"
 
     reset()
     ClassAdd("class1")
@@ -58,7 +58,7 @@ def test_InvalidNameType():
     ParamAdd("class1", "method1", "param1", "int")
     ret = ParamAdd("class1", "method1", "param1", "long")
     assert len(listOfClasses[0].listOfMethods[0].listOfParams) == 1, "Invalid parameter added to method, should not happen"
-    assert ret == "Parameter does not fit criteria for validity."
+    assert ret == "param1 existed! No duplicates allowed!"
 
     print("Method does not add parameters when invalid!\n\n")
 
@@ -70,7 +70,7 @@ def test_ClassMethodDoesNotExist():
     paramlist = list()
     addMethod("class1", "method1", "str", paramlist)
     ret = ParamAdd("class2", "method1", "param1", "str")
-    assert ret == "Could not find class with name class2. Please input an existing class.", "Class does not exist, ParamAdd() should return"
+    assert ret == "class2 not existed! Please input an existing class!"
     assert not listOfClasses[0].listOfMethods[0].listOfParams
 
     reset()
@@ -78,7 +78,7 @@ def test_ClassMethodDoesNotExist():
     paramlist = list()
     addMethod("class1", "method1", "str", paramlist)
     ret = ParamAdd("class1", "method2", "param1", "str")
-    assert ret == "Could not find method with name method2. Please input an existing method.", "Method does not exist, ParamAdd() should return"
+    assert ret == "Could not find method with name method2. Please input an existing method"
     assert not listOfClasses[0].listOfMethods[0].listOfParams
 
     print("ParamAdd() exits properly when class or method does not exist!\n\n")
@@ -136,7 +136,7 @@ def test_NoParamDelete():
     wantedMethod = searchMethod("class1", "method1")
     ret = ParamDelete(wantedMethod, "one", "param2")
     assert not listOfClasses[0].listOfMethods[0].listOfParams, "No params exist in the method, ParamDelete() should return"
-    assert ret == "No params exist in this method!"
+    assert ret == f"No params exist in {wantedMethod}"
     print("ParamDelete() properly exits if method does not contain parameters!\n\n")
 
 
