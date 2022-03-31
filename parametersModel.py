@@ -6,6 +6,7 @@ Authors: Amelia Spanier, Tram Trinh
 import re
 import keyword
 from classModel import *
+from sharedItems import *
 from attributesModel import *
 
 regex = re.compile('[@!$%^&()<>?/\\\|}{\[\]\']')

@@ -1,6 +1,7 @@
 # content of test_sample.py
 from relationshipsModel import *
 from classModel import *
+from sharedItems import *
 
 
 ################################################################################################################################################################

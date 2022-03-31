@@ -6,8 +6,7 @@ Last edit: changed relationships to be an object that has a destination and
 type.
 """
 
-from classModel import *
-
+from sharedItems import *
 # relationship object that stores the type of relationship along with 
 # destination of the relationship.
 class relationship:
@@ -36,8 +35,13 @@ def RelationshipAdd(src: str, dest: str, type: str):
                 return "Error: Relationship already exists."
         newRelationship = relationship(type, dest)
         srcClass.listOfRelationships.append(newRelationship)
+        #The undo list needs an opposite action.
+        if(undoListInsertable.bool):
+            undoList.insert(0,(RelationshipDelete,(src, dest)))
+        
         return "Successfully added relationship."
     else:
+        undoListInsertable.bool = False
         return "Error: Either the source or destination class does not exist."
 """
 This function takes in two strings (class names) and uses the ClassSearch
@@ -56,10 +60,14 @@ def RelationshipDelete(src: str, dest: str):
     if srcClass is not None and destClass is not None:
         for r in srcClass.listOfRelationships:
             if r.dest == dest:
+                if(undoListInsertable.bool):
+                    undoList.insert(0,(RelationshipAdd, (src, dest, r.type)))
                 srcClass.listOfRelationships.remove(r)
                 return "Successfully deleted relationship."
+        undoListInsertable.bool = False
         return "Error: Relationship does not exist for deletion."
     else:
+        undoListInsertable.bool = False
         return "Error: Either the source or destination class does not exist."
     
 
@@ -69,10 +77,14 @@ def relationshipEdit(src: str, dest: str, type: str):
     if srcClass is not None and destClass is not None:
         for r in srcClass.listOfRelationships:
             if r.dest == dest:
+                if(undoListInsertable.bool):
+                    undoList.insert(0,(relationshipEdit, (src, dest, r.type)))
                 r.type = type
                 return "Successfully edited relationship."
+        undoListInsertable.bool = False
         return "Error: Relationship does not exist for edit."
     else:
+        undoListInsertable.bool = False
         return "Error: Either the source or destination class does not exist."
 
 

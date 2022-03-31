@@ -8,12 +8,14 @@ import sys
 
 
 from pydoc import classname
+from turtle import undo
 from classModel import *
 from relationshipsModel import *
 from attributesModel import *
 from parametersModel import *
 from interfaceView import *
 from saveLoadModel import *
+from undoRedoModel import *
 from subprocess import call
 from os.path import exists
 
@@ -54,6 +56,7 @@ def Main(args: list):
 def umlCliController() -> None:
 
     while True:
+        undoListInsertable.bool = True
         print("""
                 ==========================================
                 |            WELCOME TO BOOTSNAKE!       |
@@ -62,7 +65,7 @@ def umlCliController() -> None:
         """)
     
         print("Here are available elements:\n[1] Class\n[2] Fields\n[3] Methods")
-        print("[4] Relationships\n[5] Save/Load\n[6] Lists\n[7] Help\n[8] Quit")
+        print("[4] Relationships\n[5] Save/Load\n[6] Lists\n[7] Undo\n[8] Help\n[9] Quit")
 
     
         userIn = input("UML:> ")       # Prompt user for input
@@ -82,7 +85,7 @@ def umlCliController() -> None:
                             print(obj.name) 
                         print()
                         name = input("UML:> Enter a Class name or q to 'quit': ")
-                        while name.strip().casefold() != 'q':
+                        while name.strip().casefold() != 'q': 
                             ClassAdd(name)
                             break
                         
@@ -134,7 +137,6 @@ def umlCliController() -> None:
                             
                         else:
                             break
-        
                 # user opts out of class menu
                 break        
 
@@ -680,11 +682,8 @@ def umlCliController() -> None:
                                 while reltype.strip().lower() != 'q':
                                     RelationshipAdd(src, dest,reltype)
                                     break
-                                
                                 break
-                            
                             break
-                        
                         break
                     
                         
@@ -698,11 +697,8 @@ def umlCliController() -> None:
                                 RelationshipDelete(src, dest)
                                 break
                                 
-                            
                             break
-                        
                         break
-                        
                 break
              
         elif "5" in userIn:
@@ -742,10 +738,13 @@ def umlCliController() -> None:
                 #continue 
 
         elif "7" in userIn:
+            print(undo())
+        
+        elif "8" in userIn:
             Help()
             #continue
         
-        elif "8" in userIn:
+        elif "9" in userIn:
             Exit()
 
             #print()

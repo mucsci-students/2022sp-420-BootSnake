@@ -24,6 +24,7 @@ import keyword
 
 #from copy import deepcopy
 from classModel import *
+from sharedItems import *
 
 
 """
@@ -92,7 +93,8 @@ def addField(classname : str, fieldname : str, fieldtype: str):
             newField = FieldClass(fieldname, fieldtype)
             wantedClass.listOfFields.append(newField)
             print("UML> Field " + fieldname + " successfully added!")
-            
+            if(undoListInsertable.bool):
+                undoList.insert(0,(delField,(classname, fieldname)))
             wantedClass.listOfFields.sort(key = lambda x : x.name)
             for o in wantedClass.listOfFields:
                 print(o.name)
@@ -128,24 +130,32 @@ def delField (classname: str, fieldname:str):
     wantedClass = ClassSearch(classname, listOfClasses)
 
     if wantedClass:
-        
         if wantedClass.listOfFields:
-                
             while True:
                 if searchField(classname, fieldname):
                     for o in wantedClass.listOfFields:
-                        if o.name.strip().lower() == fieldname.lower().strip():
+                        print(o.name)
+                        print(fieldname)
+                        if o.name == fieldname:
+                            if(undoListInsertable.bool):
+                                undoList.insert(0,(addField,(classname, fieldname, o.type)))
                             wantedClass.listOfFields.remove(o)
                             
                             print("UML> Field " + fieldname +" successfully deleted!")
                             wantedClass.listOfFields.sort(key = lambda x : x.name)            
-                        return "Field " + fieldname + " successfully deleted!"
+                            return "Field " + fieldname + " successfully deleted!"
                                 
                     break
                             
                     # If user enters ALL/all to remove all fields.
                 else:
                     if fieldname.casefold().strip() == 'all':
+                        if(undoListInsertable.bool):
+                            oldListOfFields = list(wantedClass.listOfFields)
+                            reverseList = list()
+                            for everyField in oldListOfFields:
+                                reverseList.insert(0,(addField,(classname, everyField.name, everyField.type)))
+                            undoList.insert(0,reverseList)
                         wantedClass.listOfFields.clear()
                         print("All Fields successfully deleted! Enter 'q' to exit!")
                         
@@ -197,6 +207,8 @@ def renField (classname: str, fieldname: str, newname: str):
                     if fieldObj.name.casefold().strip() == fieldname.strip().casefold():
                         # validate the fieldname and its status in the system prior to updating.
                         if (checkName(wantedClass, newname.strip().casefold())):
+                                if(undoListInsertable.bool):
+                                    undoList.insert(0,(renField,(classname, newname, fieldname)))
                                 fieldObj.name = newname.strip()
                                 print("UML> Field " +fieldname + " successfully renamed!")
                                 return "Field " +fieldname + " successfully renamed!"

@@ -1,5 +1,6 @@
 from email import message
 from classModel import *
+from sharedItems import *
 
 """
 This function loops through the list of classes and sends them to ListClass()
