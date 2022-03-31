@@ -61,7 +61,7 @@ def test_classRename_validRename():
     class2 = AClass("class2")
     listOfClasses.append(class1)
     listOfClasses.append(class2)
-    relation = relationship("Aggregation", class2.name)
+    relation = relationship("Aggregation", class1.name, class2.name)
     listOfClasses[0].listOfRelationships.append(relation)
     #The following two lines will suppress the text from classAdd()
     suppress_text = io.StringIO()
