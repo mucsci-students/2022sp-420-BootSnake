@@ -21,7 +21,7 @@ from attributesModel import *
 from interfaceView import *
 from parametersModel import *
 import canvas as c
-import undoRedoModel  as u
+import undoRedoModel as u
 from sharedItems import *
 
 

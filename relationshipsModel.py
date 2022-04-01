@@ -7,6 +7,7 @@ type.
 """
 
 from classModel import *
+from sharedItems import *
 
 # relationship object that stores the type of relationship along with 
 # destination of the relationship.
