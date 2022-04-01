@@ -23,6 +23,7 @@ from interfaceView import *
 from saveLoadModel import *
 from bootsnake import *
 from undoRedoModel import *
+from sharedItems import *
 
 
 

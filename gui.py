@@ -21,6 +21,8 @@ from attributesModel import *
 from interfaceView import *
 from parametersModel import *
 import canvas as c
+import undoRedoModel  as u
+from sharedItems import *
 
 
 
@@ -90,7 +92,7 @@ def gui_run():
     menubar.add_cascade(label="File", menu=filemenu)
 
     menu_edit = tk.Menu(menubar, tearoff=0)
-    menu_edit.add_command(label = "Undo")
+    menu_edit.add_command(label = "Undo", command = u.undo())
     menu_edit.add_command(label = "Redo")
     menubar.add_cascade(label = "Edit", menu = menu_edit)
     
@@ -428,6 +430,9 @@ def gui_run():
             label.configure(text=res) 
             entries.clear()  
 
+            msg = c.delBox(entry)
+            label.configure(text=msg)
+
 
 #=================================================================================
     """ 
@@ -513,12 +518,16 @@ def gui_run():
             entries.clear()
             #print(type)
             #c.addRelLine(entry,entry2,type)
-            res = c.makeRelLine(entry,entry,type)
+            res = c.makeRelLine(entry,entry2,type)
             label.configure(text=res) 
+        
         else:
             res=relationshipEdit(entry, entry2,type)
             label.configure(text=res)
             entries.clear()
+
+            res = c.editLine(entry,entry2,type)
+            label.configure(text=res) 
 
 #=================================================================================
     """ 
@@ -581,26 +590,41 @@ def gui_run():
             res = addMethod(entry,entry1,entry2, []) 
             label.configure(text=res) 
             entries.clear()
+
+            res = c.addMethodInfo(entry)
+            label.configure(text=res) 
+       
         if methodsVar.get() == 'Rename':
             res = renMethod(entry, entry1,entry2) 
             label.configure(text=res)  
             entries.clear()
+
+            res = c.addMethodInfo(entry)
+            label.configure(text=res)
         
         if fieldsVar.get()=='Add':
             res = addField(entry,entry1,entry2) 
             label.configure(text=res) 
             entries.clear()  
+
+            res = c.addFieldInfo(entry)
+            label.configure(text=res)
         
         if fieldsVar.get()=='Rename':
             res = renField(entry,entry1,entry2) 
             label.configure(text=res) 
             entries.clear()
 
+            res = c.addFieldInfo(entry)
+            label.configure(text=res)
+
         if parameterVar.get() == "Delete":
             res = delParam(entry,entry1,entry2) 
             label.configure(text=res) 
             entries.clear()
 
+            res = c.addMethodInfo(entry)
+            label.configure(text=res)
 
         
 #=================================================================================
@@ -664,23 +688,37 @@ def gui_run():
         if methodsVar.get() == 'Delete':
             res = delMethod(entry, entry1) 
             label.configure(text=res) 
-            entries.clear()  
+            entries.clear()
+
+            res = c.addMethodInfo(entry)
+            label.configure(text=res)  
 
         if fieldsVar.get()=='Delete':
             res = delField(entry,entry1) 
             label.configure(text=res)
-            entries.clear() 
+            entries.clear()
+
+            res = c.addFieldInfo(entry)
+            label.configure(text=res)
 
         if classVar.get() == 'Rename':
             res = ClassRename(entry, entry1) 
             label.configure(text=res)
-            entries.clear() 
+            entries.clear()
+
+            res = c.renameBox(entry,entry1)
+            label.configure(text=res) 
+
  
   
         if relationshipVar.get() == 'Delete':
             res = RelationshipDelete(entry,entry1)
             label.configure(text=res) 
-            entries.clear()  
+            entries.clear()
+
+            res = c.delLine(entry)
+            label.configure(text=res)   
+
 #=================================================================================
     """ 
         The paramWinEnt function generates a window for ParamAdd & ParamRename.
@@ -740,13 +778,18 @@ def gui_run():
         if parameterVar.get() == 'Add':
             res = ParamAdd(entry, entry1, entry2, entry3) 
             label.configure(text=res)
-            entries.clear()   
+            entries.clear() 
+
+            res = c.addMethodInfo(entry)
+            label.configure(text=res)  
 
         if parameterVar.get() == 'Rename':
             res = renameParam(entry,entry1, entry2, entry3) 
             label.configure(text=res)
             entries.clear()   
 
+            res = c.addMethodInfo(entry)
+            label.configure(text=res)
 
 # =============================================================================
     # message Box is not used.

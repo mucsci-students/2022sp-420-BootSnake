@@ -7,6 +7,7 @@ import re
 import keyword
 from classModel import *
 from attributesModel import *
+from sharedItems import *
 
 regex = re.compile('[@!$%^&()<>?/\\\|}{\[\]\']')
 # Create a set of blank spaces to check for spaces between words

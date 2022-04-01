@@ -17,6 +17,7 @@ from relationshipsModel import *
 from attributesModel import *
 from parametersModel import *
 from canvas import *
+from sharedItems import *
 
 
 

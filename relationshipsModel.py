@@ -7,12 +7,14 @@ type.
 """
 
 from classModel import *
+from sharedItems import *
 
 # relationship object that stores the type of relationship along with 
 # destination of the relationship.
 class relationship:
-    def __init__(self,type,dest):
+    def __init__(self,type,src,dest):
         self.type = type
+        self.src = src
         self.dest = dest
 
 
@@ -34,7 +36,7 @@ def RelationshipAdd(src: str, dest: str, type: str):
         for r in srcClass.listOfRelationships:
             if r.dest == destClass.name:
                 return "Error: Relationship already exists."
-        newRelationship = relationship(type, dest)
+        newRelationship = relationship(type, src,dest)
         srcClass.listOfRelationships.append(newRelationship)
         return "Successfully added relationship."
     else:

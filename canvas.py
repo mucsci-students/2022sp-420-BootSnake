@@ -25,6 +25,7 @@ from saveLoadModel import *
 from attributesModel import *
 from interfaceView import *
 from parametersModel import *
+from sharedItems import *
 from gui import *
 
 
@@ -67,15 +68,15 @@ class makeSquare():
         yincrement = 20
         # create a field line, field label, and field text inside a class rectangle.
         fline = my_canvas.create_line(x1, y1, x2, y2, fill='black', width =2)
-        flabel = my_canvas.create_text(x1 - 35, y1 - 35, text = 'Field(s):', anchor=W)
+        flabel = my_canvas.create_text(x1 - 40, y1 - 40, text = 'Field(s):', anchor=W)
         ftext = my_canvas.create_text(x1 - 45, y1 - 45, text ="", anchor = N)
         
 
 
         # create a method line, method label, and method text inside a class rectangle.
         mline = my_canvas.create_line(x1, y1, x2, y2, fill ='black', width = 2)
-        mlabel = my_canvas.create_text(x1 - 10, y1 - 10, text = 'Method(s):', anchor=W)
-        mtext = my_canvas.create_text(x1 - 15, y1 - 15, text ="", anchor = N)
+        mlabel = my_canvas.create_text(x1 - 15, y1 - 15, text = 'Method(s):', anchor=W)
+        mtext = my_canvas.create_text(x1 - 10, y1 - 10, text ="", anchor = N)
         
         
         self.my_rectangle = my_rectangle
@@ -104,7 +105,7 @@ def addRec(name:str):
     x1 = 50
     y1 = 80
     x2 = 160
-    y2 = 20
+    y2 = 15
     
     # define the box and ensure they are not overlapped
     
@@ -189,10 +190,10 @@ def updateBoxSize(wbox: int):
     boxname = boxlist[wbox].name
     boxwidth = 4 * len(boxlist[wbox].name)
 
-
+    
     for o in listOfClasses:
         for x in o.listOfFields:
-            fname = x.type + " " + x.name
+            fname = x.name + " " + x.type
             if len(fname)*2 > boxwidth:
                 boxwidth = len(fname)*2
         
@@ -204,7 +205,7 @@ def updateBoxSize(wbox: int):
                 pname = p.name + " " + p.type +")"
                 if len(pname)*2 > boxwidth:
                     boxwidth = len(pname)*2
-
+    
     boxlist[wbox].spacing = boxwidth
 
     # get the coordinates of the box
@@ -218,22 +219,75 @@ def updateBoxSize(wbox: int):
     xf, yf = my_canvas.coords(boxlist[wbox].flabel)
     my_canvas.coords((boxlist[wbox].fline), x1, y1+15, x2, y1+15)
     my_canvas.coords((boxlist[wbox].flabel), x1+5, yf)
-    my_canvas.coords((boxlist[wbox].ftext), x1+10, yf)
+    my_canvas.coords((boxlist[wbox].ftext), x1+35, yf)
     my_canvas.itemconfigure((boxlist[wbox].fline))
     my_canvas.itemconfigure((boxlist[wbox].flabel))
     xm, ym = my_canvas.coords(boxlist[wbox].mlabel)
     my_canvas.coords((boxlist[wbox].mline), x1, y1+40,x2, y1+40)
     my_canvas.coords((boxlist[wbox].mlabel), x1+5, ym)
-    my_canvas.coords((boxlist[wbox].mtext), x1+10, ym)
+    my_canvas.coords((boxlist[wbox].mtext), x1+35, ym)
 
     
+###########################################################################################
+
+def updateBoxHeight(h:int):
+    boxlist[h].yincrement = 30
+    name = boxlist[h].name
+    
+    # increase the box's height to contain fields, methods, & params.
+    for o in listOfClasses:
+        for x in o.listOfFields:
+            boxlist[h].yincrement +=15
+    
+    for m in o.listOfMethods:
+        boxlist[h].yincrement += 45
+        for p in m.listOfParams:
+            boxlist[h].yincrement += 15
+    
+
+    wantedClass = ClassSearch(boxlist[h].name, listOfClasses)
+    #print(len(wantedClass.listOfFields))
+   
+    # get the coords of the box
+    x1, y1, x2, y2 = my_canvas.coords(boxlist[h].my_rectangle)
+    
+    # get the coords of field label
+    xf, yf = my_canvas.coords(boxlist[h].flabel)
+   
+    # method's text
+    xm, ym = my_canvas.coords(boxlist[h].mtext)
+    # method's label
+    xl, yl = my_canvas.coords(boxlist[h].mlabel)
+    
+    # move the method's label according to the length of fields.
+    my_canvas.coords(boxlist[h].mlabel, xl, yf+20 +20*len(wantedClass.listOfFields) )
+    xl, yl = my_canvas.coords(boxlist[h].mlabel)
+    my_canvas.coords(boxlist[h].mline, x1, yl-10, x2, yl-10)
+    
+    # move the method's text according to method's label.
+    my_canvas.coords(boxlist[h].mtext, xm+5, yl+10)
+
+    # move the class box
+    my_canvas.coords(boxlist[h].my_rectangle, x1, y1,x2, y1 + boxlist[h].yincrement + 30)
+
+    
+    # bring all components to front
+    boxlist[h].my_rectangle
+    boxlist[h].boxlabel
+    boxlist[h].fline
+    boxlist[h].flabel
+    boxlist[h].ftext
+    boxlist[h].mline
+    boxlist[h].mlabel
+    boxlist[h].mtext
 
 
 ##############################################################################
 
 def searchBox(name:str):
     """
-    The searchBox function searches for the class box by name
+    The searchBox function searches the boxlist of classes for the given 
+    classname by name and return its index.
     """
     i = 0
     
@@ -247,7 +301,8 @@ def searchBox(name:str):
 
 def searchBoxLoc(name:str):
     """
-    The searchBoxLoc function locates the class box's position
+    The searchBoxLoc function searches the boxlist of rectangles for 
+    the given rectangle by name and return its index.
     """
     i = 0
     while i < len(boxlist):
@@ -255,6 +310,8 @@ def searchBoxLoc(name:str):
             return i
 
         i += 1
+
+
 
 #############################################################################
 
@@ -272,9 +329,13 @@ def addBoxInfo(name: str):
     addRec(name)
 
 
+
+
 def makeRelLine(src: str, dest: str, type:str):
+    """
+    The makeRelLine function adds a relation line to the box.
+    """
     msg =""
-    
     
     for o in listOfClasses:
         for x in o.listOfRelationships:
@@ -283,12 +344,128 @@ def makeRelLine(src: str, dest: str, type:str):
                 
                 msg = f"Relation existed!"
                 return msg
-    
-        addRelLine(x.src, x.dest, type)
+        addRelLine(src, dest, type)
     
     
     
 
+def addFieldInfo(name:str):
+    """
+    The addFieldInfo adds a list of fields in the box
+    """
+
+    boxloc = searchBox(name)
+    
+    wantedClass = ClassSearch(name, listOfClasses)
+    
+    fieldtext =""
+    for o in wantedClass.listOfFields:
+        fieldtext = fieldtext + " " + o.name + " " + o.type + "\n"
+    
+    
+    my_canvas.itemconfigure(boxlist[boxloc].ftext, text = fieldtext, justify = tk.LEFT, state=tk.DISABLED)
+    updateBoxSize(boxloc)
+    updateBoxHeight(boxloc)
+
+
+
+def addMethodInfo(name:str):
+    """
+    The addMethodInfo adds a list of methods & params in the box.
+    """
+    boxloc = searchBox(name)
+    methodtext =""
+
+    wantedClass = ClassSearch(name, listOfClasses)
+    
+    for m in wantedClass.listOfMethods:
+            methodtext = methodtext + " " + m.name + " " + m.type + "(\n"
+            for p in m.listOfParams:
+                methodtext = methodtext + " " + p.name + " " + p.type +"\n" 
+                        
+            methodtext = methodtext +")\n\n"
+    
+    
+    my_canvas.itemconfigure(boxlist[boxloc].mtext, text = methodtext, justify = tk.LEFT, state=tk.DISABLED)
+    updateBoxSize(boxloc)
+    updateBoxHeight(boxloc)
+
+
+
+def renameBox(name:str, newname:str):
+    """
+    The renameBox updates the box's label to the new label provided that the
+    label does not already exist in the boxlist.
+    """
+    
+    # if newname is not in boxlist
+    if (searchBox(newname) == None):
+        i = 0
+        for o in boxlist:
+            if name == o.name:
+                boxlist[i].name = newname
+                break
+                
+            else:
+                i +=1
+    
+        # rename the text of the box
+        my_canvas.itemconfigure((boxlist[i].boxlabel), text=newname) 
+        # update the width of the box
+        updateBoxSize(i)
+
+
+def delBox(name: str):
+    """
+    The delBox deletes the given box and any relation associated 
+    with it, if any.
+    """
+    
+    boxloc = searchBox(name)
+    # delete all lines associated with the source box
+    # ('src','dest',reltype,relline )
+    #   [0] ,  [1] ,  [2]  , [3]
+    
+    for i in boxlist:
+        
+        while len(i.relation) > 0:
+            my_canvas.delete(i.relation[0][1])
+            my_canvas.delete(i.relation[0][3])
+            i.relation.pop(0)
+        i.relation = []
+    
+        
+    # delete all box's components
+    my_canvas.delete(boxlist[boxloc].my_rectangle)
+    my_canvas.delete(boxlist[boxloc].boxlabel)
+    my_canvas.delete(boxlist[boxloc].fline)
+    my_canvas.delete(boxlist[boxloc].flabel)
+    my_canvas.delete(boxlist[boxloc].ftext)
+
+    my_canvas.delete(boxlist[boxloc].mline)
+    my_canvas.delete(boxlist[boxloc].mlabel)
+    my_canvas.delete(boxlist[boxloc].mtext)
+
+    boxlist.pop(boxloc)
+
+
+def delLine(name: str):
+    boxloc = searchBox(name)
+    # delete all lines associated with the source box
+    # ('src','dest',reltype,relline )
+    #   [0] ,  [1] ,  [2]  , [3]
+    
+    for i in boxlist:
+        
+        while len(i.relation) > 0:
+            #my_canvas.delete(i.relation[0][1])
+            my_canvas.delete(i.relation[0][3])
+            i.relation.pop(0)
+        i.relation = []
+    
+def editLine(src: str, dest:str, type:str):
+    delLine(src)
+    addRelLine(src,dest,type)
 #####################################################################
 #https://www.youtube.com/watch?v=Z4zePg2M5H8
 
@@ -362,16 +539,18 @@ def on_drag(e):
     # field section
     my_canvas.coords(boxlist[i].fline, x1, y1 + 15, x2 + 30, y1 + 15)
     my_canvas.coords(boxlist[i].flabel, midx1 + 5, y1+25)
-    #my_canvas.coords(boxlist[i].ftext, x1+20, yf+5)
-    yf = my_canvas.coords(boxlist[i].flabel)
+    xf,yf = my_canvas.coords(boxlist[i].flabel)
+    my_canvas.coords(boxlist[i].ftext, x1+20, yf+5)
+    
 
     # method section
     my_canvas.coords(boxlist[i].mlabel, midx1 + 5, y1 + 50)
+   
     
-    #ym = my_canvas.coords(boxlist[i].mlabel)
+    xm,ym = my_canvas.coords(boxlist[i].mlabel)
     
     my_canvas.coords(boxlist[i].mline, x1, y1 + 40 , x2 + 30, y1 + 40)
-    # my_canvas.coords(boxlist[i].mtext,x1+20, ym+10)
+    my_canvas.coords(boxlist[i].mtext,x1+20, ym+10)
 
     # move relationship line associated with the boxes by looping through
     # the boxlist's relation list to find all items in the box's relation list:
@@ -408,105 +587,6 @@ def on_drag(e):
                 my_canvas.coords(o[3], x1, y1, midx1, midy1)
                             
     
-    
-    """
-    # [0]src, [1]line,[2]dest, [3]shape, [4]type
-    if len(boxlist[i].relation) > 0:
-        for o in boxlist[i].relation:
-            if o[0] == 'src':
-
-                #get the coordinators of the line.
-                x1, y1, x2, y2 == my_canvas.coords(o[1])
-            
-                # get the coordinates of the src & dest.
-                x1s, y1s, x2s, y2s = my_canvas.coords(boxlist[i].name) #(boxlist[o[0]].name)
-                x1d, y1d, x2d, y2d = my_canvas.coords(boxlist[o[2]].name)
-           
-                # get the midpoints of the src & dest boxes.
-                x1mid = abs(x2s-x1s)/2
-                y1mid = abs(y2s-y1s)/2
-                x2mid = abs(x2d-x1d)/2
-                y2mid = abs(y2d-y1d)/2
-
-                print(len(my_canvas.coords(o[3])))
-                # move the diamond
-                if len(my_canvas.coords(o[3])) == 8:  # 4 points of a polygon in which each contains (x,y)
-                    if y2d <= y1s:
-                        y1mid = y1s-15
-                        my_canvas.coords(o[3], x1mid, y1s,x1mid-10, y1s-10, x1mid, y1s-15, x1+10, y1-10 )
-                    
-                    elif y1d >=y2s:
-                        y1mid = y2s +10
-                        my_canvas.coords(o[3], x1mid, y1s,x1mid-10, y1s-10, x1mid, y1s-15, x1+10, y1-10 )
-                    
-                    else:
-                        y1mid = x2s +10
-                        my_canvas.coords(o[3], x2s, y1mid, x2s+10, y1mid-10, x1s+20, y1mid, x2s+10, y1mid+10 )
-
-                else: #move the arrow
-                    if y2d <= y1s:
-                        y1mid = y1s-15
-                        my_canvas.coords(o[3], x1mid, y1s,x1mid-10, y1s-15, x1mid+5, y1s-15)
-                    
-                    elif y1d >=y2s:
-                        y1mid = y2s +10
-                        my_canvas.coords(o[3], x1mid, y2s,x1mid-10, y2s+10, x1mid+10, y2s+15)
-                    
-                    else:
-                        x1mid = x2s +10
-                        my_canvas.coords(o[3], x2s, y1mid, x2s+10, y1mid-10, x2s+20, y1mid+10 )
-
-
-                my_canvas.coords(o[1], midx1, midy1, midx2, midy2)       
-            
-            if o[0] == 'dest':
-                # get the coordinates of line-type in the relation list()
-                x1, y1, x2, y2 = my_canvas.coords(o[1])
-                
-                # get the coordinates of the src & dest.
-                x1s, y1s, x2s, y2s = my_canvas.coords(boxlist[i].name)
-                x1d, y1d, x2d, y2d = my_canvas.coords(boxlist[o[2]].name)#(boxlist[o[1]].name)
-
-                # get the midpoints of the src & dest boxes.
-                x1mid = abs(x2s-x1s)/2
-                y1mid = abs(y2s-y1s)/2
-                x2mid = abs(x2d-x1d)/2
-                y2mid = abs(y2d-y1d)/2
-
-                # move the diamond
-                if len(my_canvas.coords(o[3])) == 8:  # 4 points of a polygon in which each contains (x,y)
-                    if y2d <= y1s:
-                        y1mid = y1s-15
-                        my_canvas.coords(o[3], x1mid, y1s,x1mid-10, y1s-10, x1mid, y1s-15, x1+10, y1-10 )
-                    
-                    elif y1d >=y2s:
-                        y1mid = y2s +10
-                        my_canvas.coords(o[3], x1mid, y1s,x1mid-10, y1s-10, x1mid, y1s-15, x1+10, y1-10 )
-                    
-                    else:
-                        y1mid = x2s +10
-                        my_canvas.coords(o[3], x2s, y1mid, x2s+10, y1mid-10, x1s+20, y1mid, x2s+10, y1mid+10 )
-
-                else: #move the arrow
-                    if y2d <= y1s:
-                        y1mid = y1s-15
-                        my_canvas.coords(o[3], x1mid, y1s,x1mid-10, y1s-15, x1mid+5, y1s-15)
-                    
-                    elif y1d >=y2s:
-                        y1mid = y2s +10
-                        my_canvas.coords(o[3], x1mid, y2s,x1mid-10, y2s+10, x1mid+10, y2s+15)
-                    
-                    else:
-                        x1mid = x2s +10
-                        my_canvas.coords(o[3], x2s, y1mid, x2s+10, y1mid-10, x2s+20, y1mid+10 )
-
-                my_canvas.coords(o[1], midx2, midy2, midx1, midy1)   
-        
-    """              
-                  
-
-
-
 
 #########################################################################
 
@@ -567,117 +647,6 @@ class relLine():
         # add the relation components to the relation list.
         boxlist[srcloc].relation.append(('src','dest',reltype,relline )) #[0]src, [1]dest, [2]type, [3]line
         boxlist[destloc].relation.append(('dest','src',reltype,relline))
-        """
-        
-        # get the coordinators of the source and dest boxes.
-        x1s, y1s, x2s, y2s = my_canvas.coords(src)
-        x1d, y1d, x2d, y2d = my_canvas.coords(dest)
-
-        # get the midpoint coordinators of the source & dest boxes.
-        x1 = abs(x2s -x1s)/2
-        y1 = abs(y2s - y1s)/2
-        x2 = abs(x2d -x1d)/2
-        y2 = abs(y2d - y1d)/2
-
-        # create the Aggregation relation type[solid line w/an empty diamond] 
-        # with the create_polygon() & create_line widgets.
-
-        if (reltype == "Aggregation"):
-            color = "green"
-            dashline = False
-            
-            # if the y2 coordinate point of the dest box <= src's y1. By default, width=1
-            if y2d <= y1s:
-                y1 = y1s-15
-                shape = my_canvas.create_polygon(x1,y1s, x1-5, y1s-5, x1, y1s-15,
-                                            x1+5, y1s-5, width=2, outline=color, fill ="")
-            
-            
-            # if the y1 coordinate point of the dest box >= src's y1.
-            if y1d >= y2s:
-                y1 = y2s+15
-                shape = my_canvas.create_polygon(x1,y2s, x1-5, y2s+5, x1, y2s+15,x1+5,
-                                                 y2s+5, width=2, outline=color, fill="")
-
-            else:
-                x1 = x2s+15
-                shape = my_canvas.create_polygon(x2s,y1, x2s+5, y1-5, x2s+15, y1,
-                                            x2s+5, y1+5, width=2, outline=color, fill="")
-                
-        # create the Composition relation type with a filled diamond shape at one end.
-        elif (reltype == "Composition"):
-            color = "yellow"
-            dashline = False
-
-            if y2d <= y1s:
-                y1 = y1s-15
-                shape = my_canvas.create_polygon(x1,y1, x1-5, y1s-5, x1, y1s-15,
-                                            x1+5, y1s-5, width=1, outline=color, fill=color)
-            
-            if y1d >= y2s:
-                y1 = y2s+15
-                shape = my_canvas.create_polygon(x1,y2s, x1-5, y2s+5, x1, y2s+15,
-                                            x1+5, y2s+5, width=1, outline=color, fill=color)
-            else:
-                x1 = x2s+15
-                shape = my_canvas.create_polygon(x2s,y1, x2s+5, y1-5, x2s+15, y1,
-                                            x2s+5, y1+5, width=1, outline=color, fill=color)
-        
-        # create the Inheritance/Generalization relation type with an empty arrow shape at one end.
-        elif (reltype == "Inheritance"):
-            color = "red"
-            dashline = False
-            
-            if y2d <= y1s:
-                y1 = y1s-15
-                shape = my_canvas.create_polygon(x1,y1s, x1-5, y1s-15, x1+5, y1s-15,
-                                            width=1, outline=color, fill ="")
-
-            if y2d >= y1s:
-                y1 = y2s+15
-                shape = my_canvas.create_polygon(x1,y2s, x1-5, y2s+15, x1+5, y2s+15,
-                                            width=1, outline=color, fill ="")
-            else:
-                x1 = x2s+15
-                shape = my_canvas.create_polygon(x2s,y1, x2s+15, y1-5, x2s+15, y1+5,
-                                             width=1, outline=color, fill ="")
-
-        # create the Realization relation type with an empty arrow shape at one end [dashline]                                    
-        else:
-            color = "purple"
-            dashline = True
-            
-            if y2d <= y1s:
-                y1 = y1s-15
-                shape = my_canvas.create_polygon(x1,y1s, x1-5, y1s-15, x1+5, y1s-15,
-                                            width=1, outline=color, fill ="")
-
-            
-            if y2d >= y1s:
-                y1 = y2s+15
-                shape = my_canvas.create_polygon(x1,y2s, x1-5, y2s+15, x1+5, y2s+15,
-                                            width=1, outline=color, fill ="")
-            
-            else:
-                x1 = x2s+15
-                shape = my_canvas.create_polygon(x2s,y1, x2s+15, y1-5, x2s+15, y1+5,
-                                             width=1, outline=color, fill ="")
-
-
-        if not dashline:
-            relline = my_canvas.create_line(x1,y1,x2, y2, fill=color, width=2) 
-        
-        else:
-            relline = my_canvas.create_line(x1,y1,x2, y2, fill=color, width=2, dash=(200,200)) 
-        
-        # tag_lower() and tag_raise() methods of the canvas brings the item to front
-        my_canvas.tag_lower(relline)
-        
-        # add the relation components to the relation list.
-        boxlist[srcloc].relation.append(('src', relline, 'dest', shape, reltype)) # [0]src, [1]line,[2]dest, [3]shape, [4]type
-        boxlist[destloc].relation.append(('dest', relline,'src', shape, reltype))
-        
-        """
         
 def addRelLine(src:str, dest:str, reltype:str):
     
@@ -691,4 +660,4 @@ def addRelLine(src:str, dest:str, reltype:str):
     
     #instantiate the line
     myLine = relLine(xsrc, ysrc, xdest, ydest,srcrec, destrec,reltype)
-   
+
