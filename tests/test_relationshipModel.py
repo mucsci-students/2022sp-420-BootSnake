@@ -1,7 +1,7 @@
 # content of test_sample.py
 from relationshipsModel import *
 from classModel import *
-
+from sharedItems import *
 
 ################################################################################################################################################################
 # HELPER FUNCTIONS
@@ -25,8 +25,8 @@ def test_AddOne():
     ClassAdd("two")
     ret = RelationshipAdd("one", "two", "Aggregation")
     assert ret == "Relationship added successfully for one & two"
-    assert "two" in listOfClasses[0].listOfRelationships[0].dest
-    assert "Aggregation" in listOfClasses[0].listOfRelationships[0].type
+    assert "two" in listOfClasses[1].listOfRelationships[0].dest
+    assert "Aggregation" in listOfClasses[1].listOfRelationships[0].type
     
 # adding relationship both ways 
 def test_AddBothWays():
@@ -37,10 +37,10 @@ def test_AddBothWays():
     assert ret == "Relationship added successfully for one & two"
     ret = RelationshipAdd("two", "one", "Realization")
     assert ret == "Relationship added successfully for two & one"
-    assert "two" in listOfClasses[0].listOfRelationships[0].dest
-    assert "Aggregation" in listOfClasses[0].listOfRelationships[0].type
-    assert "one" in listOfClasses[1].listOfRelationships[0].dest
-    assert "Realization" in listOfClasses[1].listOfRelationships[0].type
+    assert "two" in listOfClasses[1].listOfRelationships[0].dest
+    assert "Aggregation" in listOfClasses[1].listOfRelationships[0].type
+    assert "one" in listOfClasses[0].listOfRelationships[0].dest
+    assert "Realization" in listOfClasses[0].listOfRelationships[0].type
 
 # adding relationship on a non existent class
 def test_AddFalseClass():
@@ -49,7 +49,7 @@ def test_AddFalseClass():
     ClassAdd("two")
     ret = RelationshipAdd("four", "two", "Inheritance")
     assert ret == "Either the four or two class does not exist."
-    assert listOfClasses[0].listOfRelationships == []
+    assert listOfClasses[1].listOfRelationships == []
 
 
 # adding when we only have one class
@@ -73,17 +73,17 @@ def test_AddSpecialChar():
 # DELETIONS
 
 
-# # deleting a relationship
-# def test_DelOne():
-#     reset()
-#     ClassAdd("one")
-#     ClassAdd("two")
-#     ret = RelationshipAdd("one", "two", "Inheritance")
-#     assert ret == "Relationship added successfully for one & two"
-#     assert "Inheritance" in listOfClasses[0].listOfRelationships[0].type
-#     ret = RelationshipDelete("one", "two")
-#     assert ret == "Successfully deleted relationship."
-#     assert listOfClasses[0].listOfRelationships == []
+# deleting a relationship
+def test_DelOne():
+    reset()
+    ClassAdd("one")
+    ClassAdd("two")
+    ret = RelationshipAdd("one", "two", "Inheritance")
+    assert ret == "Relationship added successfully for one & two"
+    assert "Inheritance" in listOfClasses[1].listOfRelationships[0].type
+    ret = RelationshipDelete("one", "two")
+    assert ret == "Successfully deleted one & two"
+    assert listOfClasses[1].listOfRelationships == []
 
 
 # delete on a non existent class/relationship
@@ -104,8 +104,8 @@ def test_DelWrongRel():
     assert ret == "Relationship added successfully for one & three"
     ret = RelationshipDelete("one", "two")
     assert ret == "Relationship does not exist for deletion!"
-    assert listOfClasses[0].listOfRelationships[0].dest == 'three'
-    assert "Inheritance" in listOfClasses[0].listOfRelationships[0].type
+    assert listOfClasses[2].listOfRelationships[0].dest == 'three'
+    assert "Inheritance" in listOfClasses[2].listOfRelationships[0].type
 
 
 
@@ -119,10 +119,10 @@ def test_Edit1():
     ClassAdd("b")
     ret = RelationshipAdd('a', 'b', 'Realization')
     assert ret == "Relationship added successfully for a & b"
-    assert "Realization" in listOfClasses[0].listOfRelationships[0].type
+    assert "Realization" in listOfClasses[1].listOfRelationships[0].type
     ret = relationshipEdit('a', 'b', 'Inheritance')
     assert ret == "Successfully edited relationship a & b"
-    "Inheritance" in listOfClasses[0].listOfRelationships[0].type
+    assert "Inheritance" in listOfClasses[1].listOfRelationships[0].type
 
 def test_Edit2():
     reset()
@@ -130,10 +130,10 @@ def test_Edit2():
     ClassAdd("b")
     ret = RelationshipAdd('a', 'b', 'Realization')
     assert ret == "Relationship added successfully for a & b"
-    assert "Realization" in listOfClasses[0].listOfRelationships[0].type
+    assert "Realization" in listOfClasses[1].listOfRelationships[0].type
     ret = relationshipEdit('b', 'a', 'Inheritance')
     assert ret == "Relationship does not exist for edit."
-    "Realization" in listOfClasses[0].listOfRelationships[0].type
+    assert "Realization" in listOfClasses[1].listOfRelationships[0].type
 
 def test_Edit3():
     reset()

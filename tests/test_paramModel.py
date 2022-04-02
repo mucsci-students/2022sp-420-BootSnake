@@ -7,6 +7,7 @@ Test file for parameter add & delete methods
 from parametersModel import *
 from classModel import *
 from attributesModel import *
+from sharedItems import *
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 reset
