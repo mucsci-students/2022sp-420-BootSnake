@@ -25,6 +25,8 @@ import keyword
 
 from classModel import *
 from parametersModel import *
+from sharedItems import *
+
 
 
 """
@@ -105,14 +107,14 @@ def addField(classname : str, fieldname : str, fieldtype: str):
         if checkName(wantedClass, fieldname) and checkName(wantedClass, fieldtype):
             if not searchField(classname,fieldname.strip().casefold()):
                         
-                newField = FieldClass(fieldname, type)
+                newField = FieldClass(fieldname, fieldtype)
                 wantedClass.listOfFields.append(newField)
                 print("UML> Field " + fieldname + " successfully added!")
                 msg = f"{fieldname} successfully added to {classname}."
             
                 wantedClass.listOfFields.sort(key = lambda x : x.name)
-                for o in wantedClass.listOfFields:
-                    print(o.name)
+                #for o in wantedClass.listOfFields:
+                #    print(o.name)
                     
                 return msg
     

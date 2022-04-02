@@ -7,6 +7,7 @@ type.
 """
 
 from classModel import *
+from sharedItems import *
 
 # relationship object that stores the type of relationship along with 
 # destination of the relationship.
@@ -74,6 +75,7 @@ def RelationshipDelete(src: str, dest: str):
                 res = srcClass.listOfRelationships.remove(r)
                 print("Successfully deleted relationship.")
                 msg = f"Successfully deleted {src} & {dest}"
+                return msg
         
         print("Error: Relationship does not exist for deletion!")
         msg = f"Relationship does not exist for deletion!"
@@ -106,4 +108,3 @@ def relationshipEdit(src: str, dest: str, type: str):
         print("Error: Either the source or destination class does not exist.")
         msg = f"Either the {src} or {dest} does not exist"
         return msg
-

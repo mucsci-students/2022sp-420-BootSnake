@@ -25,6 +25,7 @@ from interfaceView import *
 from saveLoadModel import *
 from tabCompletion import *
 from gui import *
+from sharedItems import *
 
 from subprocess import call
 from os.path import exists

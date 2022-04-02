@@ -23,6 +23,7 @@ from interfaceView import *
 from saveLoadModel import *
 from bootsnake import *
 from undoRedoModel import *
+from sharedItems import *
 
 
 
@@ -542,9 +543,9 @@ class TabCompletion(cmd.Cmd):
         arglist = arg.split()
         if (len(arglist)) == 1:
             if arglist[0] == 'all':
-                ListClass(arglist[0])
+                print(ListClasses())
             else:
-                ListClasses()
+                print(ListClass(arglist[0]))
            
         else:
             checkArgs(1, len(arglist))   
