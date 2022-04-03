@@ -493,8 +493,29 @@ def editLine(src: str, dest:str, type:str):
 def dragBox(my_rectangle):
 
     my_canvas.tag_bind(my_rectangle,"<B1-Motion>", on_drag)
+    my_canvas.tag_bind(my_rectangle,"<ButtonRelease-1>", on_release)
+
+# save location to class when mouse button is released
+def on_release(e):
+    global clicked
+    clicked = my_canvas.find_closest(e.x,e.y)
+    i = 0
     
- 
+    for o in boxlist:
+        if clicked[0] in {o.my_rectangle, o.boxlabel, o.flabel, o.ftext, o.mlabel, o.mtext, o.fline, o.mline}:
+            blabel = o.boxlabel
+            box = o.my_rectangle
+            break
+        i += 1
+
+    loc = searchBox(o.name)
+    x1, y1, x2, y2 = my_canvas.coords(boxlist[loc].my_rectangle)
+    
+    my_class = ClassSearch(boxlist[loc].name, listOfClasses)
+    my_class.x = x1
+    my_class.y = y1
+
+
 def on_drag(e):
     #e.x
     #e.y
@@ -588,12 +609,12 @@ def on_drag(e):
     
     #print(boxlist[i].relation)
     
-    loc = searchBox(o.name)
-    x1, y1, x2, y2 = my_canvas.coords(boxlist[loc].my_rectangle)
+    # loc = searchBox(o.name)
+    # x1, y1, x2, y2 = my_canvas.coords(boxlist[loc].my_rectangle)
     
-    my_class = ClassSearch(boxlist[i].name, listOfClasses)
-    my_class.x = x1
-    my_class.y = y1
+    # my_class = ClassSearch(boxlist[i].name, listOfClasses)
+    # my_class.x = x1
+    # my_class.y = y1
 
 
     if len(boxlist[i].relation) > 0:
