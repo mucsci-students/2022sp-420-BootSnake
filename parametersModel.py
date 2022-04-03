@@ -6,12 +6,10 @@ Authors: Amelia Spanier, Tram Trinh
 import re
 import keyword
 from classModel import *
-from attributesModel import *
 from sharedItems import *
+from attributesModel import *
 
 regex = re.compile('[@!$%^&()<>?/\\\|}{\[\]\']')
-# Create a set of blank spaces to check for spaces between words
-match = re.compile('[ ]+')
 
 class Param:
     def __init__(self,name,paramType):
@@ -24,51 +22,38 @@ Input: name of class containing method, name of method to add to, parameter's na
 Description: Creates a parameter with a valid name & type and appends to a given method's parameter list
 """
 def ParamAdd(className, methodName, paramName, paramType):
-    msg: str =""
-    
+
     wantedClass = ClassSearch(className, listOfClasses)        # get requested class from list of classes
 
     if not wantedClass:
-        print("Could not find class with name " + className + ". Please input an existing class.")
-        msg = f"{className} not existed! Please input an existing class!"
-        return msg
+        return "Could not find class with name " + className + ". Please input an existing class."
 
     wantedMethod = searchMethod(className, methodName)          # get requested method from class's list of methods
 
     if wantedMethod:
         
-        if not searchParam(wantedMethod, paramName.casefold()):
-            validParam = CheckNameType(paramName, paramType, wantedMethod)      # check that name and type of param are valid
+        validParam = CheckNameType(paramName, paramType, wantedMethod)      # check that name and type of param are valid
 
-            if validParam:
-                thisParam = Param(paramName, paramType)             # new param with given name & type
-                wantedMethod.listOfParams.append(thisParam)         # append new param to method's list of params
-                print("Parameter " + paramName +" successfully added!")
-                msg = f"{paramName} successfully added!"
-                print("List of parameters for method " + methodName + ":")
-                for o in wantedMethod.listOfParams:
-                    print(o.name + " : " + o.type)
+        if validParam:
+            thisParam = Param(paramName, paramType)             # new param with Bgiven name & type
+            wantedMethod.listOfParams.append(thisParam)         # append new param to method's list of params
+            if(undoListInsertable.bool):
+                undoList.insert(0,(ParamDelete,(className, methodName, wantedMethod,"one",paramName)))
+            print("Parameter " + paramName +" successfully added!")
+            print("List of parameters for method " + methodName + ":")
+            for o in wantedMethod.listOfParams:
+                print(o.name + " : " + o.type)
 
-                return msg
-
-            else:
-                print(paramName + " not found!")
-                msg = f"{paramName} not found!"
-                return msg
         else:
-            print("paramName existed! No duplicates allowed!")
-            msg = f"{paramName} existed! No duplicates allowed!"
-            return msg
+            return "Parameter does not fit criteria for validity."
 
     else:
-        print("Could not find method with name " + methodName + ". Please input an existing method.")
-        msg = f"Could not find method with name {methodName}. Please input an existing method"
-        return msg
+        return "Could not find method with name " + methodName + ". Please input an existing method."
 
 """
 ParamListAdd
 Input: parameter list, parameter's name, parameter's type
-Description: Specialized param add for parameter change method use (possible to merge with regular ParamAdd?)
+Description: Specialized param add for parameter change method use (NOT IN USE)
 """
 def ParamListAdd(wantedMethod, paramName, paramType):
     validParam = CheckNameType(paramName, paramType, wantedMethod)      # check that name and type of param are valid
@@ -81,7 +66,7 @@ def ParamListAdd(wantedMethod, paramName, paramType):
             print(o.name + " : " + paramType)
 
     else:
-        return None
+        return "Parameter does not fit criteria for validity."
 
 """
 ParamDelete
@@ -89,34 +74,33 @@ Input: method expecting param deletion, whether user wants to delete one or all 
 parameter's name (empty if ALL delete)
 Description: Deletes one or all params from a given method
 """
-def ParamDelete(wantedMethod, delAmnt, paramName):
+def ParamDelete(classname: str, methodname: str, wantedMethod, delAmnt, paramName):
     
-    msg: str = ""
     if wantedMethod.listOfParams: 
         if delAmnt == 'all':
+            if(undoListInsertable.bool):
+                oldListOfParams = list(wantedMethod.listOfParams)
+                reverseList = list()
+                for everyParam in oldListOfParams:
+                    reverseList.insert(0,(ParamAdd,(classname,methodname,everyParam.name, everyParam.type)))
+                undoList.insert(0,reverseList)
             wantedMethod.listOfParams.clear()           # If user wants to delete all params, clear list
             print("All parameters successfully deleted!")
-            msg = f"All parameter successfully deleted!"
             print(wantedMethod.listOfParams)
-
-            return msg
 
         elif delAmnt == 'one':
             for param in wantedMethod.listOfParams:
                 if param.name.casefold().strip() == paramName.casefold().strip():
+                    if(undoListInsertable.bool):
+                        undoList.insert(0,(ParamAdd,(classname,methodname,param.name, param.type)))
                     wantedMethod.listOfParams.remove(param)
-                    print("UML> " + paramName + " deleted!")
-                    msg = f"{paramName} deleted!"
-                    
+                    print("UML> Attribute deleted!")
                     for o in wantedMethod.listOfParams:
                         print(o.name + " : " + o.type)
                     break
-
-                    return msg
     else:
         print("No params exist in this method!")
-        msg = f"No params exist in {wantedMethod}"
-        return msg
+        return "No params exist in this method!"
 
 """
 CheckNameType
@@ -128,21 +112,21 @@ added to the method's list of params
 def CheckNameType(paramName: str, paramType: str, methodName):
         
     if (not paramName.strip()) or (not paramType.strip()):  
-        print("UML> Name cannot be blank!")
+        print("UML:> Name cannot be blank!")
         return False
             
             
     elif (regex.search(paramName.strip()) != None) or (regex.search(paramType.strip()) != None):
-        print("UML> No special characters allowed!")
+        print("UML:> No special characters allowed!")
         return False
             
     elif (paramName[:1].strip().isnumeric()) or (paramType[:1].strip().isnumeric()): 
-        print("UML> Param name and type cannot be preceded by an integer(s)!")
+        print("UML:> Param name and type cannot be preceded by an integer(s)!")
         return False
     
             
     elif (keyword.iskeyword(paramName.strip())) or (keyword.iskeyword(paramType.strip())):      
-        print("UML> Keywords are not allowed!")
+        print("UML:> Keywords are not allowed!")
         return False
 
     elif (match.search(paramName.strip()) != None) or (match.search(paramType.strip()) != None):
@@ -152,59 +136,6 @@ def CheckNameType(paramName: str, paramType: str, methodName):
     else:
         for o in methodName.listOfParams:
             if o.name.lower().strip() == paramName.lower().strip():
-                print("UML> No duplicates allowed! Method(s) must be unique!")
+                print("UML:> No duplicates allowed! Parameter(s) must be unique!")
                 return False
         return True
-    
-    
-    
-##############################################################################################  
-def ParamDelete(wantedMethod, delAmnt, paramName):
-    
-    msg: str = ""
-    if wantedMethod.listOfParams: 
-        if delAmnt == 'all':
-            wantedMethod.listOfParams.clear()           # If user wants to delete all params, clear list
-            print("All parameters successfully deleted!")
-            msg = f"All parameter successfully deleted!"
-            print(wantedMethod.listOfParams)
-
-            return msg
-
-        elif delAmnt == 'one':
-            for param in wantedMethod.listOfParams:
-                if param.name.casefold().strip() == paramName.casefold().strip():
-                    wantedMethod.listOfParams.remove(param)
-                    print("UML> " + paramName + " deleted!")
-                    msg = f"{paramName} deleted!"
-                    
-                    for o in wantedMethod.listOfParams:
-                        print(o.name + " : " + o.type)
-                    break
-
-                    return msg
-    else:
-        print("No params exist in this method!")
-        msg = f"No params exist in {wantedMethod}"
-        return msg
-    
-def searchMethod(classname: str, methname: str) :
-    # loop through the list of methods of a given class to search for a 
-    # existing method in the system.
-    wantedClass = ClassSearch(classname, listOfClasses)
-    
-    if wantedClass:
-        for mObj in wantedClass.listOfMethods:
-            if (mObj.name.title() == methname.title().strip()):
-                return mObj
-    
-    else: 
-        return None
-#########################################################################################    
-# search for a parameter    
-def searchParam( methObj: object, param: str):
-    
-    for x in methObj.listOfParams:
-        if x.name.strip().casefold() == param.casefold().strip():
-            return x
-    return None

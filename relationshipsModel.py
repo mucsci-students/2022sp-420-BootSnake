@@ -6,16 +6,13 @@ Last edit: changed relationships to be an object that has a destination and
 type.
 """
 
-from classModel import *
 from sharedItems import *
-
 # relationship object that stores the type of relationship along with 
 # destination of the relationship.
 class relationship:
-    def __init__(self,type,src,dest):
+    def __init__(self,type,dest):
         self.type = type
         self.dest = dest
-        self.src = src
 
 
 """
@@ -30,27 +27,22 @@ Returns:
 2 - relationship already exists
 """
 def RelationshipAdd(src: str, dest: str, type: str):
-    msg =""
-    res = None
     srcClass = ClassSearch(src, listOfClasses)
     destClass = ClassSearch(dest, listOfClasses)
     if srcClass is not None and destClass is not None:
         for r in srcClass.listOfRelationships:
             if r.dest == destClass.name:
-                print("Error: Relationship already exists.")
-                msg = f" Relationship already exists."
-                return msg
+                return "Error: Relationship already exists."
+        newRelationship = relationship(type, dest)
+        srcClass.listOfRelationships.append(newRelationship)
+        #The undo list needs an opposite action.
+        if(undoListInsertable.bool):
+            undoList.insert(0,(RelationshipDelete,(src, dest)))
         
-        newRelationship = relationship(type,src, dest)
-        res = srcClass.listOfRelationships.append(newRelationship)
-        print("Successfully added relationship.")
-        msg =f"Relationship added successfully for {src} & {dest}"
-        return msg
-    
+        return "Successfully added relationship."
     else:
-        print("Error: Either the source or destination class does not exist.")
-        msg = f"Either the {src} or {dest} class does not exist."
-        return msg
+        undoListInsertable.bool = False
+        return "Error: Either the source or destination class does not exist."
 """
 This function takes in two strings (class names) and uses the ClassSearch
 function to verify they exist. It then checks that the relationship
@@ -63,48 +55,36 @@ Returns:
 2 - relationship does not exist for deletion
 """
 def RelationshipDelete(src: str, dest: str):
-    
-    msg =""
-    res = None
-    
     srcClass = ClassSearch(src, listOfClasses)
     destClass = ClassSearch(dest, listOfClasses)
     if srcClass is not None and destClass is not None:
         for r in srcClass.listOfRelationships:
             if r.dest == dest:
-                res = srcClass.listOfRelationships.remove(r)
-                print("Successfully deleted relationship.")
-                msg = f"Successfully deleted {src} & {dest}"
-                return msg
-        
-        print("Error: Relationship does not exist for deletion!")
-        msg = f"Relationship does not exist for deletion!"
-        return msg
+                if(undoListInsertable.bool):
+                    undoList.insert(0,(RelationshipAdd, (src, dest, r.type)))
+                srcClass.listOfRelationships.remove(r)
+                return "Successfully deleted relationship."
+        undoListInsertable.bool = False
+        return "Error: Relationship does not exist for deletion."
     else:
-        print("Error: Either the source or destination class does not exist.")
-        msg = f"Either {src} or {dest} does not exist"
-        return msg
+        undoListInsertable.bool = False
+        return "Error: Either the source or destination class does not exist."
     
 
 def relationshipEdit(src: str, dest: str, type: str):
-    
-    msg=""
-    res = None
-
     srcClass = ClassSearch(src, listOfClasses)
     destClass = ClassSearch(dest, listOfClasses)
     if srcClass is not None and destClass is not None:
         for r in srcClass.listOfRelationships:
             if r.dest == dest:
-                res = r.type = type
-                print("Successfully edited relationship.")
-                msg = f"Successfully edited relationship {src} & {dest}"
-                return msg
-        
-        print("Error: Relationship does not exist for edit.")
-        msg = f"Relationship does not exist for edit."
-        return msg
+                if(undoListInsertable.bool):
+                    undoList.insert(0,(relationshipEdit, (src, dest, r.type)))
+                r.type = type
+                return "Successfully edited relationship."
+        undoListInsertable.bool = False
+        return "Error: Relationship does not exist for edit."
     else:
-        print("Error: Either the source or destination class does not exist.")
-        msg = f"Either the {src} or {dest} does not exist"
-        return msg
+        undoListInsertable.bool = False
+        return "Error: Either the source or destination class does not exist."
+
+

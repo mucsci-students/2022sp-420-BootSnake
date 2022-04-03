@@ -10,8 +10,6 @@ import io
 
 
 def undo():
-    for x in undoList:
-        print(x)
     if(len(undoList) == 0):
         return "\nNothing to undo!"
     else:
@@ -42,3 +40,4 @@ def undo():
 
         
     
+

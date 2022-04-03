@@ -1,12 +1,3 @@
-# Project Name  : UML_BootSnake
-# File Name     : bootsnake.py
-# Course        : CSCI 420
-# Professor     : Dr. Stephanie Schwartz
-# BootSnake Team: Amelia S., Andy P., Ben M., Tram T., Travis Z.
-
-import sys
-
-
 """
 Last Edit: 02/09/2022
 Edited by: Amelia Spanier and Ben Moran
@@ -17,16 +8,14 @@ import sys
 
 
 from pydoc import classname
+from turtle import undo
 from classModel import *
 from relationshipsModel import *
 from attributesModel import *
 from parametersModel import *
 from interfaceView import *
 from saveLoadModel import *
-from tabCompletion import *
-from gui import *
-from sharedItems import *
-
+from undoRedoModel import *
 from subprocess import call
 from os.path import exists
 
@@ -56,19 +45,18 @@ def Main(args: list):
     if len(args) == 2:
         # execute the program in cli
         if args[1] == "--cli":
-            #umlCliController()
-            TabCompletion().cmdloop()
+            umlCliController()
         else: 
             print("Invalid input!")
     
         # run gui
     else:
-        gui_run()
+        call(['python3', 'interfaceGUIView.py'])
     
 def umlCliController() -> None:
 
-    
     while True:
+        undoListInsertable.bool = True
         print("""
                 ==========================================
                 |            WELCOME TO BOOTSNAKE!       |
@@ -77,7 +65,7 @@ def umlCliController() -> None:
         """)
     
         print("Here are available elements:\n[1] Class\n[2] Fields\n[3] Methods")
-        print("[4] Relationships\n[5] Save/Load\n[6] Lists\n[7] Help\n[8] Quit")
+        print("[4] Relationships\n[5] Save/Load\n[6] Lists\n[7] Undo\n[8] Help\n[9] Quit")
 
     
         userIn = input("UML:> ")       # Prompt user for input
@@ -97,7 +85,7 @@ def umlCliController() -> None:
                             print(obj.name) 
                         print()
                         name = input("UML:> Enter a Class name or q to 'quit': ")
-                        while name.strip().casefold() != 'q':
+                        while name.strip().casefold() != 'q': 
                             ClassAdd(name)
                             break
                         
@@ -149,7 +137,6 @@ def umlCliController() -> None:
                             
                         else:
                             break
-        
                 # user opts out of class menu
                 break        
 
@@ -316,10 +303,7 @@ def umlCliController() -> None:
                                     # prompt user for the list of params 
                                     #    param = input("UML> Optional: Add a parameter(s)?, or enter 'quit': ")  
                                     #    while param.strip().casefold() != 'q':
-                                    
-                                        paramList = list() #an empty parameter list
-                                        
-                                        addMethod (clsname, methodname, methtype, paramList)
+                                        addMethod (clsname, methodname, methtype)
                                         break 
                                         #break
                                     break
@@ -433,7 +417,7 @@ def umlCliController() -> None:
                         print( "\nMethod List for available classes: ")
                         for obj in listOfClasses:
                             for o in obj.listOfMethods:
-                                print (obj.name + ": " + o.name)
+                                print (obj.name + " <= " + o.name)
                             print()
                         
                         # prompt users for the class to which method is deleted 
@@ -695,11 +679,8 @@ def umlCliController() -> None:
                                 while reltype.strip().lower() != 'q':
                                     RelationshipAdd(src, dest,reltype)
                                     break
-                                
                                 break
-                            
                             break
-                        
                         break
                     
                         
@@ -713,11 +694,8 @@ def umlCliController() -> None:
                                 RelationshipDelete(src, dest)
                                 break
                                 
-                            
                             break
-                        
                         break
-                        
                 break
              
         elif "5" in userIn:
@@ -757,30 +735,33 @@ def umlCliController() -> None:
                 #continue 
 
         elif "7" in userIn:
+            print(undo())
+        
+        elif "8" in userIn:
             Help()
             #continue
         
-        elif "8" in userIn:
+        elif "9" in userIn:
             Exit()
 
             #print()
-
-
-
 
 #########################################################################################
 
 """
 The __name__ variable has double underscores on both sides called dunder name that 
 stands for double underscores.
+
 The __name__ is a special variable in Python that assigns a different value to it
 depending on how a script is executed directly or imported as a module. When importing
 a module, Python executes the file associated with the module.
+
 When running the script directly, Python sets the __name__ variable to '__main__'.
+
 However, if a script is imported a file as a module, Python sets the module name to 
 the __name__ variable
+
 """  
 
 if __name__ == "__main__":
     Main(sys.argv) 
-

@@ -22,6 +22,8 @@ import keyword
 import re
 from sharedItems import *
 from relationshipsModel import RelationshipAdd
+from attributesModel import addField, addMethod
+from parametersModel import ParamAdd
 
  
 
@@ -32,15 +34,11 @@ the object. It also contains the two lists we'll be using to keep track of
 attributes and relationships.
 """
 class AClass:
-    def __init__(self,name,x1=0,y1=0,x2=0,y2=0):
+    def __init__(self,name):
         self.name = name
         self.listOfFields = list()
         self.listOfMethods = list()
         self.listOfRelationships = list()
-        self.positionx1 = x1
-        self.positiony1 = y1
-        self.positionx2 = x2
-        self.positiony2 = y2
     
     
     
@@ -180,17 +178,17 @@ def ClassDelete(deleteTarget):
         else:
             oldIndex = listOfClasses.index(classObject)
             oldListOfRelations = list(classObject.listOfRelationships)
+            oldListOfFields = list(classObject.listOfFields)
+            oldListOfMethods = list(classObject.listOfMethods)
             listOfClasses.remove(classObject)
             print("Class " + deleteTarget + " deleted!")
             returnString = "Class " + deleteTarget + " deleted!"
             """
                 The following nested for loops will iterate through each class 
                 object in the global list. Looking through each of their 
-                relationship lists for the deleted class name. If it finds it, it 
-                removes it and adds into the relationship list the changed 
-                name. We are unable to change the value of the name due to how 
-                for loops presumably work. So we will have to remove and add to 
-                make up for that inability to change the value directly.
+                relationship lists for the deleted class name. If it finds it, 
+                it removes it We are unable to change the value of the name due 
+                to how for loops presumably work. So we will have to remove and add to make up for that inability to change the value directly.
             """
             #This is so we can undo as a bulk action.
             reverseList = list()
@@ -202,10 +200,18 @@ def ClassDelete(deleteTarget):
                         c.listOfRelationships.remove(relObject)
                         if(undoListInsertable.bool):
                             reverseList.insert(0,(RelationshipAdd, (c.name, deleteTarget, relObject.type)))
-            for rel in oldListOfRelations:
-                if(undoListInsertable.bool):
-                    reverseList.insert(0,(RelationshipAdd, (deleteTarget, rel.dest, rel.type)))
+            """
+            The following if statement contains for loops used to fill the undoList so that we can restore the lists of the deleted class. Allowing fields, methods+params, and relationships to come back when we call undo.
+            """
             if(undoListInsertable.bool):
+                for rel in oldListOfRelations:
+                    reverseList.insert(0,(RelationshipAdd, (deleteTarget, rel.dest, rel.type)))
+                for field in oldListOfFields:
+                    reverseList.insert(0,(addField, (deleteTarget, field.name, field.type)))
+                for method in oldListOfMethods:
+                    for param in method.listOfParams:
+                        reverseList.insert(0,(ParamAdd, (deleteTarget, method.name, param.name, param.type)))
+                    reverseList.insert(0,(addMethod, (deleteTarget, method.name, method.type)))
                 reverseList.insert(0,(ClassAdd, (deleteTarget, oldIndex)))
                 undoList.insert(0,reverseList)
             return returnString
