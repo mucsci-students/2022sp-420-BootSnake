@@ -69,7 +69,7 @@ def save (filename):
             myMethods = list()
             myParams = list()
             myRelationships = list()
-            myLocation = list()
+            #myLocation = list()
 
             # Step through each type of attribute and relationship and encode it so we can save it
             for y in x.listOfFields:
@@ -90,10 +90,10 @@ def save (filename):
                 myRelations.append(relationshipObj)
 
             locationObj = {'x' : x.x, 'y' : x.y}
-            myLocation.append(locationObj)
+            #myLocation.append(locationObj)
             
             # Put together all of the lists and class name, encode it, and add it to the list
-            classObj = {"name": x.name , "fields": myFields , "methods": myMethods, "location":myLocation}
+            classObj = {"name": x.name , "fields": myFields , "methods": myMethods, "location":locationObj}
             myClasses.append(classObj)
         
         # Put classes and relationships together
@@ -140,8 +140,8 @@ def load (filename):
                 ParamAdd(x["name"], z["name"], q["name"], q["type"])
         
         positionList = x['location']
-        i.x = positionList[0]['x']
-        i.y = positionList[0]['y']
+        i.x = positionList['x']
+        i.y = positionList['y']
 
         #addBoxInfo(i.name)
     # Get list of relationships
