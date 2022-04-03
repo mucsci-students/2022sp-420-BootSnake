@@ -118,6 +118,14 @@ def addRec(name:str):
     x2 = 160
     y2 = 15
     
+    # checking if there were coordinates assigned beforehand (load)
+    my_class = ClassSearch(name, listOfClasses)
+    if my_class.x != 0 or my_class.y != 0:
+        x2 = my_class.x
+        y2 = my_class.y
+        x1 = x2 + 120
+        y1 = y2 + 65
+    
     # define the box and ensure they are not overlapped
     
     space:int =0
@@ -153,12 +161,7 @@ def addRec(name:str):
 
 
 
-    my_class = ClassSearch(name, listOfClasses)
-    if my_class.positionx1 != 0 or my_class.positiony1 != 0 or my_class.positionx2 != 0 or my_class.positiony2 != 0:
-        x1 = my_class.positionx1 - 30
-        y1 = my_class.positiony1 - 30
-        x2 = my_class.positionx2 
-        y2 = my_class.positiony2 
+
 
     # instantiate class rectangle
     classRec = makeSquare(name, x1, y1,x2,y2)
@@ -189,6 +192,13 @@ def addRec(name:str):
     for o in boxlist:
         print(my_canvas.coords(o.name))
     updateBoxSize(len(boxlist)-1)
+
+    loc = searchBox(name)
+    x1, y1, x2, y2 = my_canvas.coords(boxlist[loc].my_rectangle)
+
+    my_class.x = x1
+    my_class.y = y1
+
 
 
 ###############################################################################
@@ -578,11 +588,12 @@ def on_drag(e):
     
     #print(boxlist[i].relation)
     
+    loc = searchBox(o.name)
+    x1, y1, x2, y2 = my_canvas.coords(boxlist[loc].my_rectangle)
+    
     my_class = ClassSearch(boxlist[i].name, listOfClasses)
-    my_class.positionx1 = x1
-    my_class.positiony1 = y1
-    my_class.positionx2 = x2
-    my_class.positiony2 = y2
+    my_class.x = x1
+    my_class.y = y1
 
 
     if len(boxlist[i].relation) > 0:

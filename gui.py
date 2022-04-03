@@ -7,7 +7,6 @@
 
 ###############################################################################
 
-from asyncio.format_helpers import _format_callback_source
 from tkinter import *
 from tkinter import messagebox
 from tkinter import filedialog
