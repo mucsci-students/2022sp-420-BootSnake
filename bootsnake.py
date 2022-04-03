@@ -65,7 +65,7 @@ def umlCliController() -> None:
         """)
     
         print("Here are available elements:\n[1] Class\n[2] Fields\n[3] Methods")
-        print("[4] Relationships\n[5] Save/Load\n[6] Lists\n[7] Undo\n[8] Help\n[9] Quit")
+        print("[4] Relationships\n[5] Save/Load\n[6] Lists\n[7] Undo\n[8] Redo \n[9] Help\n[0] Quit")
 
     
         userIn = input("UML:> ")       # Prompt user for input
@@ -738,10 +738,13 @@ def umlCliController() -> None:
             print(undo())
         
         elif "8" in userIn:
+            print(redo())
+
+        elif "9" in userIn:
             Help()
             #continue
         
-        elif "9" in userIn:
+        elif "0" in userIn:
             Exit()
 
             #print()

@@ -91,7 +91,7 @@ def checkArgs(argNum: int, argInput: int) -> None:
 
 
 class TabCompletion(cmd.Cmd):
-    
+    undoListInsertable.bool = True
     intro = ("""
                     =========================================================                                               
                     |                 WELCOME TO BOOTSNAKE!                 |                                              
@@ -294,7 +294,7 @@ class TabCompletion(cmd.Cmd):
             returntype: str = arglist[2]
             paramlist: list = []
             
-            addMethod(classname, methodname, returntype, paramlist)
+            addMethod(classname, methodname, returntype)
             
         checkArgs(3, len(arglist)) 
                 
@@ -624,7 +624,7 @@ class TabCompletion(cmd.Cmd):
         
         """
         
-        undo()
+        print(undo())
         
     
     # redo command
@@ -642,7 +642,7 @@ class TabCompletion(cmd.Cmd):
                 the 'undo' command.
         
         """
-        print("Need to implement!")   
+        print(redo())  
              
     
     # exit BootSnake program

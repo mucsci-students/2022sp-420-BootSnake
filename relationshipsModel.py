@@ -37,7 +37,7 @@ def RelationshipAdd(src: str, dest: str, type: str):
         srcClass.listOfRelationships.append(newRelationship)
         #The undo list needs an opposite action.
         if(undoListInsertable.bool):
-            undoList.insert(0,(RelationshipDelete,(src, dest)))
+            undoList.insert(0,(RelationshipDelete,(src, dest, type)))
         
         return "Successfully added relationship."
     else:
@@ -54,7 +54,7 @@ Returns:
 1 - Either source or dest class does not exist
 2 - relationship does not exist for deletion
 """
-def RelationshipDelete(src: str, dest: str):
+def RelationshipDelete(src: str, dest: str, type = 0):
     srcClass = ClassSearch(src, listOfClasses)
     destClass = ClassSearch(dest, listOfClasses)
     if srcClass is not None and destClass is not None:
@@ -71,14 +71,14 @@ def RelationshipDelete(src: str, dest: str):
         return "Error: Either the source or destination class does not exist."
     
 
-def relationshipEdit(src: str, dest: str, type: str):
+def relationshipEdit(src: str, dest: str, type: str, old = 0):
     srcClass = ClassSearch(src, listOfClasses)
     destClass = ClassSearch(dest, listOfClasses)
     if srcClass is not None and destClass is not None:
         for r in srcClass.listOfRelationships:
             if r.dest == dest:
                 if(undoListInsertable.bool):
-                    undoList.insert(0,(relationshipEdit, (src, dest, r.type)))
+                    undoList.insert(0,(relationshipEdit, (src, dest, r.type, type)))
                 r.type = type
                 return "Successfully edited relationship."
         undoListInsertable.bool = False
@@ -86,5 +86,3 @@ def relationshipEdit(src: str, dest: str, type: str):
     else:
         undoListInsertable.bool = False
         return "Error: Either the source or destination class does not exist."
-
-

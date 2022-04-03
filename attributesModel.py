@@ -93,7 +93,7 @@ def addField(classname : str, fieldname : str, fieldtype: str):
             wantedClass.listOfFields.append(newField)
             print("UML> Field " + fieldname + " successfully added!")
             if(undoListInsertable.bool):
-                undoList.insert(0,(delField,(classname, fieldname)))
+                undoList.insert(0,(delField,(classname, fieldname, fieldtype)))
             wantedClass.listOfFields.sort(key = lambda x : x.name)
             for o in wantedClass.listOfFields:
                 print(o.name)
@@ -109,7 +109,7 @@ def addField(classname : str, fieldname : str, fieldtype: str):
 ###############################################################################
 
 
-def delField (classname: str, fieldname:str):
+def delField (classname: str, fieldname:str, fieldtype:str):
     '''
     The delField deletes a field(s) for a given class provided
     that the class & the field must exist in the system. It provides user 
@@ -263,7 +263,7 @@ def addMethod(classname: str, methodname: str, methtype: str):
                 wantedClass.listOfMethods.append(newMethObj)
                 print("Method " + methodname + " successfully added!")
                 if(undoListInsertable.bool):
-                    undoList.insert(0,(delMethod,(classname, methodname)))
+                    undoList.insert(0,(delMethod,(classname, methodname, methtype)))
                 print(newMethObj.name)
                 print("Class " + classname + "'s listOfMethods:")
                 
@@ -341,7 +341,7 @@ def renMethod (classname: str, methodname: str, newmethod: str):
          
 ###############################################################################              
 
-def delMethod (classname: str, methodname: str):
+def delMethod (classname: str, methodname: str, methtype = 0):
     from parametersModel import ParamAdd
     '''
     The delMethod deletes a method(s) for a given class provided

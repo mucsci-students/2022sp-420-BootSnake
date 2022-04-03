@@ -6,6 +6,12 @@ class undoListBool:
      def __init__(self,bool):
         self.bool = bool 
 undoListInsertable = undoListBool(True)
+
+class redoListBool:
+    def __init__(self,bool):
+        self.bool = bool
+redoListInsertable = redoListBool(True)
+
 #Searches through class list and return given name.    
 def ClassSearch(name, classList):
     #We can use this for loop as a means to check every entry in the list for 
