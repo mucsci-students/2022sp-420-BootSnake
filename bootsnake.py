@@ -303,10 +303,7 @@ def umlCliController() -> None:
                                     # prompt user for the list of params 
                                     #    param = input("UML> Optional: Add a parameter(s)?, or enter 'quit': ")  
                                     #    while param.strip().casefold() != 'q':
-                                    
-                                        paramList = list() #an empty parameter list
-                                        
-                                        addMethod (clsname, methodname, methtype, paramList)
+                                        addMethod (clsname, methodname, methtype)
                                         break 
                                         #break
                                     break

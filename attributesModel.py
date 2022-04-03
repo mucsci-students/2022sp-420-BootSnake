@@ -26,7 +26,6 @@ import keyword
 from classModel import *
 from sharedItems import *
 
-
 """
 An attribute is named property of a class that describes the object
 being modeled. Generally, the attributes' characteristics depict their
@@ -231,7 +230,7 @@ def renField (classname: str, fieldname: str, newname: str):
       
 ###############################################################################
 
-def addMethod(classname: str, methodname: str, methtype: str,  paramlist: list()):
+def addMethod(classname: str, methodname: str, methtype: str):
     
     '''
     The addMethod adds a method(s) for a selected, existing class
@@ -263,6 +262,8 @@ def addMethod(classname: str, methodname: str, methtype: str,  paramlist: list()
                 newMethObj = MethodClass(methodname.strip(), methtype.strip())
                 wantedClass.listOfMethods.append(newMethObj)
                 print("Method " + methodname + " successfully added!")
+                if(undoListInsertable.bool):
+                    undoList.insert(0,(delMethod,(classname, methodname)))
                 print(newMethObj.name)
                 print("Class " + classname + "'s listOfMethods:")
                 
@@ -315,7 +316,9 @@ def renMethod (classname: str, methodname: str, newmethod: str):
                                 
                             mObj.name = newmethod.strip()
                             print("UML> Method " + methodname + " successfully renamed!")
-                            
+                            #This adds undo functionality to the function.
+                            if(undoListInsertable.bool):
+                                undoList.insert(0,(renMethod,(classname, newmethod, methodname)))
                             # sort the list of method objects   
                             wantedClass.listOfMethods.sort(key = lambda x : x.name)
                             for o in wantedClass.listOfMethods:
@@ -339,6 +342,7 @@ def renMethod (classname: str, methodname: str, newmethod: str):
 ###############################################################################              
 
 def delMethod (classname: str, methodname: str):
+    from parametersModel import ParamAdd
     '''
     The delMethod deletes a method(s) for a given class provided
     that the class & the method must exist in the system. It provides 
@@ -365,11 +369,17 @@ def delMethod (classname: str, methodname: str):
                         if searchMethod( classname, methodname):   
                             for o in wantedClass.listOfMethods:
                                 if o.name.strip().title() == methodname.strip().title():
+                                    if(undoListInsertable.bool):
+                                        reverseList = list()
+                                        for p in o.listOfParams:
+                                            reverseList.insert(0,(ParamAdd,(classname, methodname, p.name, p.type))) 
+                                        reverseList.insert(0,(addMethod,(classname, methodname, o.type)))
+                                        undoList.insert(0,reverseList)
                                     wantedClass.listOfMethods.remove(o)
                                     print("UML> Method " + methodname + " of class " + classname + " deleted!")
-                            
+
                                     # remove the parameter list of the method.
-                                    if o.listOfParams:
+                                    if o.listOfParams: 
                                         o.listOfParams.clear()
                                         print("Parameter(s) deleted!")
                             
@@ -385,6 +395,24 @@ def delMethod (classname: str, methodname: str):
                         # If user enters ALL/all to remove all methods.
                         else:
                             if methodname.casefold().strip() == 'all':
+                                """
+                                Following if statement allows us to undo all 
+                                the method deletions at once.
+                                """
+                                if(undoListInsertable.bool):
+                                    oldListOfMethods = list(wantedClass.listOfMethods)
+                                    reverseList = list()
+                                    
+                                    for everyMethod in oldListOfMethods:
+                                        """
+                                        Following for loop is to regain all the 
+                                        parameters attached to each of the 
+                                        methods deleted.
+                                        """
+                                        for everyParam in everyMethod.listOfParams:
+                                            reverseList.insert(0,(ParamAdd,(classname, everyMethod.name, everyParam.name, everyParam.type)))
+                                        reverseList.insert(0,(addMethod,(classname, everyMethod.name, everyMethod.type)))
+                                    undoList.insert(0,reverseList)
                                 wantedClass.listOfMethods.clear()
                                 print("All methods of " + classname +" successfully" 
                                 + " deleted! Enter 'q' to exit!")
@@ -685,6 +713,7 @@ def checkParamName(wantedMethod, paramname: str):
         
         return True
     
+
 ##############################################################################################  
 # search for a method
 def searchMethod(classname: str, methname: str) :
