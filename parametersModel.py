@@ -35,8 +35,10 @@ def ParamAdd(className, methodName, paramName, paramType):
         validParam = CheckNameType(paramName, paramType, wantedMethod)      # check that name and type of param are valid
 
         if validParam:
-            thisParam = Param(paramName, paramType)             # new param with given name & type
+            thisParam = Param(paramName, paramType)             # new param with Bgiven name & type
             wantedMethod.listOfParams.append(thisParam)         # append new param to method's list of params
+            if(undoListInsertable.bool):
+                undoList.insert(0,(ParamDelete,(className, methodName, wantedMethod,"one",paramName)))
             print("Parameter " + paramName +" successfully added!")
             print("List of parameters for method " + methodName + ":")
             for o in wantedMethod.listOfParams:
@@ -72,10 +74,16 @@ Input: method expecting param deletion, whether user wants to delete one or all 
 parameter's name (empty if ALL delete)
 Description: Deletes one or all params from a given method
 """
-def ParamDelete(wantedMethod, delAmnt, paramName):
+def ParamDelete(classname: str, methodname: str, wantedMethod, delAmnt, paramName):
     
     if wantedMethod.listOfParams: 
         if delAmnt == 'all':
+            if(undoListInsertable.bool):
+                oldListOfParams = list(wantedMethod.listOfParams)
+                reverseList = list()
+                for everyParam in oldListOfParams:
+                    reverseList.insert(0,(ParamAdd,(classname,methodname,everyParam.name, everyParam.type)))
+                undoList.insert(0,reverseList)
             wantedMethod.listOfParams.clear()           # If user wants to delete all params, clear list
             print("All parameters successfully deleted!")
             print(wantedMethod.listOfParams)
@@ -83,6 +91,8 @@ def ParamDelete(wantedMethod, delAmnt, paramName):
         elif delAmnt == 'one':
             for param in wantedMethod.listOfParams:
                 if param.name.casefold().strip() == paramName.casefold().strip():
+                    if(undoListInsertable.bool):
+                        undoList.insert(0,(ParamAdd,(classname,methodname,param.name, param.type)))
                     wantedMethod.listOfParams.remove(param)
                     print("UML> Attribute deleted!")
                     for o in wantedMethod.listOfParams:

@@ -455,7 +455,7 @@ def delParam (classname: str, methodname: str, paramname: str):
     user for a valid name.
 
     '''
-
+    from parametersModel import ParamAdd
     # call ClassSearch to search for the provided class in the system.
     wantedClass = ClassSearch(classname, listOfClasses)
 
@@ -468,7 +468,9 @@ def delParam (classname: str, methodname: str, paramname: str):
                     wantedParam = searchParam(wantedMethod, paramname) 
                     if wantedParam:  
                         for o in wantedMethod.listOfParams:
-                            if o.name.strip().lower() == paramname.strip().lower():
+                            if(o.name.strip().lower() == paramname.strip().lower() and o.name.strip().lower() != 'all'):
+                                if(undoListInsertable.bool):
+                                    undoList.insert(0,(ParamAdd,(classname,methodname, paramname, wantedParam.type)))
                                 wantedMethod.listOfParams.remove(o)
                                 print("UML> Parameter " + paramname + " of class " + classname + " deleted!")
                             
@@ -481,6 +483,12 @@ def delParam (classname: str, methodname: str, paramname: str):
                             # If user enters ALL/all to remove all methods.
                     else:
                         if paramname.casefold().strip() == 'all':
+                            if(undoListInsertable.bool):
+                                reverseList = list()
+                                oldParamList = list(wantedMethod.listOfParams)
+                                for everyParam in oldParamList:    
+                                    reverseList.insert(0,(ParamAdd,(classname,methodname, everyParam.name, wantedParam.type)))
+                                undoList.insert(0,reverseList)
                             wantedMethod.listOfParams.clear()
                             print("All parameters of " + classname +" successfully" 
                                     + " deleted! Enter 'q' to exit!")
@@ -533,7 +541,8 @@ def renameParam(classname: str, methodname: str, param: str, newname: str):
                             if thisParam:
                                 if thisParam.name.strip().lower() == param.strip().lower():    
                                     if checkParamName(thisMeth, newname.strip().casefold()):
-                                
+                                        if(undoListInsertable.bool):
+                                            undoList.insert(0,(renameParam,(classname,methodname,newname,param)))
                                         thisParam.name = newname.lower().strip()
                                         print("UML> Parameter "+ param +" successfully renamed!")
                                     for o in thisMeth.listOfParams:

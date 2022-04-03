@@ -22,7 +22,8 @@ import keyword
 import re
 from sharedItems import *
 from relationshipsModel import RelationshipAdd
-from attributesModel import addField
+from attributesModel import addField, addMethod
+from parametersModel import ParamAdd
 
  
 
@@ -178,6 +179,7 @@ def ClassDelete(deleteTarget):
             oldIndex = listOfClasses.index(classObject)
             oldListOfRelations = list(classObject.listOfRelationships)
             oldListOfFields = list(classObject.listOfFields)
+            oldListOfMethods = list(classObject.listOfMethods)
             listOfClasses.remove(classObject)
             print("Class " + deleteTarget + " deleted!")
             returnString = "Class " + deleteTarget + " deleted!"
@@ -206,6 +208,10 @@ def ClassDelete(deleteTarget):
                     reverseList.insert(0,(RelationshipAdd, (deleteTarget, rel.dest, rel.type)))
                 for field in oldListOfFields:
                     reverseList.insert(0,(addField, (deleteTarget, field.name, field.type)))
+                for method in oldListOfMethods:
+                    for param in method.listOfParams:
+                        reverseList.insert(0,(ParamAdd, (deleteTarget, method.name, param.name, param.type)))
+                    reverseList.insert(0,(addMethod, (deleteTarget, method.name, method.type)))
                 reverseList.insert(0,(ClassAdd, (deleteTarget, oldIndex)))
                 undoList.insert(0,reverseList)
             return returnString
