@@ -144,10 +144,10 @@ def test_NoParamDelete():
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 METHOD CALLS
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-test_AddOne()
-test_InvalidNameType()
-test_ClassMethodDoesNotExist()
-test_ParamDeleteOne()
-test_ParamDeleteAll()
-test_DeleteNonParam()
-test_NoParamDelete()
+# test_AddOne()
+# test_InvalidNameType()
+# test_ClassMethodDoesNotExist()
+# test_ParamDeleteOne()
+# test_ParamDeleteAll()
+# test_DeleteNonParam()
+# test_NoParamDelete()
