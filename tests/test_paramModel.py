@@ -98,7 +98,7 @@ def test_ParamDeleteOne():
     ParamAdd("class1", "method1", "param1", "str")
     ParamAdd("class1", "method1", "param2", "int")
     wantedMethod = searchMethod("class1", "method1")
-    ParamDelete(wantedMethod, "one", "param1")
+    ParamDelete("class1", "method1", wantedMethod, "one", "param1")
     assert listOfClasses[0].listOfMethods[0].listOfParams[0].name == 'param2', "Param 'param1' not deleted, list should only contain 'param2'"
     assert len(listOfClasses[0].listOfMethods[0].listOfParams) == 1, "Param list length not correct, should be 1"
     print("Singular parameter deletion successful!\n\n")
@@ -112,7 +112,7 @@ def test_ParamDeleteAll():
     ParamAdd("class1", "method1", "param1", "str")
     ParamAdd("class1", "method1", "param2", "int")
     wantedMethod = searchMethod("class1", "method1")
-    ParamDelete(wantedMethod, "all", "")
+    ParamDelete("class1", "method1", wantedMethod, "all", "")
     assert not listOfClasses[0].listOfMethods[0].listOfParams, "Param list of method1 contains elements, should be empty"
     print("Full parameter deletion successful!\n\n")
 
@@ -124,7 +124,7 @@ def test_DeleteNonParam():
     addMethod("class1", "method1", "str")
     ParamAdd("class1", "method1", "param1", "str")
     wantedMethod = searchMethod("class1", "method1")
-    ret = ParamDelete(wantedMethod, "one", "param2")
+    ret = ParamDelete("class1", "method1", wantedMethod, "one", "param2")
     assert len(listOfClasses[0].listOfMethods[0].listOfParams) == 1, "Param 'param1' was deleted, should remain in list"
     print("ParamDelete() properly exits if parameter does not exist!\n\n")
 
@@ -135,9 +135,9 @@ def test_NoParamDelete():
     paramlist = list()
     addMethod("class1", "method1", "str")
     wantedMethod = searchMethod("class1", "method1")
-    ret = ParamDelete(wantedMethod, "one", "param2")
+    ret = ParamDelete("class1", "method1", wantedMethod, "one", "param2")
     assert not listOfClasses[0].listOfMethods[0].listOfParams, "No params exist in the method, ParamDelete() should return"
-    assert ret == f"No params exist in {wantedMethod}"
+    assert ret == "No params exist in this method!"
     print("ParamDelete() properly exits if method does not contain parameters!\n\n")
 
 
