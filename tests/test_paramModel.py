@@ -27,7 +27,7 @@ def test_AddOne():
     reset()
     ClassAdd("class1")
     paramlist = list()
-    addMethod("class1", "method1", "str", paramlist)
+    addMethod("class1", "method1", "str")
     ParamAdd("class1", "method1", "param1", "str")
     assert listOfClasses[0].listOfMethods[0].listOfParams[0].name == 'param1', "Param name incorrect, should be 'param1'"
     assert listOfClasses[0].listOfMethods[0].listOfParams[0].type == 'str', "Param type incorrect, should be 'str'"
