@@ -5,6 +5,7 @@ Authors: Amelia Spanier, Tram Trinh
 
 import re
 import keyword
+from sqlite3 import paramstyle
 from classModel import *
 from sharedItems import *
 from attributesModel import *
@@ -21,7 +22,7 @@ ParamAdd
 Input: name of class containing method, name of method to add to, parameter's name, parameter's type
 Description: Creates a parameter with a valid name & type and appends to a given method's parameter list
 """
-def ParamAdd(className, methodName, paramName, paramType):
+def ParamAdd(className, methodName, paramName, paramType, delAmnt = 0, wantedMethod = 0):
     if not redoClass.redoCaller and redoClass.redoable:
         redoClass.redoable = False
     redoClass.redoCaller = False
@@ -41,7 +42,7 @@ def ParamAdd(className, methodName, paramName, paramType):
             thisParam = Param(paramName, paramType)             # new param with Bgiven name & type
             wantedMethod.listOfParams.append(thisParam)         # append new param to method's list of params
             if(undoListInsertable.bool):
-                undoList.insert(0,(ParamDelete,(className, methodName, wantedMethod,"one",paramName)))
+                undoList.insert(0,(ParamDelete,(className, methodName, wantedMethod,"one",paramName, paramType)))
             print("Parameter " + paramName +" successfully added!")
             print("List of parameters for method " + methodName + ":")
             for o in wantedMethod.listOfParams:
@@ -81,9 +82,10 @@ Input: method expecting param deletion, whether user wants to delete one or all 
 parameter's name (empty if ALL delete)
 Description: Deletes one or all params from a given method
 """
-def ParamDelete(classname: str, methodname: str, wantedMethod, delAmnt, paramName):
+def ParamDelete(classname: str, methodname: str, wantedMethod, delAmnt = 0, paramName = 0, paramType = 0):
     if not redoClass.redoCaller and redoClass.redoable:
         redoClass.redoable = False
+        
     redoClass.redoCaller = False
 
     if wantedMethod.listOfParams: 
@@ -92,7 +94,7 @@ def ParamDelete(classname: str, methodname: str, wantedMethod, delAmnt, paramNam
                 oldListOfParams = list(wantedMethod.listOfParams)
                 reverseList = list()
                 for everyParam in oldListOfParams:
-                    reverseList.insert(0,(ParamAdd,(classname,methodname,everyParam.name, everyParam.type)))
+                    reverseList.insert(0,(ParamAdd,(classname,methodname,everyParam.name, everyParam.type, 'all', wantedMethod)))
                 undoList.insert(0,reverseList)
             wantedMethod.listOfParams.clear()           # If user wants to delete all params, clear list
             print("All parameters successfully deleted!")
@@ -102,7 +104,7 @@ def ParamDelete(classname: str, methodname: str, wantedMethod, delAmnt, paramNam
             for param in wantedMethod.listOfParams:
                 if param.name.casefold().strip() == paramName.casefold().strip():
                     if(undoListInsertable.bool):
-                        undoList.insert(0,(ParamAdd,(classname,methodname,param.name, param.type)))
+                        undoList.insert(0,(ParamAdd,(classname,methodname,param.name, param.type, 'one', wantedMethod)))
                     wantedMethod.listOfParams.remove(param)
                     print("UML> Attribute deleted!")
                     for o in wantedMethod.listOfParams:

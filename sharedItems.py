@@ -22,7 +22,7 @@ class redoBool:
         self.redoable = bool
         self.redoCaller = bool
 
-redoClass = redoBool (False)
+redoClass = redoBool (True)
 
 #Searches through class list and return given name.    
 def ClassSearch(name, classList):

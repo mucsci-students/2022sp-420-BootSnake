@@ -12,7 +12,6 @@ def undo():
     if(len(undoList) == 0):
         return "\nNothing to undo!"
     else:
-        redoClass.redoable = True
         undoListInsertable.bool = False
         #The following two lines will suppress the text from ClassAdd()
         undoAction = undoList[0]
@@ -41,6 +40,7 @@ def undo():
         #This here will release the text so I can continue to use print().
         sys.stdout = sys.__stdout__
         undoList.pop(0)
+        redoClass.redoable = True
         return "Undid!"
 
         
@@ -104,8 +104,10 @@ def getOpposite(function, param) -> tuple:
             return (delMethod, param)
         elif (function == renMethod):
             return (renMethod, (param[0], param[2], param[1]))
-        # elif (function == )
-    
+        elif (function == ParamAdd):
+            return (ParamDelete, (param[0], param[1], param[5], param[4], param[2], param[3]))
+        elif (function == ParamDelete):
+            return (ParamAdd, (param[0], param[1], param[4], param[5], param[2]))
     else:
         if (function == ClassAdd):
             return (ClassDelete, param)

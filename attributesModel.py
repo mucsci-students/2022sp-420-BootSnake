@@ -111,7 +111,7 @@ def addField(classname : str, fieldname : str, fieldtype: str):
 ###############################################################################
 
 
-def delField (classname: str, fieldname:str, fieldtype:str):
+def delField (classname: str, fieldname:str, fieldtype = 0):
     '''
     The delField deletes a field(s) for a given class provided
     that the class & the field must exist in the system. It provides user 
