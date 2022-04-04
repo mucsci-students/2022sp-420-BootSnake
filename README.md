@@ -28,3 +28,18 @@
             
               Notes:
                  On Linux, run the gui with "python3 interfaceGUI.py" and the CLI with "python bootsnake.py" or python3
+
+
+#  Design Patterns
+1. Iterator: Our ClassSearch method iterates through a list of AClass objects to find the class of the given name.
+   (Location: classModel.py 146)
+
+2. Facade: The AClass object is a facade that contains subsystems of methods, fields, and relationships.
+   (Location: classModel.py 34)
+
+3. Command: Our GUI uses buttons that are linked to commands.
+   (Location: interfaceGUIView.py 240)
+
+4. Observer: When a class is renamed, all relationships dependent on the given class are made to set its old name to match 
+   the new name.
+   (Location: classModel.py 164)
