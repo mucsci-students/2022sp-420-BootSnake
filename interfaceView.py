@@ -47,6 +47,8 @@ def ListClass(name):
     # Loop through listOfAttributes
     for x in wantedClass.listOfMethods:
         messageString += "\t" + x.name + "\n"
+        for p in x.listOfParams:
+            messageString += "\t\t" + p.name + " : " + p.type + "\n"
     
     messageString += "\nRelationships: \n" 
     

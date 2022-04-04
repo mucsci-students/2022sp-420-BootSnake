@@ -10,8 +10,9 @@ from sharedItems import *
 # relationship object that stores the type of relationship along with 
 # destination of the relationship.
 class relationship:
-    def __init__(self,type,dest):
+    def __init__(self,type,dest,src):
         self.type = type
+        self.src = src
         self.dest = dest
 
 
@@ -37,7 +38,7 @@ def RelationshipAdd(src: str, dest: str, type: str):
         for r in srcClass.listOfRelationships:
             if r.dest == destClass.name:
                 return "Error: Relationship already exists."
-        newRelationship = relationship(type, dest)
+        newRelationship = relationship(type, dest, src)
         srcClass.listOfRelationships.append(newRelationship)
         #The undo list needs an opposite action.
         if(undoListInsertable.bool):

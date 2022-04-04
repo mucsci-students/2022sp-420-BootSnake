@@ -502,7 +502,7 @@ def umlCliController() -> None:
                                         elif (delAmnt != 'one') and (delAmnt != 'all'):
                                             break
                                             
-                                        ParamDelete(wantedMethod, delAmnt, paramName)
+                                        ParamDelete(clsname, methname, wantedMethod, delAmnt, paramName)
                                         
                                     else:
               

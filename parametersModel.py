@@ -47,6 +47,7 @@ def ParamAdd(className, methodName, paramName, paramType, delAmnt = 0, wantedMet
             print("List of parameters for method " + methodName + ":")
             for o in wantedMethod.listOfParams:
                 print(o.name + " : " + o.type)
+            return("Parameter " + paramName +" successfully added!")
 
         else:
             return "Parameter does not fit criteria for validity."
