@@ -196,7 +196,7 @@ def test_addMethod():
     #assert "classFood" in listOfClasses[0]
     assert listOfClasses[0].name =="classFood"
     assert "Beef successfully added!"
-    assert listOfClasses[0].listOfMethods[0].name =="Beef"
+    assert listOfClasses[0].listOfMethods[0].name =="beef"
 
 # test add a duplicate method to a specific class
 def test_addDupMethod():
@@ -204,10 +204,10 @@ def test_addDupMethod():
     ClassAdd("classFood")
     addMethod("classFood","beef", "str")
     assert "Beef successfully added!"
-    assert listOfClasses[0].listOfMethods[0].name =="Beef"
+    assert listOfClasses[0].listOfMethods[0].name =="beef"
     addMethod("classFood","beef", "str")
     assert "beef existed! No duplicated allowed!" 
-    assert listOfClasses[0].listOfMethods[0].name =="Beef"
+    assert listOfClasses[0].listOfMethods[0].name =="beef"
         
 
 # test add a blank method to a specific class
@@ -229,8 +229,8 @@ def test_reNameMethod():
     addMethod("classFood","Beef", "str")
     assert "Beef successfully added!"
     assert listOfClasses[0].listOfMethods[0].name =="Beef"
-    renMethod("classFood","beef","Soup" )
-    assert "Method beef successfully renamed to Soup!"
+    renMethod("classFood","Beef","Soup" )
+    assert "Method Beef successfully renamed to Soup!"
     assert listOfClasses[0].listOfMethods[0].name == "Soup"
 
 
@@ -264,7 +264,7 @@ def test_delAllMethods():
     addMethod("classFood","Beef", "str")
     assert "Beef successfully added!"
     assert listOfClasses[0].listOfMethods[0].name =="Beef"
-    addMethod("classFood","soup", "str")
+    addMethod("classFood","Soup", "str")
     assert "soup successfully added!"
     assert listOfClasses[0].listOfMethods[1].name =="Soup"
     delMethod("classFood","all")
