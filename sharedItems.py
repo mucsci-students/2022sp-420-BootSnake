@@ -1,7 +1,12 @@
 #A global list that will be used to keep all the classes.
+from asyncio.events import BaseDefaultEventLoopPolicy
+
+
 listOfClasses = list()
 undoList = list()
 redoList = list()
+
+
 class undoListBool:
      def __init__(self,bool):
         self.bool = bool 
@@ -11,6 +16,13 @@ class redoListBool:
     def __init__(self,bool):
         self.bool = bool
 redoListInsertable = redoListBool(True)
+
+class redoBool:
+    def __init__(self, bool):
+        self.redoable = bool
+        self.redoCaller = bool
+
+redoClass = redoBool (False)
 
 #Searches through class list and return given name.    
 def ClassSearch(name, classList):

@@ -80,7 +80,9 @@ def addField(classname : str, fieldname : str, fieldtype: str):
         2. Case-insensitive when searching for field(s).
 
     '''
-    
+    if not redoClass.redoCaller and redoClass.redoable:
+        redoClass.redoable = False
+    redoClass.redoCaller = False
 
     #call ClassSearch to search for the provided class in the system.
     wantedClass = ClassSearch(classname, listOfClasses)
@@ -123,7 +125,9 @@ def delField (classname: str, fieldname:str, fieldtype:str):
     user for a valid name.
 
     '''
-
+    if not redoClass.redoCaller and redoClass.redoable:
+        redoClass.redoable = False
+    redoClass.redoCaller = False
 
     # call ClassSearch to search for the provided class in the system.
     wantedClass = ClassSearch(classname, listOfClasses)
@@ -194,6 +198,9 @@ def renField (classname: str, fieldname: str, newname: str):
     user for a valid name.
 
     '''
+    if not redoClass.redoCaller and redoClass.redoable:
+        redoClass.redoable = False
+    redoClass.redoCaller = False
 
     # call ClassSearch to search for the provided class in the system.
     wantedClass = ClassSearch(classname, listOfClasses)
@@ -248,8 +255,10 @@ def addMethod(classname: str, methodname: str, methtype: str):
         2. Case-insensitive when searching for method(s).
 
     '''
-    
-    
+    if not redoClass.redoCaller and redoClass.redoable:
+        redoClass.redoable = False
+    redoClass.redoCaller = False
+
     # search for the class in the system
     wantedClass = ClassSearch(classname, listOfClasses)
     if wantedClass:
@@ -299,7 +308,9 @@ def renMethod (classname: str, methodname: str, newmethod: str):
     user for a valid name.
 
     '''
-    
+    if not redoClass.redoCaller and redoClass.redoable:
+        redoClass.redoable = False
+    redoClass.redoCaller = False
 
     # call ClassSearch to search for the provided class in the system.
     wantedClass = ClassSearch(classname, listOfClasses)
@@ -356,6 +367,9 @@ def delMethod (classname: str, methodname: str, methtype = 0):
     user for a valid name.
 
     '''
+    if not redoClass.redoCaller and redoClass.redoable:
+        redoClass.redoable = False
+    redoClass.redoCaller = False
 
     # call ClassSearch to search for the provided class in the system.
     wantedClass = ClassSearch(classname, listOfClasses)
@@ -456,6 +470,11 @@ def delParam (classname: str, methodname: str, paramname: str):
 
     '''
     from parametersModel import ParamAdd
+
+    if not redoClass.redoCaller and redoClass.redoable:
+        redoClass.redoable = False
+    redoClass.redoCaller = False
+
     # call ClassSearch to search for the provided class in the system.
     wantedClass = ClassSearch(classname, listOfClasses)
 
@@ -526,6 +545,10 @@ def renameParam(classname: str, methodname: str, param: str, newname: str):
     
     """
     
+    if not redoClass.redoCaller and redoClass.redoable:
+        redoClass.redoable = False
+    redoClass.redoCaller = False
+
     # call ClassSearch to search for the provided class in the system.
     wantedClass = ClassSearch(classname, listOfClasses)
     if wantedClass:

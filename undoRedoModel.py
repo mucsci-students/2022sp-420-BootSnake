@@ -12,6 +12,7 @@ def undo():
     if(len(undoList) == 0):
         return "\nNothing to undo!"
     else:
+        redoClass.redoable = True
         undoListInsertable.bool = False
         #The following two lines will suppress the text from ClassAdd()
         undoAction = undoList[0]
@@ -44,6 +45,9 @@ def undo():
 
         
 def redo():
+    if (not redoClass.redoable):
+        redoList.clear()
+        return "\nCannot redo!"
     if(len(redoList) == 0):
         return "\nNothing to redo!"
     else:
@@ -52,8 +56,10 @@ def redo():
         redoAction = redoList[0]
 
         if (isinstance(redoAction, list)):
+            redoClass.redoCaller = True
             redoAction = getOpposite(redoAction[0][0], redoAction[0][1][0])
         else:
+            redoClass.redoCaller = True
             redoAction = getOpposite(redoAction[0], redoAction[1])
         suppress_text = io.StringIO()
         

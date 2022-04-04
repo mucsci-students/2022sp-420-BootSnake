@@ -11,7 +11,6 @@ def ListClasses():
     
     messageString = ''
     if len(listOfClasses) == 0:
-        print("There are currently no classes")
         messageString = "There are currently no classes."
     
     
@@ -65,13 +64,11 @@ def ListRelationships():
     message = ''
     if len(listOfClasses) == 0:
         message += "There are currently no classes."    # Inform user if there are no classes
-        print(message)
         return message
     
     for c in listOfClasses:
         for r in c.listOfRelationships:
             message += "\t" + c.name + " ---"+ "("+r.type+")"+ "---> " + r.dest + '\n'               # For each class, get each of its relationships and print them
-    print(message)
     return message
 
 """

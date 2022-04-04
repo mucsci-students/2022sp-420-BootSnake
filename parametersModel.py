@@ -22,6 +22,9 @@ Input: name of class containing method, name of method to add to, parameter's na
 Description: Creates a parameter with a valid name & type and appends to a given method's parameter list
 """
 def ParamAdd(className, methodName, paramName, paramType):
+    if not redoClass.redoCaller and redoClass.redoable:
+        redoClass.redoable = False
+    redoClass.redoCaller = False
 
     wantedClass = ClassSearch(className, listOfClasses)        # get requested class from list of classes
 
@@ -56,6 +59,10 @@ Input: parameter list, parameter's name, parameter's type
 Description: Specialized param add for parameter change method use (NOT IN USE)
 """
 def ParamListAdd(wantedMethod, paramName, paramType):
+    if not redoClass.redoCaller and redoClass.redoable:
+        redoClass.redoable = False
+    redoClass.redoCaller = False
+
     validParam = CheckNameType(paramName, paramType, wantedMethod)      # check that name and type of param are valid
 
     if validParam:
@@ -75,7 +82,10 @@ parameter's name (empty if ALL delete)
 Description: Deletes one or all params from a given method
 """
 def ParamDelete(classname: str, methodname: str, wantedMethod, delAmnt, paramName):
-    
+    if not redoClass.redoCaller and redoClass.redoable:
+        redoClass.redoable = False
+    redoClass.redoCaller = False
+
     if wantedMethod.listOfParams: 
         if delAmnt == 'all':
             if(undoListInsertable.bool):

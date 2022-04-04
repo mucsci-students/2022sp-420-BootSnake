@@ -27,6 +27,10 @@ Returns:
 2 - relationship already exists
 """
 def RelationshipAdd(src: str, dest: str, type: str):
+    if not redoClass.redoCaller and redoClass.redoable:
+        redoClass.redoable = False
+    redoClass.redoCaller = False
+
     srcClass = ClassSearch(src, listOfClasses)
     destClass = ClassSearch(dest, listOfClasses)
     if srcClass is not None and destClass is not None:
@@ -55,6 +59,10 @@ Returns:
 2 - relationship does not exist for deletion
 """
 def RelationshipDelete(src: str, dest: str, type = 0):
+    if not redoClass.redoCaller and redoClass.redoable:
+        redoClass.redoable = False
+    redoClass.redoCaller = False
+
     srcClass = ClassSearch(src, listOfClasses)
     destClass = ClassSearch(dest, listOfClasses)
     if srcClass is not None and destClass is not None:
@@ -72,6 +80,10 @@ def RelationshipDelete(src: str, dest: str, type = 0):
     
 
 def relationshipEdit(src: str, dest: str, type: str, old = 0):
+    if not redoClass.redoCaller and redoClass.redoable:
+        redoClass.redoable = False
+    redoClass.redoCaller = False
+
     srcClass = ClassSearch(src, listOfClasses)
     destClass = ClassSearch(dest, listOfClasses)
     if srcClass is not None and destClass is not None:
