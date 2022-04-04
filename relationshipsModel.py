@@ -17,11 +17,13 @@ class relationship:
 
 
 """
-This function takes in two strings (class names) and uses the ClassSearch
-function to verify they exist. It then checks that the relationship
-does not already exist, then appends the 'destination' class
-to the 'source' list of relationships.
-
+RelationshipAdd
+Description: This function takes in two strings (class names) and uses the 
+ClassSearch function to verify they exist. It then checks that the relationship
+does not already exist, then appends the 'destination' class to the 'source'
+list of relationships.
+Parameter(s): name of class to be relationship source, name of class to be
+relationship destination, type of relationship
 Returns:
 0 - OK
 1 - either source or dest class does not exist
@@ -40,11 +42,12 @@ def RelationshipAdd(src: str, dest: str, type: str):
     else:
         return "Error: Either the source or destination class does not exist."
 """
-This function takes in two strings (class names) and uses the ClassSearch
-function to verify they exist. It then checks that the relationship
-does already exist, then removes the 'destination' class
-from the 'source' list of relationships.
-
+RelationshipDelete
+Description: This function takes in two strings (class names) and uses the 
+ClassSearch function to verify they exist. It then checks that the relationship
+does already exist, then removes the 'destination' class from the 'source' list
+of relationships.
+Parameter(s): name of relationship's source, name of relationship's destination
 Returns:
 0 - OK
 1 - Either source or dest class does not exist

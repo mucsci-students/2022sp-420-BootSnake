@@ -63,24 +63,19 @@ class FieldClass:
 ########################################################################################    
     
  
-  
+"""
+addField
+Description: Adds a field(s) for a selected, existing class in the system provided that
+the field is unique within the class.
+Parameter(s): name of class to be added to, field's name, field's type
+Return: message to indicate success or failure to add field 
+    
+Notes: 
+    1. 'Uppercase' words will systematically convert to converted to 
+        'lowercase' words.
+    2. Case-insensitive when searching for field(s).
+"""
 def addField(classname : str, fieldname : str, fieldtype: str):
-    '''
-    The addField adds a field(s) for a selected, existing class
-    in the system provided that the field is unique within the class.
-    
-    This function allows user to continue adding fields untill user
-    presses 'quit'.
-
-    Given the class is not existed, it prompts user for a valid class name. 
-    
-    Notes: 
-        1. 'Uppercase' words will systematically convert to converted to 
-            'lowercase' words.
-        2. Case-insensitive when searching for field(s).
-
-    '''
-    
 
     #call ClassSearch to search for the provided class in the system.
     wantedClass = ClassSearch(classname, listOfClasses)
@@ -107,22 +102,14 @@ def addField(classname : str, fieldname : str, fieldtype: str):
 
 ###############################################################################
 
-
+"""
+delField
+Description: Deletes a field(s) for a given class provided that the class & the 
+field exist in the system.
+Parameter(s): name of class to be deleted from, name of field to be deleted
+Return: message to indicate success or failure to delete field
+"""
 def delField (classname: str, fieldname:str):
-    '''
-    The delField deletes a field(s) for a given class provided
-    that the class & the field must exist in the system. It provides user 
-    with the following choices:
-        
-        1. Deleting a selected field(s) one-by-one.
-        2. Delete ALL fields of a class at once.
-        3. Opt out. 
-    
-    When either the selected class or field(s) is not existed, it prompts
-    user for a valid name.
-
-    '''
-
 
     # call ClassSearch to search for the provided class in the system.
     wantedClass = ClassSearch(classname, listOfClasses)
@@ -170,21 +157,15 @@ def delField (classname: str, fieldname:str):
 
 ###############################################################################
 
-
+"""
+renField
+Description: Renames an existing field(s) for a given existing class in the
+system.
+Parameter(s): name of class containing field, field's current name, field's
+new name
+Return: message indicating success or failure to rename field
+"""
 def renField (classname: str, fieldname: str, newname: str):
-    '''
-    The renField renames an existing field(s) for a given existing
-    class in the system. The newly-created name must be unique within the class. 
-    It calls check_name method to verify the validity of the renamed field
-    prior to updating the field name for the class.
-
-    User can continue renaming the selected field or stop at any time by
-    pressing 'quit'
-
-    When either the selected class or field(s) is not existed, it prompts
-    user for a valid name.
-
-    '''
 
     # call ClassSearch to search for the provided class in the system.
     wantedClass = ClassSearch(classname, listOfClasses)
@@ -219,25 +200,20 @@ def renField (classname: str, fieldname: str, newname: str):
       
 ###############################################################################
 
+"""
+addMethod
+Description: Adds a method(s) for a selected, existing class in the system
+provided that the method has unique identifiers within the class
+Parameter(s): name of class to be added to, method's name, method's type,
+list of parameters
+Return: message to indicate success or failure to add method
+
+Notes: 
+    1. 'Uppercase' words will systematically convert to converted to 
+        'propercase' words.
+    2. Case-insensitive when searching for method(s).
+"""
 def addMethod(classname: str, methodname: str, methtype: str,  paramlist: list()):
-    
-    '''
-    The addMethod adds a method(s) for a selected, existing class
-    in the system provided that the method has unique identifiers within 
-    the class.
-    
-    This function allows user to continue adding methods untill user
-    presses 'quit'.
-
-    Given the class is not existed, it prompts user for a valid class name. 
-    
-    Notes: 
-        1. 'Uppercase' words will systematically convert to converted to 
-            'propercase' words.
-        2. Case-insensitive when searching for method(s).
-
-    '''
-    
     
     # search for the class in the system
     wantedClass = ClassSearch(classname, listOfClasses)
@@ -272,22 +248,16 @@ def addMethod(classname: str, methodname: str, methtype: str,  paramlist: list()
 
 ###############################################################################
 
+"""
+renMethod
+Description: Renames an existing method(s) for a given existing class in the
+system.
+Parameter(s): name of class containing method, method's current name, method's
+new name
+Return: message to indicate success or failure to rename method
+"""
 def renMethod (classname: str, methodname: str, newmethod: str):
-    '''
-    The renMethod renames an existing method(s) for a given existing
-    class in the system. The newly-created name must be unique within the class. 
-    It calls searchName method to verify the validity of the renamed method
-    prior to updating the method name for the class.
-
-    User can continue renaming the selected method or stop at any time by
-    pressing 'quit'
-
-    When either the selected class or method(s) is not existed, it prompts
-    user for a valid name.
-
-    '''
     
-
     # call ClassSearch to search for the provided class in the system.
     wantedClass = ClassSearch(classname, listOfClasses)
     if wantedClass:
@@ -326,20 +296,14 @@ def renMethod (classname: str, methodname: str, newmethod: str):
          
 ###############################################################################              
 
+"""
+delMethod
+Description: Deletes a method(s) for a given class provided that the class &
+the method exists in the system
+Parameter(s): name of class to be deleted from, name of method to be deleted
+Return: message indicating success or failure to delete method
+"""
 def delMethod (classname: str, methodname: str):
-    '''
-    The delMethod deletes a method(s) for a given class provided
-    that the class & the method must exist in the system. It provides 
-    user with the following choices:
-        
-        1. Delete a selected method(s) one-by-one.
-        2. Delete ALL methods of a class at once.
-        3. Opt out. 
-    
-    When either the selected class or method(s) is not existed, it prompts
-    user for a valid name.
-
-    '''
 
     # call ClassSearch to search for the provided class in the system.
     wantedClass = ClassSearch(classname, listOfClasses)
@@ -525,18 +489,13 @@ def renameParam(classname: str, methodname: str, param: str, newname: str):
 ###############################################################################
 # Helper functions
 
+"""
+checkName
+Description: Verifies the validity of a field's name and its type.
+Parameter(s): class expecting field addition, name to be checked for validity
+Return: bool indicating whether or not given name is valid
+"""
 def checkName(wantedClass: str, name: str):
-    """"
-    
-    The function checkName verifies the validity of a field's name and its type
-    input by user by checking whether it is blank, non-alphanumeric, 
-    reserved keyword, or preceded by an special character(s), an integer(s),
-    or non-existing within a class prior to adding the identifier 
-    in the system. 
-    
-    It prompts user if multi-word field name with spaces entered.
-
-    """
     
     if not name.strip() :  
         print("UML> name and type cannot be blank!")
@@ -579,19 +538,13 @@ def checkName(wantedClass: str, name: str):
 
 ##########################################################################################
 
+"""
+checkMethName
+Description: Verifies the validity of a method's name and its type.
+Parameter(s): class expecting method addition, name to be checked for validity
+Return: bool indicating whether or not given name is valid
+"""
 def checkMethName(wantedClass, name: str):
-    
-    """"
-    
-    The function checkMethName verifies the validity of a method's name and its type
-    input by user by checking whether it is blank, non-alphanumeric, 
-    reserved keyword, or preceded by an special character(s), an integer(s),
-    or non-existing within a class prior to adding the identifier 
-    in the system. 
-    
-    It prompts user if multi-word method name with spaces entered.
-
-    """
     
     if not name.strip():  
         print("UML> Name and/or type cannot be blank!")
@@ -673,8 +626,14 @@ def checkParamName(wantedMethod, paramname: str):
         
         return True
     
-##############################################################################################  
-# search for a method
+##############################################################################################
+
+"""
+searchMethod
+Description: Searches for a method with a given name in a class
+Parameter(s): name of class containing method, name of method
+Return: method object with name attribute matching given name
+"""
 def searchMethod(classname: str, methname: str) :
     # loop through the list of methods of a given class to search for a 
     # existing method in the system.
@@ -690,7 +649,12 @@ def searchMethod(classname: str, methname: str) :
             
 ######################################################################################     
    
-# search for fields
+"""
+searchField
+Description: Searches for a field with a given name in a class
+Parameter(s): name of class containing field, name of field
+Return: field object with name attribute matching given name
+"""
 def searchField(classname: str, name: str):
     # loop through the list of fields of a given class to search for a 
     # existing method in the system.
@@ -704,7 +668,13 @@ def searchField(classname: str, name: str):
     else: 
         return None
 #########################################################################################    
-# search for a parameter    
+
+"""
+searchParam
+Description: Searches for a parameter with a given name in a method
+Parameter(s): method object containing parameter, name of parameter
+Return: parameter object with name attribute matching given name
+"""
 def searchParam( methObj: object, param: str):
     
     for x in methObj.listOfParams:
@@ -712,43 +682,4 @@ def searchParam( methObj: object, param: str):
             return x
     return None
     
-
-
 #########################################################################################
-# # Give the user some context.
-# print("\nWelcome to the BootSnake Geeks camp. What would you like to do?")
-
-# # Set an initial value for choice other than the value for 'quit'.
-# command = ''
-
-# # Start a loop that runs until the user enters the value for 'quit'.
-# while command != 'q':
-    
-#     # Give all the choices in a series of print statements.
-#     print("\n[1] Enter 1 to input attributes.")
-#     print("[2] Enter 2 to display a list of all attributes.")
-#     print("[3] Enter 3 to select an attribute to delete.")
-#     print("[4] Enter 4 to select an attribute to rename.")
-#     print("[q] Enter q to quit.")
-    
-#     # Ask for the user's choice.
-#     command = input('\nUML> What would you like to do? ')
-
-# # Respond to the user's choice.
-#     if command == '1':
-#         attr_add()
-#     elif command == '2':
-#         has_attr ()
-#     elif command == '3':
-#         attr_del()
-#     elif command == '4':
-#         attr_ren()
-#     elif command == 'q':
-#         print('\nSee you later.\n')
-#     else:
-#         print('\nPlease try again.\n')
-
-
-
-
-

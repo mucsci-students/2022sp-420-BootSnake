@@ -51,7 +51,10 @@ class ClassEncoder (JSONEncoder):
 
 
 """
-Save to a JSON format file, make sure to save a valid name
+save
+Description: Save to a JSON format file, make sure to save a valid name
+Parameter(s): name of file to be saved to
+Return: none
 """
 
 def save (filename):
@@ -104,7 +107,10 @@ def save (filename):
  
 
 """
-Load a JSON format file, only if one has already been saved
+load
+Description: Load a JSON format file, only if one has already been saved
+Parameter(s): name of file to load
+Return: none
 """
 def load (filename):
     # Open the file by the filename given

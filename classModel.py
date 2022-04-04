@@ -41,9 +41,12 @@ class AClass:
         self.listOfRelationships = list()
     
     
-    
-# A helper function used to check the validity of class names. 
-# Returns a bool to the function that calls it.
+"""    
+ClassNameChecker
+Description: A helper function used to check the validity of class names.
+Parameter(s): class name to be checked for validity
+Return: a bool to the function that calls it
+"""
 def ClassNameChecker(name):
     """
     The following variable "regex" is a regular expression used to find if 
@@ -94,10 +97,13 @@ def ClassNameChecker(name):
 
 
 """
-The function that adds classes to the global list of classes. It does not allow 
-for duplicates, leading numbers/underscores, or special characters. With 
-exception to non first character underscores. It also prevents you from naming 
-a class an empty string.
+ClassAdd
+Description: The function that adds classes to the global list of classes.
+It does not allow for duplicates, leading numbers/underscores, or special 
+characters. With exception to non first character underscores. It also prevents 
+you from naming a class an empty string.
+Parameter(s): name to be associated with the new class
+Return: message to indicate success or failure to add class
 """
 def ClassAdd(name : str):
     """
@@ -132,7 +138,10 @@ def ClassAdd(name : str):
     return userInput
 
 """
-Searches through class list and return given name.
+ClassSearch
+Description: Searches through class list and return given name.
+Parameter(s): name of class to be retrieved, current list of classes
+Return: class object with name attribute that matches the given name
 
 Design Pattern Note: This is an iterator method in which a list is iterated through until a class object with the given name is found.
 """    
@@ -186,7 +195,12 @@ def ClassRename(OldName : str, NewName : str):
     return "Class not found!"
 
    
-
+"""
+ClassDelete
+Description: Finds and deletes the class with the given name.
+Parameter(s): name of class to be deleted
+Return: message to indicate success or failure to delete class
+"""
 def ClassDelete(deleteTarget):
     returnString = ""
     # You can't delete things if there's nothing to rename.

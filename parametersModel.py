@@ -17,8 +17,9 @@ class Param:
 
 """
 ParamAdd
-Input: name of class containing method, name of method to add to, parameter's name, parameter's type
 Description: Creates a parameter with a valid name & type and appends to a given method's parameter list
+Parameter(s): name of class containing method, name of method to add to, parameter's name, parameter's type
+Return: message to indicate success or failure to add parameter
 """
 def ParamAdd(className, methodName, paramName, paramType):
 
@@ -48,9 +49,8 @@ def ParamAdd(className, methodName, paramName, paramType):
         return "Could not find method with name " + methodName + ". Please input an existing method."
 
 """
-ParamListAdd
+ParamListAdd (NOT IN USE)
 Input: parameter list, parameter's name, parameter's type
-Description: Specialized param add for parameter change method use (NOT IN USE)
 """
 def ParamListAdd(wantedMethod, paramName, paramType):
     validParam = CheckNameType(paramName, paramType, wantedMethod)      # check that name and type of param are valid
@@ -67,9 +67,10 @@ def ParamListAdd(wantedMethod, paramName, paramType):
 
 """
 ParamDelete
-Input: method expecting param deletion, whether user wants to delete one or all parameters in the list,
-parameter's name (empty if ALL delete)
 Description: Deletes one or all params from a given method
+Parameter(s): method expecting param deletion, whether user wants to delete one or all parameters
+in the list, parameter's name (empty if ALL delete)
+Return: message to indicate success or failure to delete parameter(s)
 """
 def ParamDelete(wantedMethod, delAmnt, paramName):
     
@@ -93,10 +94,11 @@ def ParamDelete(wantedMethod, delAmnt, paramName):
 
 """
 CheckNameType
-Input: given parameter name, given parameter type, method expecting param addition
 Description: Checks that both name & type of the new param are valid and that a param with the same
 name does not exist within the method. Both name & type must be valid in order for the param to be
 added to the method's list of params
+Parameter(s): given parameter name, given parameter type, method expecting param addition
+Return: boolean to indicate whether or not parameter name is valid
 """
 def CheckNameType(paramName: str, paramType: str, methodName):
         
