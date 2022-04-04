@@ -232,7 +232,6 @@ def test_reNameMethod():
     renMethod("classFood","Beef","Soup")
     assert "Method Beef successfully renamed to Soup!"
     assert listOfClasses[0].listOfMethods[0].name == "Soup"
-+
 
 # test rename an invalid method to a specific class
 def test_renameInvalidMethod():
