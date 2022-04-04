@@ -79,7 +79,7 @@ def test_ClassMethodDoesNotExist():
     paramlist = list()
     addMethod("class1", "method1", "str")
     ret = ParamAdd("class1", "method2", "param1", "str")
-    assert ret == "Could not find method with name method2. Please input an existing method"
+    assert ret == "Could not find method with name method2. Please input an existing method."
     assert not listOfClasses[0].listOfMethods[0].listOfParams
 
     print("ParamAdd() exits properly when class or method does not exist!\n\n")
