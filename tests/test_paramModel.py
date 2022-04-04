@@ -39,7 +39,7 @@ def test_InvalidNameType():
     reset()
     ClassAdd("class1")
     paramlist = list()
-    addMethod("class1", "method1", "str", paramlist)
+    addMethod("class1", "method1", "str")
     ret = ParamAdd("class1", "method1", "@", "str")
     assert not listOfClasses[0].listOfMethods[0].listOfParams, "Invalid parameter added to method, should not happen"
     assert ret == "@ not found!"
@@ -47,7 +47,7 @@ def test_InvalidNameType():
     reset()
     ClassAdd("class1")
     paramlist = list()
-    addMethod("class1", "method1", "str", paramlist)
+    addMethod("class1", "method1", "str")
     ret = ParamAdd("class1", "method1", "param1", "9")
     assert not listOfClasses[0].listOfMethods[0].listOfParams, "Invalid parameter added to method, should not happen"
     assert ret == "param1 not found!"
@@ -55,7 +55,7 @@ def test_InvalidNameType():
     reset()
     ClassAdd("class1")
     paramlist = list()
-    addMethod("class1", "method1", "str", paramlist)
+    addMethod("class1", "method1", "str")
     ParamAdd("class1", "method1", "param1", "int")
     ret = ParamAdd("class1", "method1", "param1", "long")
     assert len(listOfClasses[0].listOfMethods[0].listOfParams) == 1, "Invalid parameter added to method, should not happen"
@@ -69,7 +69,7 @@ def test_ClassMethodDoesNotExist():
     reset()
     ClassAdd("class1")
     paramlist = list()
-    addMethod("class1", "method1", "str", paramlist)
+    addMethod("class1", "method1", "str")
     ret = ParamAdd("class2", "method1", "param1", "str")
     assert ret == "class2 not existed! Please input an existing class!"
     assert not listOfClasses[0].listOfMethods[0].listOfParams
@@ -77,7 +77,7 @@ def test_ClassMethodDoesNotExist():
     reset()
     ClassAdd("class1")
     paramlist = list()
-    addMethod("class1", "method1", "str", paramlist)
+    addMethod("class1", "method1", "str")
     ret = ParamAdd("class1", "method2", "param1", "str")
     assert ret == "Could not find method with name method2. Please input an existing method"
     assert not listOfClasses[0].listOfMethods[0].listOfParams
@@ -94,7 +94,7 @@ def test_ParamDeleteOne():
     reset()
     ClassAdd("class1")
     paramlist = list()
-    addMethod("class1", "method1", "str", paramlist)
+    addMethod("class1", "method1", "str")
     ParamAdd("class1", "method1", "param1", "str")
     ParamAdd("class1", "method1", "param2", "int")
     wantedMethod = searchMethod("class1", "method1")
@@ -108,7 +108,7 @@ def test_ParamDeleteAll():
     reset()
     ClassAdd("class1")
     paramlist = list()
-    addMethod("class1", "method1", "str", paramlist)
+    addMethod("class1", "method1", "str")
     ParamAdd("class1", "method1", "param1", "str")
     ParamAdd("class1", "method1", "param2", "int")
     wantedMethod = searchMethod("class1", "method1")
@@ -121,7 +121,7 @@ def test_DeleteNonParam():
     reset()
     ClassAdd("class1")
     paramlist = list()
-    addMethod("class1", "method1", "str", paramlist)
+    addMethod("class1", "method1", "str")
     ParamAdd("class1", "method1", "param1", "str")
     wantedMethod = searchMethod("class1", "method1")
     ret = ParamDelete(wantedMethod, "one", "param2")
@@ -133,7 +133,7 @@ def test_NoParamDelete():
     reset()
     ClassAdd("class1")
     paramlist = list()
-    addMethod("class1", "method1", "str", paramlist)
+    addMethod("class1", "method1", "str")
     wantedMethod = searchMethod("class1", "method1")
     ret = ParamDelete(wantedMethod, "one", "param2")
     assert not listOfClasses[0].listOfMethods[0].listOfParams, "No params exist in the method, ParamDelete() should return"

@@ -191,7 +191,7 @@ def test_delFieldInvalidClass():
 def test_addMethod():
     reset()
     ClassAdd("classFood")
-    addMethod("classFood","beef", "str", [])
+    addMethod("classFood","beef", "str")
     assert "classFood successfully added!"
     #assert "classFood" in listOfClasses[0]
     assert listOfClasses[0].name =="classFood"
@@ -202,10 +202,10 @@ def test_addMethod():
 def test_addDupMethod():
     reset()
     ClassAdd("classFood")
-    addMethod("classFood","beef", "str", [])
+    addMethod("classFood","beef", "str")
     assert "Beef successfully added!"
     assert listOfClasses[0].listOfMethods[0].name =="Beef"
-    addMethod("classFood","beef", "str", [])
+    addMethod("classFood","beef", "str")
     assert "beef existed! No duplicated allowed!" 
     assert listOfClasses[0].listOfMethods[0].name =="Beef"
         
@@ -214,7 +214,7 @@ def test_addDupMethod():
 def test_addBlankMethod():
     reset()
     ClassAdd("classFood")
-    addMethod("classFood"," ", "str",[])
+    addMethod("classFood"," ", "str")
     assert "classFruit successfully added!"
     #assert "classFruit" in listOfClasses[0]
     assert listOfClasses[0].name =="classFood"
@@ -226,7 +226,7 @@ def test_addBlankMethod():
 def test_reNameMethod():
     reset()
     ClassAdd("classFood")
-    addMethod("classFood","Beef", "str",[])
+    addMethod("classFood","Beef", "str")
     assert "Beef successfully added!"
     assert listOfClasses[0].listOfMethods[0].name =="Beef"
     renMethod("classFood","beef","Soup" )
@@ -238,7 +238,7 @@ def test_reNameMethod():
 def test_renameInvalidMethod():
     reset()
     ClassAdd("classFood")
-    addMethod("classFood","Beef", "str",[])
+    addMethod("classFood","Beef", "str")
     assert "Beef successfully added!"
     assert listOfClasses[0].listOfMethods[0].name =="Beef"
     renMethod("classFood","soup","chicken")
@@ -250,7 +250,7 @@ def test_renameInvalidMethod():
 def test_delMethod():
     reset()
     ClassAdd("classFood")
-    addMethod("classFood","Beef", "str",[])
+    addMethod("classFood","Beef", "str")
     assert "Beef successfully added!"
     assert listOfClasses[0].listOfMethods[0].name =="Beef"
     delMethod("classFood","beef")
@@ -261,10 +261,10 @@ def test_delMethod():
 def test_delAllMethods():
     reset()
     ClassAdd("classFood")
-    addMethod("classFood","Beef", "str",[])
+    addMethod("classFood","Beef", "str")
     assert "Beef successfully added!"
     assert listOfClasses[0].listOfMethods[0].name =="Beef"
-    addMethod("classFood","soup", "str",[])
+    addMethod("classFood","soup", "str")
     assert "soup successfully added!"
     assert listOfClasses[0].listOfMethods[1].name =="Soup"
     delMethod("classFood","all")
@@ -278,7 +278,7 @@ def test_delAllMethods():
 def test_delParam():
     reset()
     ClassAdd("classFood")
-    addMethod("classFood","Beef", "str",[])
+    addMethod("classFood","Beef", "str")
     ParamAdd("classFood","Beef","param", "str")
     assert listOfClasses[0].listOfMethods[0].listOfParams[0].name == "param"
     delParam("classFood","Beef","param")
@@ -289,7 +289,7 @@ def test_delParam():
 def test_renameParam():
     reset()
     ClassAdd("classFood")
-    addMethod("classFood","Beef", "str",[])
+    addMethod("classFood","Beef", "str")
     ParamAdd("classFood","Beef","param", "str")
     assert listOfClasses[0].listOfMethods[0].listOfParams[0].name == "param"
     renameParam("classFood","Beef","param", "myparam")
@@ -300,7 +300,7 @@ def test_renameParam():
 def test_renameInvalidParam():
     reset()
     ClassAdd("classFood")
-    addMethod("classFood","Beef", "str",[])
+    addMethod("classFood","Beef", "str")
     ParamAdd("classFood","Beef","param", "str")
     assert listOfClasses[0].listOfMethods[0].listOfParams[0].name == "param"
     renameParam("classFood","Beef","param1", "myparam")
