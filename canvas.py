@@ -18,6 +18,8 @@ from tkinter.ttk import Combobox
 import tkinter as tk
 from tkinter import ttk
 from PIL import *  # to use PIL import, install pip install Pillow as PIL is deprecated and pillow is the successor
+import PIL.ImageGrab as ImageGrab
+
 
 from classModel import *
 from relationshipsModel import *
@@ -49,6 +51,15 @@ def makeCanvas(frame: tk.Frame):
     #my_canvas.pack()
     
     return my_canvas
+
+# save a screenshot of the canvas
+def saveCanvas(filename : str):
+    x = my_canvas.winfo_rootx() + my_canvas.winfo_x()
+    y = my_canvas.winfo_rooty() + my_canvas.winfo_y()
+    xx = x + my_canvas.winfo_width() - 20
+    yy = y + my_canvas.winfo_height()
+    ImageGrab.grab(bbox=(x, y, xx, yy)).save(filename)
+    #my_canvas.after(1000, saveCanvas(filename))
 
 
 class makeSquare():
@@ -107,6 +118,14 @@ def addRec(name:str):
     x2 = 160
     y2 = 15
     
+    # checking if there were coordinates assigned beforehand (load)
+    my_class = ClassSearch(name, listOfClasses)
+    if my_class.x != 0 or my_class.y != 0:
+        x2 = my_class.x
+        y2 = my_class.y
+        x1 = x2 + 120
+        y1 = y2 + 65
+    
     # define the box and ensure they are not overlapped
     
     space:int =0
@@ -142,12 +161,7 @@ def addRec(name:str):
 
 
 
-    my_class = ClassSearch(name, listOfClasses)
-    if my_class.positionx1 != 0 or my_class.positiony1 != 0 or my_class.positionx2 != 0 or my_class.positiony2 != 0:
-        x1 = my_class.positionx1 - 30
-        y1 = my_class.positiony1 - 30
-        x2 = my_class.positionx2 
-        y2 = my_class.positiony2 
+
 
     # instantiate class rectangle
     classRec = makeSquare(name, x1, y1,x2,y2)
@@ -178,6 +192,13 @@ def addRec(name:str):
     for o in boxlist:
         print(my_canvas.coords(o.name))
     updateBoxSize(len(boxlist)-1)
+
+    loc = searchBox(name)
+    x1, y1, x2, y2 = my_canvas.coords(boxlist[loc].my_rectangle)
+
+    my_class.x = x1
+    my_class.y = y1
+
 
 
 ###############################################################################
@@ -472,8 +493,29 @@ def editLine(src: str, dest:str, type:str):
 def dragBox(my_rectangle):
 
     my_canvas.tag_bind(my_rectangle,"<B1-Motion>", on_drag)
+    my_canvas.tag_bind(my_rectangle,"<ButtonRelease-1>", on_release)
+
+# save location to class when mouse button is released
+def on_release(e):
+    global clicked
+    clicked = my_canvas.find_closest(e.x,e.y)
+    i = 0
     
- 
+    for o in boxlist:
+        if clicked[0] in {o.my_rectangle, o.boxlabel, o.flabel, o.ftext, o.mlabel, o.mtext, o.fline, o.mline}:
+            blabel = o.boxlabel
+            box = o.my_rectangle
+            break
+        i += 1
+
+    loc = searchBox(o.name)
+    x1, y1, x2, y2 = my_canvas.coords(boxlist[loc].my_rectangle)
+    
+    my_class = ClassSearch(boxlist[loc].name, listOfClasses)
+    my_class.x = x1
+    my_class.y = y1
+
+
 def on_drag(e):
     #e.x
     #e.y
@@ -567,11 +609,12 @@ def on_drag(e):
     
     #print(boxlist[i].relation)
     
-    my_class = ClassSearch(boxlist[i].name, listOfClasses)
-    my_class.positionx1 = x1
-    my_class.positiony1 = y1
-    my_class.positionx2 = x2
-    my_class.positiony2 = y2
+    # loc = searchBox(o.name)
+    # x1, y1, x2, y2 = my_canvas.coords(boxlist[loc].my_rectangle)
+    
+    # my_class = ClassSearch(boxlist[i].name, listOfClasses)
+    # my_class.x = x1
+    # my_class.y = y1
 
 
     if len(boxlist[i].relation) > 0:
