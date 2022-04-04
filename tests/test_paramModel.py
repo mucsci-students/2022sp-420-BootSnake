@@ -50,7 +50,7 @@ def test_InvalidNameType():
     addMethod("class1", "method1", "str")
     ret = ParamAdd("class1", "method1", "param1", "9")
     assert not listOfClasses[0].listOfMethods[0].listOfParams, "Invalid parameter added to method, should not happen"
-    assert ret == "Parameter param1 successfully added!"
+    assert ret == "Parameter does not fit criteria for validity."
 
     reset()
     ClassAdd("class1")
