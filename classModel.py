@@ -30,6 +30,8 @@ The class we'll be building our objects off of. It contains a
 initialization function, "def __init__(self,name)" that assigns the name to 
 the object. It also contains the two lists we'll be using to keep track of 
 attributes and relationships.
+
+Design Pattern Note: The AClass object is a facade containing subsystems of fields, methods, and relationships.
 """
 class AClass:
     def __init__(self,name):
@@ -129,8 +131,11 @@ def ClassAdd(name : str):
         userInput = "Invalid class name! No empty inputs, no spaces, no special\n characters aside from non-leading underscores, no leading numbers, and no\n programming keywords!"
     return userInput
 
+"""
+Searches through class list and return given name.
 
-#Searches through class list and return given name.    
+Design Pattern Note: This is an iterator method in which a list is iterated through until a class object with the given name is found.
+"""    
 def ClassSearch(name, listOfClasses):
     #We can use this for loop as a means to check every entry in the list for 
     #the name.
@@ -146,6 +151,9 @@ def ClassSearch(name, listOfClasses):
     A function used to rename classes within the global class list.
     It will also search through the list and rename any relationships to fit 
     the new name. 
+
+    Design Pattern Note: When a class is renamed, all relationships dependent on the given class
+    are made to set its old name to match the new name.
 """
 def ClassRename(OldName : str, NewName : str):
     
