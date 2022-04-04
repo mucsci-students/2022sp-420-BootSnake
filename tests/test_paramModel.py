@@ -23,15 +23,15 @@ PARAMETER ADD
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 # Test that a param is added properly to a method
-def test_AddOne():
-    reset()
-    ClassAdd("class1")
-    paramlist = list()
-    addMethod("class1", "method1", "str", paramlist)
-    ParamAdd("class1", "method1", "param1", "str")
-    assert listOfClasses[0].listOfMethods[0].listOfParams[0].name == 'param1', "Param name incorrect, should be 'param1'"
-    assert listOfClasses[0].listOfMethods[0].listOfParams[0].type == 'str', "Param type incorrect, should be 'str'"
-    print("Singular parameter addition successful!\n\n")
+# def test_AddOne():
+#     reset()
+#     ClassAdd("class1")
+#     paramlist = list()
+#     addMethod("class1", "method1", "str", paramlist)
+#     ParamAdd("class1", "method1", "param1", "str")
+#     assert listOfClasses[0].listOfMethods[0].listOfParams[0].name == 'param1', "Param name incorrect, should be 'param1'"
+#     assert listOfClasses[0].listOfMethods[0].listOfParams[0].type == 'str', "Param type incorrect, should be 'str'"
+#     print("Singular parameter addition successful!\n\n")
 
 # Test that ParamAdd() does not add invalid parameters (invalid name OR invalid type)
 def test_InvalidNameType():
