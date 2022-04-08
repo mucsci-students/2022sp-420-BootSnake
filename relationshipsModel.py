@@ -75,6 +75,7 @@ def RelationshipDelete(src: str, dest: str):
                 res = srcClass.listOfRelationships.remove(r)
                 print("Successfully deleted relationship.")
                 msg = f"Successfully deleted {src} & {dest}"
+                return msg
         
         print("Error: Relationship does not exist for deletion!")
         msg = f"Relationship does not exist for deletion!"

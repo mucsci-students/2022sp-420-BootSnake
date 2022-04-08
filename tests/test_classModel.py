@@ -18,6 +18,8 @@ from classModel import *
 #This will be used to test ClassRename and how it impacts relationships.
 from relationshipsModel import *
 
+from sharedItems import *
+
 #The following 2 imports are to silence prints from AClass.
 import sys
 import io
