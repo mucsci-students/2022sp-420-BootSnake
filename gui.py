@@ -375,14 +375,14 @@ def gui_run():
         # create new pop up window
         root = Toplevel(window)
         root.title(title)
-        root.geometry("550x200")
-        
+        #root.geometry("550x200")
+        root.geometry("")
         entryObjList = []
         # labels start at row 6, entry boxes/combo at row 7
         
         for x in range(numEntries):
             label = Label(root, text=labels[x]).grid(row=6, column=x, pady=20, padx=5)
-            entry = Entry(root)
+            entry = Entry(root, width =50)
             entry.grid(row=7, column=x, pady=20, padx=5)
             entryObjList.append(entry)
             
@@ -447,7 +447,8 @@ def gui_run():
         # Make a window for relationship add
         root = tk.Toplevel()
         root.title(title)
-        root.geometry("550x200")
+        #root.geometry("550x200")
+        root.geometry("")
 
         
         # window's label, entry boxes, and combox for types.
@@ -541,7 +542,8 @@ def gui_run():
         # Make a window 
         root = tk.Toplevel()
         root.title(title)
-        root.geometry("550x200")
+        #root.geometry("550x200")
+        root.geometry("")
 
         # window's label, entry boxes, and combox for types.
 
@@ -623,7 +625,8 @@ def gui_run():
         # Make a window 
         root = tk.Toplevel()
         root.title(title)
-        root.geometry("550x200")
+        #root.geometry("550x200")
+        root.geometry("")
 
         # window's label, entry boxes, and combox for types.
 
@@ -696,7 +699,8 @@ def gui_run():
         # Make a window
         root = tk.Toplevel()
         root.title(title)
-        root.geometry("550x200")
+        #root.geometry("550x200")
+        root.geometry("")
 
         
         # window's label, entry boxes, and combox for types.
@@ -705,7 +709,7 @@ def gui_run():
         # labels start at row 6, entry boxes/combo at row 7
         for x in range(numEntries):
             label = Label(root, text=labels[x]).grid(row=6, column=x, pady=20, padx=5)
-            entry = Entry(root)
+            entry = Entry(root, width = 30)
             entry.grid(row=7, column=x, pady=20, padx=5)
             entryObjList.append(entry)
             
@@ -785,7 +789,8 @@ def gui_run():
         # Make a window for relationship add
         root = tk.Toplevel()
         root.title(title)
-        root.geometry("550x200")
+        #root.geometry("550x200")
+        root.geometry("")
 
         
         # window's label, entry boxes, and combox for types.

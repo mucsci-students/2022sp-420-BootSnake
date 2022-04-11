@@ -69,7 +69,7 @@ def save (filename):
             myMethods = list()
             myParams = list()
             myRelationships = list()
-            myPositions = list()
+            #myLocation = list()
 
             # Step through each type of attribute and relationship and encode it so we can save it
             for y in x.listOfFields:
@@ -89,11 +89,11 @@ def save (filename):
                 relationshipObj = {"source": x.name , "destination": c.dest , "type": c.type}
                 myRelations.append(relationshipObj)
 
-            positionsObj = {'x1' : x.positionx1, 'y1' : x.positiony1, 'x2' : x.positionx2, 'y2' : x.positiony2}
-            myPositions.append(positionsObj)
+            locationObj = {'x' : x.x, 'y' : x.y}
+            #myLocation.append(locationObj)
             
             # Put together all of the lists and class name, encode it, and add it to the list
-            classObj = {"name": x.name , "fields": myFields , "methods": myMethods, "position":myPositions}
+            classObj = {"name": x.name , "fields": myFields , "methods": myMethods, "location":locationObj}
             myClasses.append(classObj)
         
         # Put classes and relationships together
@@ -139,11 +139,9 @@ def load (filename):
             for q in paramList:
                 ParamAdd(x["name"], z["name"], q["name"], q["type"])
         
-        positionList = x['position']
-        i.positionx1 = positionList[0]['x1']
-        i.positiony1 = positionList[0]['y1']
-        i.positionx2 = positionList[0]['x2']
-        i.positiony2 = positionList[0]['y2']
+        positionList = x['location']
+        i.x = positionList['x']
+        i.y = positionList['y']
 
         #addBoxInfo(i.name)
     # Get list of relationships
@@ -153,6 +151,10 @@ def load (filename):
 
     for x in classList:
         addBoxInfo(x["name"])
+        addFieldInfo(x["name"])
+        addMethodInfo(x["name"])
+    for r in relationList:
+        makeRelLine(r["source"], r["destination"], r["type"])
 
     myFile.close()
     return
