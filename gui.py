@@ -50,6 +50,12 @@ def loadCall():
         #if err is not False:
             #throwMessage(err)
 
+def saveImage():
+    err = False
+    filename = filedialog.asksaveasfilename()
+    c.saveCanvas(filename)
+
+
 
 def clearAll():
     c.my_canvas.delete("all")
@@ -87,6 +93,7 @@ def gui_run():
     filemenu.add_command(label="New", command=clearAll)
     filemenu.add_command(label="Open", command=loadCall)
     filemenu.add_command(label="Save", command=saveCall)
+    filemenu.add_command(label="Save image", command=saveImage)
     filemenu.add_separator()
     filemenu.add_command(label="Exit", command=window.quit)
     menubar.add_cascade(label="File", menu=filemenu)
