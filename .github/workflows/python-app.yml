@@ -35,10 +35,10 @@ jobs:
       run: |
         pytest
 
-on: [push]
+on: [pull_request]
   steps:
     - name: "Upload coverage to Codecov"
       uses: codecov/codecov-action@v2
       with:
         fail_ci_if_error: true
-        token: ${{ secrets.CODECOV_TOKEN }}
+        token: 0f39daf9-8cab-4455-89af-6ad0fa616d08
