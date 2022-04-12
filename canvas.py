@@ -387,7 +387,7 @@ def addBoxInfo(name: str):
             msg: str = f"Box {name} already created!"
             return msg       
 
-    addRec(name)
+    addRec(name) # this should be commented out if use the else section right below.
     
     """
     else:
