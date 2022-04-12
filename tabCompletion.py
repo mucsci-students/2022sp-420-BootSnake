@@ -78,7 +78,11 @@ cmmands = ['addclass', 'delclass', 'renameclass',
            'exit',
           ]
 
+classNames = []
 
+methodName = []
+
+paramName = []
 
 # verify the number of arguments, if any, provided by the user for each given
 # command in the system.
@@ -87,6 +91,11 @@ def checkArgs(argNum: int, argInput: int) -> None:
         print("Invalid argument number! Expected arg(s): "+ str(argNum) + 
                  ". Received  "+ str(argInput) +
                  ". Type 'help' to display all commands' guide or 'help <command> for a specific guide!")
+    for o in listOfClasses:
+        classNames.append(o.name)
+        for m in o.listOfMethods:
+            methodName.append(m.name)
+        #paramName = o.listOfParams.copy()
         
 
 
@@ -710,7 +719,7 @@ class TabCompletion(cmd.Cmd):
             completions = self.cmmands[:]
         else:
             completions = [f 
-                           for f in self.cmmands
+                           for f in classNames
                            if f.startswith(text)]
         return completions
     
@@ -767,7 +776,11 @@ class TabCompletion(cmd.Cmd):
             completions = self.cmmands[:]
         else:
             completions = [f 
-                           for f in self.cmmands
+                           for f in classNames
+                           if f.startswith(text)]
+            if completions is not []:
+                          [f 
+                           for f in methodName
                            if f.startswith(text)]
         return completions
     
