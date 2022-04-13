@@ -80,21 +80,16 @@ cmmands = ['addclass', 'delclass', 'renameclass',
 
 classNames = []
 
-<<<<<<< HEAD
-methodName = []
-
-paramName = []
-=======
 methodNames = []
 
 fieldNames =[]
 
-paramNames = []
->>>>>>> attributes
-
 # verify the number of arguments, if any, provided by the user for each given
 # command in the system.
 def checkArgs(argNum: int, argInput: int) -> None:
+    classNames.clear()
+    methodNames.clear()
+    fieldNames.clear()
     if not argNum == argInput:
         print("Invalid argument number! Expected arg(s): "+ str(argNum) + 
                  ". Received  "+ str(argInput) +
@@ -102,18 +97,13 @@ def checkArgs(argNum: int, argInput: int) -> None:
     for o in listOfClasses:
         classNames.append(o.name)
         for m in o.listOfMethods:
-<<<<<<< HEAD
-            methodName.append(m.name)
-        #paramName = o.listOfParams.copy()
-=======
-            methodNames.append(m.name)
+            methodNames.append(m.name.casefold())
             for p in m.listOfParams:
-                paramNames.append(p.name)
+                methodNames.append(p.name)
         
     for o in listOfClasses:
         for f in o.listOfFields:
             fieldNames.append(f.name)
->>>>>>> attributes
         
 
 
@@ -747,7 +737,7 @@ class TabCompletion(cmd.Cmd):
         if not text:
             completions = self.cmmands[:]
         else:
-            if begidx ==9:
+            if begidx == 9:
                 completions = [f 
                            for f in classNames
                            if f.startswith(text)]   
@@ -764,7 +754,7 @@ class TabCompletion(cmd.Cmd):
         if not text:
             completions = self.cmmands[:]
         else:
-            if begidx ==9:
+            if begidx == 12:
                 completions = [f 
                            for f in classNames
                            if f.startswith(text)]
@@ -792,7 +782,7 @@ class TabCompletion(cmd.Cmd):
         if not text:
             completions = self.cmmands[:]
         else:
-            if begidx ==10:
+            if begidx == 10:
                 completions = [f 
                            for f in classNames
                            if f.startswith(text)]
@@ -806,7 +796,7 @@ class TabCompletion(cmd.Cmd):
         if not text:
             completions = self.cmmands[:]
         else:
-            if begidx ==10:
+            if begidx ==13:
                 completions = [f 
                            for f in classNames
                            if f.startswith(text)]
@@ -821,18 +811,9 @@ class TabCompletion(cmd.Cmd):
         if not text:
             completions = self.cmmands[:]
         else:
-<<<<<<< HEAD
-            completions = [f 
-                           for f in classNames
-                           if f.startswith(text)]
-            if completions is not []:
-                          [f 
-                           for f in methodName
-=======
             if begidx ==9:
                 completions = [f 
                            for f in classNames
->>>>>>> attributes
                            if f.startswith(text)]
             else: 
                 completions =  [f 
@@ -843,21 +824,16 @@ class TabCompletion(cmd.Cmd):
     
     
     def complete_renameparam(self, text, line, begidx, endidx):
-        print(begidx, endidx)
         if not text:
             completions = self.cmmands[:]
         else:
-            if begidx ==11:
+            if begidx ==12:
                 completions = [f 
                            for f in classNames
                            if f.startswith(text)]
-            elif begidx ==12: 
+            else:
                 completions =  [f 
                            for f in methodNames
-                           if f.startswith(text)]
-            else: 
-                completions =  [f 
-                           for f in paramNames
                            if f.startswith(text)]
         return completions
     
@@ -871,13 +847,9 @@ class TabCompletion(cmd.Cmd):
                 completions = [f 
                            for f in classNames
                            if f.startswith(text)]
-            elif begidx ==10: 
+            else:
                 completions =  [f 
                            for f in methodNames
-                           if f.startswith(text)]
-            else: 
-                completions =  [f 
-                           for f in paramNames
                            if f.startswith(text)]
         return completions
     
