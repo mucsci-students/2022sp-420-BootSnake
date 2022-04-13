@@ -222,34 +222,34 @@ def updateBoxWidth(wbox: int):
     boxwidth = 3 * len(boxlist[wbox].name)
     methodtext =""
     
-    
-    for o in listOfClasses:
+    wantedClass = ClassSearch(boxlist[wbox].name, listOfClasses)
+    #for o in listOfClasses:
         #if o.listOfFields:
-        for x in o.listOfFields:
-            fname = x.name + " " + x.type
-            if len(fname) > boxwidth:
-                boxwidth = len(fname)*2
-            fname =""
+    for x in wantedClass.listOfFields:
+        fname = x.name + " " + x.type
+        if len(fname) > boxwidth:
+            boxwidth = len(fname)*2
+        fname =""
         #fname =""
         #if o.listOfMethods:
-        for m in o.listOfMethods:
-            methodtext = methodtext + "+ " + m.name + " : " + m.type + "("
-            param = True
-            if m.listOfParams:
-                for p in m.listOfParams:
-                    if param:
-                        methodtext = methodtext + " " + p.name + " :  " + p.type
-                        param = False 
+    for m in wantedClass.listOfMethods:
+        methodtext = methodtext + "+ " + m.name + " : " + m.type + "("
+        param = True
+        if m.listOfParams:
+            for p in m.listOfParams:
+                if param:
+                    methodtext = methodtext + " " + p.name + " :  " + p.type
+                    param = False 
                         
-                    else:
-                        methodtext = methodtext + ", " + p.name + " :  " + p.type
+                else:
+                    methodtext = methodtext + ", " + p.name + " :  " + p.type
             
-                methodtext = methodtext +")\n"
+            methodtext = methodtext +")\n"
             
-                if len(methodtext) > boxwidth:
-                    boxwidth = len(methodtext)*2.5
+            if len(methodtext) > boxwidth:
+                boxwidth = len(methodtext)*2.5
             
-                methodtext =""
+            methodtext =""
         boxlist[wbox].spacing = boxwidth
         #methodtext =""
     # get the coordinates of the box
@@ -318,7 +318,8 @@ def updateBoxHeight(h:int):
     xl, yl = my_canvas.coords(boxlist[h].mlabel)
     
     # move the method's label according to the length of fields.
-    my_canvas.coords(boxlist[h].mlabel, xl, yf+20 + space +14*len(wantedClass.listOfFields) )
+    #my_canvas.coords(boxlist[h].mlabel, xl, yf+20 + space +14*len(wantedClass.listOfFields) )
+    my_canvas.coords(boxlist[h].mlabel, xl, yf+20 + space +14*len(o.listOfFields) )
     xl, yl = my_canvas.coords(boxlist[h].mlabel)
     my_canvas.coords(boxlist[h].mline, x1, yl-14, x2, yl-14) #-10
     
@@ -388,29 +389,7 @@ def addBoxInfo(name: str):
             return msg       
 
     addRec(name) # this should be commented out if use the else section right below.
-    
-    """
-    else:
-        for i in boxlist:
-            if i.name not in o.name:
-                delBox(i.name)
-        for o in listOfClasses:
-            if o.x == -1 and o.y ==-1:
-                addRec(name)          
-                x, y = getxy(name)
-                o.x = x
-                o.y = y
-
-            else:
-                
-                x1, y1, x2, y2 = makeCoords(name, o.x, o.y)
-                makeBoxCoords(name, x1, y1, x2, y2)
-                
-        
-    addFieldInfo(name)
-    addMethodInfo(name)
-    
-    """  
+ 
     sizex = 0
     sizey = 0
     for o in listOfClasses:
@@ -424,69 +403,8 @@ def addBoxInfo(name: str):
     global maxSizeY
     maxSizeY = sizey
     my_canvas.config(scrollregion=(0,0, maxSizeX, maxSizeY))
-    
+ 
 
-############################################################################
-"""
-def getxy(name:str):
-    loc = searchBox(name)
-    x1, y1, x2, y2 = my_canvas.coords(boxlist[loc].my_rectangle)
-    midpoint = ((x1+x2)/2) +x1
-    return (midpoint, y1)
-
-
-def makeCoords(name:str, x:int, y:int):
-    boxwidth = 3 * len(name)
-    i = 0
-    
-    
-    for o in listOfClasses:
-        #if o.listOfFields:
-        for x in o.listOfFields:
-            fname = x.name + " " + x.type
-            if len(fname) > boxwidth:
-                boxwidth = len(fname)*2
-            fname =""
-        #fname =""
-        #if o.listOfMethods:
-        for m in o.listOfMethods:
-            methodtext = methodtext + "+ " + m.name + " : " + m.type + "("
-            param = True
-            if m.listOfParams:
-                for p in m.listOfParams:
-                    if param:
-                        methodtext = methodtext + " " + p.name + " :  " + p.type
-                        param = False 
-                        
-                    else:
-                        methodtext = methodtext + ", " + p.name + " :  " + p.type
-            
-                methodtext = methodtext +")\n"
-            
-                if len(methodtext) > boxwidth:
-                    boxwidth = len(methodtext)*2.5
-            
-                methodtext =""
-        
-    x1 = x +40 - boxwidth
-    x2 = x + 40 + boxwidth
-
-    yincrement = 30
-    for o in listOfClasses:
-        for x in o.listOfFields:
-            yincrement += 10
-
-        for y in o.listOfMethods:
-            yincrement += 40
-            for i in y.listOfParams:
-                yincrement +=10
-    
-    y1 = y
-    y2  = y1 + yincrement
-
-    return(x1, y1, x2, y2)
-
-"""
 #########################################################################
 def makeRelLine(src: str, dest: str, type:str):
     """
@@ -525,7 +443,7 @@ def addFieldInfo(name:str):
         updateBoxWidth(boxloc)
         updateBoxHeight(boxloc)
 
-
+    
 
 def addMethodInfo(name:str):
     """
@@ -551,9 +469,9 @@ def addMethodInfo(name:str):
     
         my_canvas.itemconfigure(boxlist[boxloc].mtext, text = methodtext, anchor='nw', justify = tk.LEFT, state=tk.DISABLED)
         
-    updateBoxWidth(boxloc)
-    updateBoxHeight(boxloc)
-
+        updateBoxWidth(boxloc)
+        updateBoxHeight(boxloc)
+   
 
 
 def renameBox(name:str, newname:str):
@@ -681,7 +599,7 @@ def on_release(e):
     position of the mouse pointer is provided in the x and y 
     members of the event object passed to the callback.
     """
-    #global clicked
+    global clicked
     #clicked = my_canvas.find_closest(e.x,e.y)
     i = 0
     
@@ -813,11 +731,10 @@ def on_drag(e):
     space = 0
     for o in listOfClasses:
         for x in o.listOfFields:
-            if o.listOfFields ==0:
+            if len(o.listOfFields) == 0:
                 space = 30
             else:
                 space =10
-
     
     if (x2 > my_canvas.winfo_width()):
         x1 = my_canvas.winfo_width() -40 - 2*boxlist[i].spacing
@@ -848,17 +765,20 @@ def on_drag(e):
     
 
     # method section
-    
-    #my_canvas.coords(boxlist[i].mlabel, midx1 + 5, y1 + 50)
-    my_canvas.coords(boxlist[i].mlabel, midx1 + 5, yf + space + 14*len(o.listOfFields)+25)
+   
+    wantedClass = ClassSearch(boxlist[i].name, listOfClasses)
+    for x in wantedClass.listOfFields:
+        print(len(wantedClass.listOfFields))
+
+    my_canvas.coords(boxlist[i].mlabel, midx1 + 5, yf + space + 14*len(wantedClass.listOfFields)+15)
     
     xm,ym = my_canvas.coords(boxlist[i].mlabel)
     
-    #my_canvas.coords(boxlist[i].mline, x1, y1 + 40 , x2 + 30, y1 + 40)
-    #my_canvas.coords(boxlist[i].mtext,x1+20, ym+10)
-    my_canvas.coords(boxlist[i].mline, x1, ym-8, x2 + 30, ym-8)
+    #my_canvas.coords(boxlist[i].mline, x1, ym-8, x2 + 30, ym-8)
+    #my_canvas.coords(boxlist[i].mline, x1, ym-15, x2 + 30, ym-15)
+    my_canvas.coords(boxlist[i].mline, x1, ym-5, x2 + 30, ym-5)
     my_canvas.coords(boxlist[i].mtext,x1+10, ym+10)
-
+       
     
     # move relationship line associated with the boxes by looping through
     # the boxlist's relation list to find all items in the box's relation list:
