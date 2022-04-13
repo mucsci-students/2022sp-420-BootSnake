@@ -80,9 +80,17 @@ cmmands = ['addclass', 'delclass', 'renameclass',
 
 classNames = []
 
+<<<<<<< HEAD
 methodName = []
 
 paramName = []
+=======
+methodNames = []
+
+fieldNames =[]
+
+paramNames = []
+>>>>>>> attributes
 
 # verify the number of arguments, if any, provided by the user for each given
 # command in the system.
@@ -94,8 +102,18 @@ def checkArgs(argNum: int, argInput: int) -> None:
     for o in listOfClasses:
         classNames.append(o.name)
         for m in o.listOfMethods:
+<<<<<<< HEAD
             methodName.append(m.name)
         #paramName = o.listOfParams.copy()
+=======
+            methodNames.append(m.name)
+            for p in m.listOfParams:
+                paramNames.append(p.name)
+        
+    for o in listOfClasses:
+        for f in o.listOfFields:
+            fieldNames.append(f.name)
+>>>>>>> attributes
         
 
 
@@ -700,7 +718,7 @@ class TabCompletion(cmd.Cmd):
             completions = self.cmmands[:]
         else:
             completions = [f 
-                           for f in self.cmmands
+                           for f in classNames
                            if f.startswith(text)]
         return completions
     
@@ -710,7 +728,7 @@ class TabCompletion(cmd.Cmd):
             completions = self.cmmands[:]
         else:
             completions = [f 
-                           for f in self.cmmands
+                           for f in classNames
                            if f.startswith(text)]
         return completions
     
@@ -725,22 +743,37 @@ class TabCompletion(cmd.Cmd):
     
     
     def complete_delfield(self, text, line, begidx, endidx):
+        
         if not text:
             completions = self.cmmands[:]
         else:
-            completions = [f 
-                           for f in self.cmmands
-                           if f.startswith(text)]
+            if begidx ==9:
+                completions = [f 
+                           for f in classNames
+                           if f.startswith(text)]   
+            
+            else:
+                completions = [f 
+                           for f in fieldNames
+                           if f.startswith(text)]  
         return completions
     
     
     def complete_renamefield(self, text, line, begidx, endidx):
+        
         if not text:
             completions = self.cmmands[:]
         else:
-            completions = [f 
-                           for f in self.cmmands
+            if begidx ==9:
+                completions = [f 
+                           for f in classNames
                            if f.startswith(text)]
+            
+            else:
+                completions = [f 
+                           for f in fieldNames
+                           if f.startswith(text)]
+         
         return completions
     
     def complete_addmethod(self, text, line, begidx, endidx):
@@ -748,17 +781,24 @@ class TabCompletion(cmd.Cmd):
             completions = self.cmmands[:]
         else:
             completions = [f 
-                           for f in self.cmmands
+                           for f in classNames
                            if f.startswith(text)]
+            
         return completions
     
     
     def complete_delmethod(self, text, line, begidx, endidx):
+        
         if not text:
             completions = self.cmmands[:]
         else:
-            completions = [f 
-                           for f in self.cmmands
+            if begidx ==10:
+                completions = [f 
+                           for f in classNames
+                           if f.startswith(text)]
+            else:
+                completions = [f 
+                           for f in methodNames
                            if f.startswith(text)]
         return completions
     
@@ -766,31 +806,58 @@ class TabCompletion(cmd.Cmd):
         if not text:
             completions = self.cmmands[:]
         else:
-            completions = [f 
-                           for f in self.cmmands
+            if begidx ==10:
+                completions = [f 
+                           for f in classNames
+                           if f.startswith(text)]
+            else:
+                completions = [f 
+                           for f in methodNames
                            if f.startswith(text)]
         return completions
     
     def complete_addparam(self, text, line, begidx, endidx):
+        
         if not text:
             completions = self.cmmands[:]
         else:
+<<<<<<< HEAD
             completions = [f 
                            for f in classNames
                            if f.startswith(text)]
             if completions is not []:
                           [f 
                            for f in methodName
+=======
+            if begidx ==9:
+                completions = [f 
+                           for f in classNames
+>>>>>>> attributes
                            if f.startswith(text)]
+            else: 
+                completions =  [f 
+                           for f in methodNames
+                           if f.startswith(text)]
+            
         return completions
     
     
     def complete_renameparam(self, text, line, begidx, endidx):
+        print(begidx, endidx)
         if not text:
             completions = self.cmmands[:]
         else:
-            completions = [f 
-                           for f in self.cmmands
+            if begidx ==11:
+                completions = [f 
+                           for f in classNames
+                           if f.startswith(text)]
+            elif begidx ==12: 
+                completions =  [f 
+                           for f in methodNames
+                           if f.startswith(text)]
+            else: 
+                completions =  [f 
+                           for f in paramNames
                            if f.startswith(text)]
         return completions
     
@@ -800,8 +867,17 @@ class TabCompletion(cmd.Cmd):
         if not text:
             completions = self.cmmands[:]
         else:
-            completions = [f 
-                           for f in self.cmmands
+            if begidx ==9:
+                completions = [f 
+                           for f in classNames
+                           if f.startswith(text)]
+            elif begidx ==10: 
+                completions =  [f 
+                           for f in methodNames
+                           if f.startswith(text)]
+            else: 
+                completions =  [f 
+                           for f in paramNames
                            if f.startswith(text)]
         return completions
     
@@ -813,7 +889,7 @@ class TabCompletion(cmd.Cmd):
             completions = self.cmmands[:]
         else:
             completions = [f 
-                           for f in self.cmmands
+                           for f in classNames
                            if f.startswith(text)]
         return completions
     
@@ -823,7 +899,7 @@ class TabCompletion(cmd.Cmd):
             completions = self.cmmands[:]
         else:
             completions = [f 
-                           for f in self.cmmands
+                           for f in classNames
                            if f.startswith(text)]
         return completions
     
@@ -832,7 +908,7 @@ class TabCompletion(cmd.Cmd):
             completions = self.cmmands[:]
         else:
             completions = [f 
-                           for f in self.cmmands
+                           for f in classNames
                            if f.startswith(text)]
         return completions
     
@@ -842,7 +918,7 @@ class TabCompletion(cmd.Cmd):
             completions = self.cmmands[:]
         else:
             completions = [f 
-                           for f in self.cmmands
+                           for f in classNames
                            if f.startswith(text)]
         return completions
     
@@ -854,7 +930,7 @@ class TabCompletion(cmd.Cmd):
             completions = self.cmmands[:]
         else:
             completions = [f 
-                           for f in self.cmmands
+                           for f in classNames
                            if f.startswith(text)]
         return completions
     
