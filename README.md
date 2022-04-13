@@ -20,6 +20,8 @@
 4. Open terminal and navigate to folder
 
 5. Run
+              To use PIL import, run the command pip install Pillow as PIL is 
+              deprecated and pillow is the successor
               
               A) python bootsnake.py or python .\bootsnake.py depending on your editor
               
