@@ -101,7 +101,7 @@ def checkArgs(argNum: int, argInput: int) -> None:
             for p in m.listOfParams:
                 methodNames.append(p.name)
         
-    for o in listOfClasses:
+    
         for f in o.listOfFields:
             fieldNames.append(f.name)
         
@@ -697,7 +697,7 @@ class TabCompletion(cmd.Cmd):
             completions = self.cmmands[:]
         else:
             completions = [f 
-                           for f in self.cmmands
+                           for f in classNames
                            if f.startswith(text)]
         return completions
     
@@ -726,9 +726,15 @@ class TabCompletion(cmd.Cmd):
         if not text:
             completions = self.cmmands[:]
         else:
-            completions = [f 
+            if begidx == 9:
+                completions = [f 
                            for f in classNames
-                           if f.startswith(text)]
+                           if f.startswith(text)]   
+            
+            else:
+                completions = [f 
+                           for f in fieldNames
+                           if f.startswith(text)] 
         return completions
     
     
@@ -770,8 +776,13 @@ class TabCompletion(cmd.Cmd):
         if not text:
             completions = self.cmmands[:]
         else:
-            completions = [f 
+            if begidx == 10:
+                completions = [f 
                            for f in classNames
+                           if f.startswith(text)]
+            else:
+                completions = [f 
+                           for f in methodNames
                            if f.startswith(text)]
             
         return completions
