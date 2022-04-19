@@ -66,9 +66,7 @@ def clearAll():
 
 def openAbout():
     message = f"BootSnake 2022 v.2"
-    messagebox.showinfo("BootSnake About...", message)
-
-        
+    messagebox.showinfo("BootSnake About...", message)    
 
 # =============================================================================
 
@@ -99,9 +97,10 @@ def gui_run():
     menubar.add_cascade(label="File", menu=filemenu)
 
     menu_edit = tk.Menu(menubar, tearoff=0)
-    menu_edit.add_command(label = "Undo", command = u.undo())
-    menu_edit.add_command(label = "Redo")
     menubar.add_cascade(label = "Edit", menu = menu_edit)
+    menu_edit.add_command(label = "Undo", command = u.undo)
+    menu_edit.add_command(label = "Redo", command = u.redo)
+    
     
     helpmenu = tk.Menu(menubar, tearoff=0)
     helpmenu.add_command(label="Help Index")
