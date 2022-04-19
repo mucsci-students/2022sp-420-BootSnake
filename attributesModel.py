@@ -322,21 +322,21 @@ def renMethod (classname: str, methodname: str, newmethod: str):
                 mObj = searchMethod(classname, methodname.strip().title()) 
                 
                 if mObj:
-                    if mObj.name.strip() == methodname.strip().title():
-                        if checkMethName(wantedClass, newmethod.strip().title()):
-                                
-                            mObj.name = newmethod.strip()
-                            print("UML> Method " + methodname + " successfully renamed!")
-                            #This adds undo functionality to the function.
-                            if(undoListInsertable.bool):
-                                undoList.insert(0,(renMethod,(classname, newmethod, methodname)))
-                            # sort the list of method objects   
-                            wantedClass.listOfMethods.sort(key = lambda x : x.name)
-                            for o in wantedClass.listOfMethods:
-                                print(o.name)
-                            return "Method " + methodname + " successfully renamed!"
-                        else:
-                            return "Invalid method name! No empty inputs, no spaces, no special\n characters aside from non-leading underscores, no leading numbers, and no\n programming keywords!"               
+                    #if mObj.name.strip() != methodname.strip().title():
+                    if checkMethName(wantedClass, newmethod.strip().title()):
+                            
+                        mObj.name = newmethod.strip()
+                        print("UML> Method " + methodname + " successfully renamed!")
+                        #This adds undo functionality to the function.
+                        if(undoListInsertable.bool):
+                            undoList.insert(0,(renMethod,(classname, newmethod, methodname)))
+                        # sort the list of method objects   
+                        wantedClass.listOfMethods.sort(key = lambda x : x.name)
+                        for o in wantedClass.listOfMethods:
+                            print(o.name)
+                        return "Method " + methodname + " successfully renamed!"
+                    else:
+                        return "Invalid method name! No empty inputs, no spaces, no special\n characters aside from non-leading underscores, no leading numbers, and no\n programming keywords!"                  
                 else:
                     print("Method " + methodname + " not found!")
                     return "Method " + methodname + " not found!"
