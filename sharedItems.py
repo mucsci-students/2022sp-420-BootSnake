@@ -7,6 +7,12 @@ undoList = list()
 redoList = list()
 
 
+class guiTrue:
+    def __init__(self,bool):
+        self.bool = bool
+guiBool = guiTrue(False)
+
+
 class undoListBool:
      def __init__(self,bool):
         self.bool = bool 

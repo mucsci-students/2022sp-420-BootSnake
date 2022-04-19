@@ -72,7 +72,8 @@ def openAbout():
 
 def gui_run():
 
-# initialize window    
+    # initialize window    
+    guiBool.bool = True
     window = tk.Tk()
     window.title("BootSnake")
     window.geometry("700x300")
