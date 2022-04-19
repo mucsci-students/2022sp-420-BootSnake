@@ -1,3 +1,12 @@
+# Project Name  : UML_BootSnake
+# File Name     : bootsnake.py
+# Course        : CSCI 420
+# Professor     : Dr. Stephanie Schwartz
+# BootSnake Team: Amelia S., Andy P., Ben M., Tram T., Travis Z.
+
+import sys
+
+
 """
 Last Edit: 02/09/2022
 Edited by: Amelia Spanier and Ben Moran
@@ -8,14 +17,16 @@ import sys
 
 
 from pydoc import classname
-from turtle import undo
 from classModel import *
 from relationshipsModel import *
 from attributesModel import *
 from parametersModel import *
 from interfaceView import *
 from saveLoadModel import *
-from undoRedoModel import *
+from tabCompletion import *
+from gui import *
+from sharedItems import *
+
 from subprocess import call
 from os.path import exists
 
@@ -45,16 +56,18 @@ def Main(args: list):
     if len(args) == 2:
         # execute the program in cli
         if args[1] == "--cli":
-            umlCliController()
+            #umlCliController()
+            TabCompletion().cmdloop()
         else: 
             print("Invalid input!")
     
         # run gui
     else:
-        call(['python3', 'interfaceGUIView.py'])
+        gui_run()
     
 def umlCliController() -> None:
 
+    
     while True:
         undoListInsertable.bool = True
         print("""
@@ -85,7 +98,7 @@ def umlCliController() -> None:
                             print(obj.name) 
                         print()
                         name = input("UML:> Enter a Class name or q to 'quit': ")
-                        while name.strip().casefold() != 'q': 
+                        while name.strip().casefold() != 'q':
                             ClassAdd(name)
                             break
                         
@@ -137,6 +150,7 @@ def umlCliController() -> None:
                             
                         else:
                             break
+        
                 # user opts out of class menu
                 break        
 
@@ -417,7 +431,7 @@ def umlCliController() -> None:
                         print( "\nMethod List for available classes: ")
                         for obj in listOfClasses:
                             for o in obj.listOfMethods:
-                                print (obj.name + " <= " + o.name)
+                                print (obj.name + ": " + o.name)
                             print()
                         
                         # prompt users for the class to which method is deleted 
@@ -679,8 +693,11 @@ def umlCliController() -> None:
                                 while reltype.strip().lower() != 'q':
                                     RelationshipAdd(src, dest,reltype)
                                     break
+                                
                                 break
+                            
                             break
+                        
                         break
                     
                         
@@ -694,8 +711,11 @@ def umlCliController() -> None:
                                 RelationshipDelete(src, dest)
                                 break
                                 
+                            
                             break
+                        
                         break
+                        
                 break
              
         elif "5" in userIn:
@@ -749,21 +769,20 @@ def umlCliController() -> None:
 
             #print()
 
+
+
+
 #########################################################################################
 
 """
 The __name__ variable has double underscores on both sides called dunder name that 
 stands for double underscores.
-
 The __name__ is a special variable in Python that assigns a different value to it
 depending on how a script is executed directly or imported as a module. When importing
 a module, Python executes the file associated with the module.
-
 When running the script directly, Python sets the __name__ variable to '__main__'.
-
 However, if a script is imported a file as a module, Python sets the module name to 
 the __name__ variable
-
 """  
 
 if __name__ == "__main__":
