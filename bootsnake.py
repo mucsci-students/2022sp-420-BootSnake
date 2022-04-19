@@ -29,6 +29,7 @@ from sharedItems import *
 
 from subprocess import call
 from os.path import exists
+from tabCompletion import *
 
 """
 Main method in which user will be redirected to the proper method based
@@ -54,7 +55,7 @@ def Main(args: list):
     """
     
     if len(args) == 2:
-        # execute the program in cli
+    # execute the program in cli
         if args[1] == "--cli":
             #umlCliController()
             TabCompletion().cmdloop()
