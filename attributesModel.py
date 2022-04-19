@@ -322,7 +322,7 @@ def renMethod (classname: str, methodname: str, newmethod: str):
                 mObj = searchMethod(classname, methodname.strip().title()) 
                 
                 if mObj:
-                    if mObj.name.strip() != methodname.strip().title():
+                    if mObj.name.strip() == methodname.strip().title():
                         if checkMethName(wantedClass, newmethod.strip().title()):
                                 
                             mObj.name = newmethod.strip()
@@ -336,7 +336,7 @@ def renMethod (classname: str, methodname: str, newmethod: str):
                                 print(o.name)
                             return "Method " + methodname + " successfully renamed!"
                         else:
-                            return "Invalid method name! No empty inputs, no spaces, no special\n characters aside from non-leading underscores, no leading numbers, and no\n programming keywords!"                  
+                            return "Invalid method name! No empty inputs, no spaces, no special\n characters aside from non-leading underscores, no leading numbers, and no\n programming keywords!"               
                 else:
                     print("Method " + methodname + " not found!")
                     return "Method " + methodname + " not found!"

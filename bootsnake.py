@@ -18,6 +18,7 @@ from saveLoadModel import *
 from undoRedoModel import *
 from subprocess import call
 from os.path import exists
+from tabCompletion import *
 
 """
 Main method in which user will be redirected to the proper method based
@@ -43,15 +44,19 @@ def Main(args: list):
     """
     
     if len(args) == 2:
-        # execute the program in cli
+    # execute the program in cli
         if args[1] == "--cli":
-            umlCliController()
+        #umlCliController()
+            TabCompletion().cmdloop()
         else: 
             print("Invalid input!")
     
         # run gui
     else:
-        call(['python3', 'interfaceGUIView.py'])
+        suppress_text = io.StringIO()
+        sys.stdout = suppress_text 
+        
+        gui_run()
     
 def umlCliController() -> None:
 
