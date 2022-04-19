@@ -3,6 +3,7 @@ from sharedItems import *
 from attributesModel import *
 from parametersModel import *
 from relationshipsModel import *
+import canvas as c
 import sys
 import io
 
@@ -12,6 +13,7 @@ def undo():
     if(len(undoList) == 0):
         return "\nNothing to undo!"
     else:
+        print(undoList)
         undoListInsertable.bool = False
         #The following two lines will suppress the text from ClassAdd()
         undoAction = undoList[0]
@@ -41,6 +43,7 @@ def undo():
         sys.stdout = sys.__stdout__
         undoList.pop(0)
         redoClass.redoable = True
+        c.refreshCanvas()
         return "Undid!"
 
         
@@ -76,6 +79,7 @@ def redo():
         #This here will release the text so I can continue to use print().
         sys.stdout = sys.__stdout__
         redoList.pop(0)
+        c.refreshCanvas()
         return "\nRedid!"
 
 def getOpposite(function, param) -> tuple:

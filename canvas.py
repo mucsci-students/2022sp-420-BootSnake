@@ -284,6 +284,18 @@ def updateBoxWidth(wbox: int):
     
 ###########################################################################################
 
+def refreshCanvas():
+    clearAll()
+    for c in listOfClasses:
+        addBoxInfo(c.name)
+        addMethodInfo(c.name)
+        addFieldInfo(c.name)
+    for c in listOfClasses:
+        for r in c.listOfRelationships:
+            makeRelLine(r.src, r.dest, r.type)
+            
+
+
 def updateBoxHeight(h:int):
     boxlist[h].yincrement = 30
     name = boxlist[h].name
