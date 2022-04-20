@@ -600,7 +600,7 @@ def on_release(e):
     members of the event object passed to the callback.
     """
     global clicked
-    #clicked = my_canvas.find_closest(e.x,e.y)
+    clicked = my_canvas.find_closest(e.x,e.y)
     i = 0
     
     for o in boxlist:
@@ -696,7 +696,7 @@ def on_drag(e):
     
     global moved
     moved = True
-    #clicked = my_canvas.find_closest(e.x,e.y)
+    clicked = my_canvas.find_closest(e.x,e.y)
     i = 0
     
     
@@ -735,11 +735,15 @@ def on_drag(e):
                 space = 30
             else:
                 space =10
+
+       
     
     if (x2 > my_canvas.winfo_width()):
+        my_canvas.xview_scroll(1, 'unit')
         x1 = my_canvas.winfo_width() -40 - 2*boxlist[i].spacing
         x2 = my_canvas.winfo_width()
     if (y2 > my_canvas.winfo_height()):
+        my_canvas.yview_scroll(1, 'unit')
         y1 = my_canvas.winfo_height() -boxlist[i].yincrement-15-space
         y2 = my_canvas.winfo_height()
     
