@@ -5,8 +5,10 @@
 1. Required packagesDownload the most recent version of Python (Python3 is required for the GUI)
 
               A) PIL
-              
-              B) ghostscript (known to be needed for MacOS, brew install ghostscript)
+                    https://pillow.readthedocs.io/en/stable/installation.html#basic-installation
+              B) ghostscript 
+                    brew install ghostscript
+                    https://www.ghostscript.com/releases/gsdnld.html
               
 2. Download the files              
               
