@@ -157,6 +157,7 @@ class TabCompletion(cmd.Cmd):
         
         arglist = arg.split()
         if(len(arglist)) == 1:
+                undoListInsertable.bool = True
                 ClassAdd(arglist[0])
         
         checkArgs(1, len(arglist))
@@ -180,6 +181,7 @@ class TabCompletion(cmd.Cmd):
         
         arglist = arg.split()
         if(len(arglist)) == 1:
+            undoListInsertable.bool = True
             ClassDelete(arglist[0])
         
         checkArgs(1, len(arglist))
@@ -205,6 +207,8 @@ class TabCompletion(cmd.Cmd):
         if (len(arglist)) == 2:
             classname: str = arglist[0]
             newname: str = arglist[1]
+
+            undoListInsertable.bool = True
             ClassRename(classname, newname)
             
         checkArgs(2, len(arglist)) 
@@ -231,7 +235,8 @@ class TabCompletion(cmd.Cmd):
             classname:str = arglist[0]
             fieldname:str = arglist[1]
             fieldtype:str = arglist[2]
-            
+
+            undoListInsertable.bool = True
             addField(classname, fieldname, fieldtype)
             
         checkArgs(3, len(arglist))   
@@ -255,6 +260,8 @@ class TabCompletion(cmd.Cmd):
         if (len(arglist)) == 2:
             classname: str = arglist[0]
             fieldname: str = arglist[1]
+
+            undoListInsertable.bool = True
             delField(classname, fieldname)
         
         checkArgs(2, len(arglist))
@@ -283,6 +290,8 @@ class TabCompletion(cmd.Cmd):
             classname: str = arglist[0]
             fieldname: str = arglist[1]
             newname: str = arglist[2]
+
+            undoListInsertable.bool = True
             renField(classname, fieldname, newname)
             
         checkArgs(3, len(arglist))        
@@ -311,6 +320,7 @@ class TabCompletion(cmd.Cmd):
             returntype: str = arglist[2]
             paramlist: list = []
             
+            undoListInsertable.bool = True
             addMethod(classname, methodname, returntype)
             
         checkArgs(3, len(arglist)) 
@@ -339,6 +349,7 @@ class TabCompletion(cmd.Cmd):
             #methodtype: str = arglist[2]
             newname: str = arglist[2]
             
+            undoListInsertable.bool = True
             renMethod(classname, methodname, newname)
             
         checkArgs(3, len(arglist)) 
@@ -367,6 +378,7 @@ class TabCompletion(cmd.Cmd):
             methodname: str = arglist[1]
             #methodtype: str = arglist[2]
             
+            undoListInsertable.bool = True
             delMethod(classname, methodname)
             
         checkArgs(2, len(arglist)) 
@@ -398,6 +410,7 @@ class TabCompletion(cmd.Cmd):
             paramname: str = arglist[2]
             paramtype: str = arglist[3]
             
+            undoListInsertable = True
             ParamAdd(classname, methodname, paramname, paramtype)
             
         checkArgs(4, len(arglist))
@@ -426,6 +439,7 @@ class TabCompletion(cmd.Cmd):
             #methodtype: str = arglist[2]
             paramname: str = arglist[2]
             
+            undoListInsertable = True
             delParam(classname, methodname, paramname)
         
         checkArgs(3, len(arglist)) 
@@ -456,6 +470,7 @@ class TabCompletion(cmd.Cmd):
             paramname: str = arglist[2]
             newname: str = arglist[3]
             
+            undoListInsertable.bool = True
             renameParam(classname, methodname, paramname, newname)
             
         checkArgs(4, len(arglist))     
@@ -485,6 +500,7 @@ class TabCompletion(cmd.Cmd):
             dest: str = arglist[1]
             reltype: str = arglist[2]
             
+            undoListInsertable.bool = True
             RelationshipAdd(src, dest, reltype)
                         
         checkArgs(3, len(arglist))     
@@ -510,6 +526,7 @@ class TabCompletion(cmd.Cmd):
             src: str = arglist[0]
             dest: str = arglist[1]
             
+            undoListInsertable.bool = True
             RelationshipDelete(src, dest)
            
         checkArgs(2, len(arglist))     
@@ -536,6 +553,7 @@ class TabCompletion(cmd.Cmd):
             dest: str = arglist[1]
             reltype:str = arglist[2]
             
+            undoListInsertable.bool = True
             relationshipEdit(src, dest, reltype)
            
         checkArgs(3, len(arglist))     
@@ -640,7 +658,7 @@ class TabCompletion(cmd.Cmd):
                 work to its previous state.
         
         """
-        
+        undoListInsertable.bool = False
         print(undo())
         
     
@@ -659,6 +677,7 @@ class TabCompletion(cmd.Cmd):
                 the 'undo' command.
         
         """
+        undoListInsertable.bool = True
         print(redo())  
              
     
