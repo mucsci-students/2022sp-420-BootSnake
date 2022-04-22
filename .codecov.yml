@@ -1,0 +1,15 @@
+codecov:
+  token: 0f39daf9-8cab-4455-89af-6ad0fa616d08
+  require_ci_to_pass: yes
+
+ignore:
+  - !*Model.py
+  - !tests/.*
+
+coverage:
+  round: down
+
+  status:
+    project:
+      default:
+        target: 100%
