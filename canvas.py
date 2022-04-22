@@ -62,8 +62,10 @@ def saveCanvas(filename : str):
     my_canvas.postscript(file = filename + '.eps') 
     # use PIL to convert to PNG 
     img = PIL.Image.open(filename + '.eps') 
-    img.save(filename + '.png', 'png')
-
+    img.load(scale=4)
+    img.save(filename + '.png', format='png', quality=95)
+    img.close()
+    os.remove(filename + '.eps')
 
 class makeSquare():
     """
