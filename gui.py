@@ -596,7 +596,7 @@ def gui_run():
     """
     def attrCommand(entry, entry1, entry2, label: tk.Label):
         if methodsVar.get()=='Add':
-            res = addMethod(entry,entry1,entry2, []) 
+            res = addMethod(entry,entry1,entry2) 
             label.configure(text=res) 
             entries.clear()
 

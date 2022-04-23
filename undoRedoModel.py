@@ -20,9 +20,9 @@ def undo():
         #Add to redo list
         redoList.insert(0, undoAction)
 
-        #suppress_text = io.StringIO()
+        suppress_text = io.StringIO()
         
-        #sys.stdout = suppress_text 
+        sys.stdout = suppress_text 
         
         #Check to see if there was a bulk action done
         if(isinstance(undoAction,list)):
@@ -39,7 +39,7 @@ def undo():
             undoAction[0](undoAction[1])
        
         #This here will release the text so I can continue to use print().
-        #sys.stdout = sys.__stdout__
+        sys.stdout = sys.__stdout__
         undoList.pop(0)
         redoClass.redoable = True
         if guiBool.bool:

@@ -48,13 +48,10 @@ exclusively used for undo and redo. When used in conjunction with canvasRefresh
 x2 and y2 variable is so that redo knows where to place the class on the canvas.
 """
 def coordEdit(classObj:AClass, x, y, x2, y2):
-    print("I changed the coords!")
     classObj.x = x
     classObj.y = y
-    print("x: " + str(classObj.x) + "y: " + str(classObj.y))
     if(undoListInsertable.bool):
-        print("I wrote for undo!")
-        undoList.insert(0,(coordEdit, (AClass,x2,y2,x,y)))
+        undoList.insert(0,(coordEdit, (classObj,x2,y2,x,y)))
     
     
 # A helper function used to check the validity of class names. 
