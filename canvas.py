@@ -19,7 +19,7 @@ from tkinter.ttk import Combobox
 import tkinter as tk
 from tkinter import ttk
 from PIL import *  # to use PIL import, install pip install Pillow as PIL is deprecated and pillow is the successor
-import PIL.ImageGrab as ImageGrab
+import PIL.Image
 
 
 from classModel import *
@@ -58,13 +58,14 @@ def makeCanvas(frame: tk.Frame):
 
 # save a screenshot of the canvas
 def saveCanvas(filename : str):
-    x = my_canvas.winfo_rootx() + my_canvas.winfo_x()
-    y = my_canvas.winfo_rooty() + my_canvas.winfo_y()
-    xx = x + my_canvas.winfo_width() - 20
-    yy = y + my_canvas.winfo_height()
-    ImageGrab.grab(bbox=(x, y, xx, yy)).save(filename)
-    #my_canvas.after(1000, saveCanvas(filename))
-
+    # save postscipt image 
+    my_canvas.postscript(file = filename + '.eps') 
+    # use PIL to convert to PNG 
+    img = PIL.Image.open(filename + '.eps') 
+    img.load(scale=4)
+    img.save(filename + '.png', format='png', quality=95)
+    img.close()
+    os.remove(filename + '.eps')
 
 class makeSquare():
     """
