@@ -24,6 +24,7 @@ from saveLoadModel import *
 from bootsnake import *
 from undoRedoModel import *
 from sharedItems import *
+from canvas import refreshCanvas
 
 
 
@@ -661,6 +662,7 @@ class TabCompletion(cmd.Cmd):
         undoListInsertable.bool = False
         print(undo())
         
+        
     
     # redo command
     def do_redo(self, arg: str = ""):
@@ -678,7 +680,7 @@ class TabCompletion(cmd.Cmd):
         
         """
         undoListInsertable.bool = True
-        print(redo())  
+        print(redo())
              
     
     # exit BootSnake program

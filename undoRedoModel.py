@@ -13,7 +13,6 @@ def undo():
     if(len(undoList) == 0):
         return "\nNothing to undo!"
     else:
-        print(undoList)
         undoListInsertable.bool = False
         #The following two lines will suppress the text from ClassAdd()
         undoAction = undoList[0]
@@ -21,9 +20,9 @@ def undo():
         #Add to redo list
         redoList.insert(0, undoAction)
 
-        suppress_text = io.StringIO()
+        #suppress_text = io.StringIO()
         
-        sys.stdout = suppress_text 
+        #sys.stdout = suppress_text 
         
         #Check to see if there was a bulk action done
         if(isinstance(undoAction,list)):
@@ -40,7 +39,7 @@ def undo():
             undoAction[0](undoAction[1])
        
         #This here will release the text so I can continue to use print().
-        sys.stdout = sys.__stdout__
+        #sys.stdout = sys.__stdout__
         undoList.pop(0)
         redoClass.redoable = True
         if guiBool.bool:
@@ -55,6 +54,7 @@ def redo():
     if(len(redoList) == 0):
         return "\nNothing to redo!"
     else:
+        undoListInsertable.bool = True
         redoListInsertable.bool = False
         #The following two lines will suppress the text from ClassAdd()
         redoAction = redoList[0]
@@ -65,8 +65,8 @@ def redo():
         else:
             redoClass.redoCaller = True
             redoAction = getOpposite(redoAction[0], redoAction[1])
-        suppress_text = io.StringIO()
         
+        suppress_text = io.StringIO()
         sys.stdout = suppress_text 
         
         #Don't think I need bulk actions for redo for now
@@ -114,6 +114,8 @@ def getOpposite(function, param) -> tuple:
             return (ParamDelete, (param[0], param[1], param[5], param[4], param[2], param[3]))
         elif (function == ParamDelete):
             return (ParamAdd, (param[0], param[1], param[4], param[5], param[2]))
+        elif (function == coordEdit):
+            return (coordEdit, (param[0], param[3], param[4], param[1], param[2]))
     else:
         if (function == ClassAdd):
             return (ClassDelete, param)

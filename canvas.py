@@ -626,6 +626,7 @@ def on_release(e):
     x1, y1, x2, y2 = my_canvas.coords(boxlist[loc].my_rectangle)
     
     my_class = ClassSearch(boxlist[loc].name, listOfClasses)
+    undoList.insert(0,(coordEdit, (my_class, my_class.x, my_class.y, x1, y1)))
     my_class.x = x1
     my_class.y = y1
 
