@@ -264,9 +264,11 @@ def test_delAllMethods():
     ClassAdd("classFood")
     addMethod("classFood","Beef", "str",[])
     ParamAdd("classFood", "Beef", "Param1", "int")
+    ParamAdd("classFood", "Beef", "Param2", "int")
     assert "Beef successfully added!"
     assert listOfClasses[0].listOfMethods[0].name =="Beef"
     addMethod("classFood","soup", "str",[])
+    ParamAdd("classFood", "soup", "Param1", "int")
     ParamAdd("classFood", "soup", "Param2", "int")
     assert "soup successfully added!"
     assert listOfClasses[0].listOfMethods[1].name =="Soup"
@@ -416,6 +418,12 @@ def test_delFieldNoClass():
     reset()
     ret = delField("one", "fieldOne")
     assert ret == "one not existed! Enter a valid class!"
+
+def test_delFieldNoFields():
+    reset()
+    ClassAdd("one")
+    ret = delField("one", "fieldOne")
+    assert ret == "No fields for one"
 
 def test_addMethodNoClass():
     reset()
