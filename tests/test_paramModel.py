@@ -44,6 +44,14 @@ def test_InvalidNameType():
     ClassAdd("class1")
     paramlist = list()
     addMethod("class1", "method1", "str", paramlist)
+    ret = ParamAdd("class1", "method1", "", "str")
+    assert not listOfClasses[0].listOfMethods[0].listOfParams, "Invalid parameter added to method, should not happen"
+    assert ret == " not found!"
+
+    reset()
+    ClassAdd("class1")
+    paramlist = list()
+    addMethod("class1", "method1", "str", paramlist)
     ret = ParamAdd("class1", "method1", "@", "str")
     assert not listOfClasses[0].listOfMethods[0].listOfParams, "Invalid parameter added to method, should not happen"
     assert ret == "@ not found!"
@@ -55,6 +63,22 @@ def test_InvalidNameType():
     ret = ParamAdd("class1", "method1", "param1", "9")
     assert not listOfClasses[0].listOfMethods[0].listOfParams, "Invalid parameter added to method, should not happen"
     assert ret == "param1 not found!"
+
+    reset()
+    ClassAdd("class1")
+    paramlist = list()
+    addMethod("class1", "method1", "str", paramlist)
+    ret = ParamAdd("class1", "method1", "elif", "str")
+    assert not listOfClasses[0].listOfMethods[0].listOfParams, "Invalid parameter added to method, should not happen"
+    assert ret == "elif not found!"
+
+    reset()
+    ClassAdd("class1")
+    paramlist = list()
+    addMethod("class1", "method1", "str", paramlist)
+    ret = ParamAdd("class1", "method1", "this param", "str")
+    assert not listOfClasses[0].listOfMethods[0].listOfParams, "Invalid parameter added to method, should not happen"
+    assert ret == "this param not found!"
 
     reset()
     ClassAdd("class1")
