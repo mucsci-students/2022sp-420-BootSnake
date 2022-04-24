@@ -24,7 +24,7 @@ import re
 from sharedItems import *
 from relationshipsModel import RelationshipAdd
 from attributesModel import *
-from parametersModel import ParamAdd
+from parametersModel import *
  
 
 """ 

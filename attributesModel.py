@@ -261,7 +261,7 @@ def renField (classname: str, fieldname: str, newname: str):
     
 ###############################################################################
 
-def addMethod(classname: str, methodname: str, methtype: str,  paramlist: list()):
+def addMethod(classname: str, methodname: str, methtype: str,  paramlist: list() = None):
     
     """
     The addMethod adds a method(s) for a selected, existing class
