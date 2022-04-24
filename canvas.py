@@ -190,8 +190,8 @@ def addRec(name:str):
 
     # Add the new rectangle to the list.
     boxlist.append(classRec)
-    for o in boxlist:
-        print(my_canvas.coords(o.name))
+    # for o in boxlist:
+    #     print(my_canvas.coords(o.name))
     updateBoxWidth(len(boxlist)-1)
     #respaceBox(len(boxlist)-1)
     
@@ -315,7 +315,7 @@ def updateBoxHeight(h:int):
     space = 10
     
     wantedClass = ClassSearch(boxlist[h].name, listOfClasses)
-    print(len(wantedClass.listOfFields))
+    # print(len(wantedClass.listOfFields))
    
     # get the coords of the box
     x1, y1, x2, y2 = my_canvas.coords(boxlist[h].my_rectangle)
@@ -780,8 +780,8 @@ def on_drag(e):
     # method section
    
     wantedClass = ClassSearch(boxlist[i].name, listOfClasses)
-    for x in wantedClass.listOfFields:
-        print(len(wantedClass.listOfFields))
+    # for x in wantedClass.listOfFields:
+        # print(len(wantedClass.listOfFields))
 
     my_canvas.coords(boxlist[i].mlabel, midx1 + 5, yf + space + 14*len(wantedClass.listOfFields)+15)
     

@@ -23,7 +23,8 @@ from parametersModel import *
 import canvas as c
 import undoRedoModel as u
 from sharedItems import *
-
+import sys
+import io
 
 
 
@@ -71,6 +72,9 @@ def openAbout():
 # =============================================================================
 
 def gui_run():
+    suppress_text = io.StringIO()
+        
+    sys.stdout = suppress_text 
 
     # initialize window    
     guiBool.bool = True

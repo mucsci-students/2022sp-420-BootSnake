@@ -39,7 +39,10 @@ def undo():
             undoAction[0](undoAction[1])
        
         #This here will release the text so I can continue to use print().
-        sys.stdout = sys.__stdout__
+        #Don't want to unsuppress the prints if in gui
+        if not guiBool.bool:
+            sys.stdout = sys.__stdout__
+
         undoList.pop(0)
         redoClass.redoable = True
         if guiBool.bool:
@@ -69,8 +72,6 @@ def redo():
         suppress_text = io.StringIO()
         sys.stdout = suppress_text 
         
-        #Don't think I need bulk actions for redo for now
-
         #Check to see if there are multiple parameters
         if(isinstance(redoAction[1],tuple)):
             redoAction[0](*redoAction[1])
@@ -78,7 +79,9 @@ def redo():
         else:
             redoAction[0](redoAction[1])
         #This here will release the text so I can continue to use print().
-        sys.stdout = sys.__stdout__
+        #Don't want to unsuppress the prints if in gui
+        if not guiBool.bool:
+            sys.stdout = sys.__stdout__
         redoList.pop(0)
         if guiBool.bool:
             c.refreshCanvas()

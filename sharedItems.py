@@ -1,7 +1,6 @@
 #A global list that will be used to keep all the classes.
 from asyncio.events import BaseDefaultEventLoopPolicy
 
-
 listOfClasses = list()
 undoList = list()
 redoList = list()

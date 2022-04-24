@@ -64,6 +64,10 @@ def Main(args: list):
     
         # run gui
     else:
+        # Suppresses the unneccessary print statements
+        suppress_text = io.StringIO()
+        sys.stdout = suppress_text 
+
         gui_run()
     
 def umlCliController() -> None:
