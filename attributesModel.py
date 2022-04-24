@@ -90,7 +90,6 @@ def addField(classname : str, fieldname : str, fieldtype: str):
     if wantedClass:
         # validate the fieldname and fieldtype.
         if checkName(wantedClass, fieldname.strip().casefold()) and checkName(wantedClass, fieldtype.casefold().strip()):
-                        
             newField = FieldClass(fieldname, fieldtype)
             wantedClass.listOfFields.append(newField)
             print("UML> Field " + fieldname + " successfully added!")
@@ -560,13 +559,13 @@ def renameParam(classname: str, methodname: str, param: str, newname: str):
                     thisMeth = searchMethod(classname, methodname)
                     if thisMeth:
                         if thisMeth.listOfParams:
-                            thisParam = searchParam(thisMeth, param.strip().lower())
+                            thisParam = searchParam(thisMeth, param)
                             if thisParam:
                                 if thisParam.name.strip().lower() == param.strip().lower():    
                                     if checkParamName(thisMeth, newname.strip().casefold()):
                                         if(undoListInsertable.bool):
                                             undoList.insert(0,(renameParam,(classname,methodname,newname,param)))
-                                        thisParam.name = newname.lower().strip()
+                                        thisParam.name = newname
                                         print("UML> Parameter "+ param +" successfully renamed!")
                                     for o in thisMeth.listOfParams:
                                         print(o.name)

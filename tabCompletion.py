@@ -441,7 +441,8 @@ class TabCompletion(cmd.Cmd):
             paramname: str = arglist[2]
             
             undoListInsertable = True
-            delParam(classname, methodname, paramname)
+            wantedMethod = searchMethod(classname, methodname)
+            ParamDelete(classname, methodname, wantedMethod, "one", paramname)
         
         checkArgs(3, len(arglist)) 
         
@@ -871,7 +872,7 @@ class TabCompletion(cmd.Cmd):
     
     
     
-    def complete_delparam(self, text, line, begidx, endidx):
+    def complete_paramdelete(self, text, line, begidx, endidx):
         if not text:
             completions = self.cmmands[:]
         else:

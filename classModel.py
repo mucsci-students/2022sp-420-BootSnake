@@ -23,7 +23,8 @@ import keyword
 import re
 from sharedItems import *
 from relationshipsModel import RelationshipAdd
-
+from attributesModel import *
+from parametersModel import ParamAdd
  
 
 """ 
@@ -192,9 +193,6 @@ def ClassDelete(deleteTarget):
             oldListOfRelations = list(classObject.listOfRelationships)
             oldXCoord = classObject.x
             oldYCoord = classObject.y
-            listOfClasses.remove(classObject)
-            print("Class " + deleteTarget + " deleted!")
-            returnString = "Class " + deleteTarget + " deleted!"
             """
                 The following nested for loops will iterate through each class 
                 object in the global list. Looking through each of their 
@@ -214,11 +212,22 @@ def ClassDelete(deleteTarget):
                         c.listOfRelationships.remove(relObject)
                         if(undoListInsertable.bool):
                             reverseList.insert(0,(RelationshipAdd, (c.name, deleteTarget, relObject.type)))
+                for field in c.listOfFields:
+                    reverseList.insert(0, (addField, (c.name, field.name, field.type)))
+                for meth in c.listOfMethods:
+                    for param in meth.listOfParams:
+                        reverseList.insert(0, (ParamAdd, (c.name, meth.name, param.name, param.type)))
+                    reverseList.insert(0, (addMethod, (c.name, meth.name, meth.type)))
             for rel in oldListOfRelations:
                 if(undoListInsertable.bool):
                     reverseList.insert(0,(RelationshipAdd, (deleteTarget, rel.dest, rel.type)))
             if(undoListInsertable.bool):
                 reverseList.insert(0,(ClassAdd, (deleteTarget, oldIndex, oldXCoord, oldYCoord)))
                 undoList.insert(0,reverseList)
+            
+            listOfClasses.remove(classObject)
+            print("Class " + deleteTarget + " deleted!")
+            returnString = "Class " + deleteTarget + " deleted!"
+
             return returnString
         

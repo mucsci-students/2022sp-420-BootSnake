@@ -1,4 +1,5 @@
 from email import message
+from pyexpat.errors import messages
 from classModel import *
 from sharedItems import *
 
@@ -34,11 +35,11 @@ def ListClass(name):
     if (wantedClass == None):
         return "Class " + name + " does not exist."
     
-    messageString += "\nClass: \n" + name + "\nFields: \n"
+    messageString += "\nClass: \n" + name + "\nFields:\n"
 
     # Loop through listOfAttributes
-
     for x in wantedClass.listOfFields:
+        # print(x.name)
         messageString += "\t" + x.name + " \n"
 
 

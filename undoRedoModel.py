@@ -15,6 +15,10 @@ def undo():
     else:
         undoListInsertable.bool = False
         #The following two lines will suppress the text from ClassAdd()
+        suppress_text = io.StringIO()
+        
+        sys.stdout = suppress_text 
+
         undoAction = undoList[0]
 
         #Add to redo list
@@ -61,19 +65,21 @@ def redo():
         redoListInsertable.bool = False
         #The following two lines will suppress the text from ClassAdd()
         redoAction = redoList[0]
-
+    
         if (isinstance(redoAction, list)):
             redoClass.redoCaller = True
-            redoAction = getOpposite(redoAction[0][0], redoAction[0][1][0])
+            redoAction = getOpposite(redoAction[0][0], redoAction[0][1])
+            
         else:
             redoClass.redoCaller = True
             redoAction = getOpposite(redoAction[0], redoAction[1])
+            
         
         suppress_text = io.StringIO()
         sys.stdout = suppress_text 
         
         #Check to see if there are multiple parameters
-        if(isinstance(redoAction[1],tuple)):
+        if (isinstance(redoAction[1],tuple)):
             redoAction[0](*redoAction[1])
         #If none of the above, then it's a single parameter
         else:
@@ -90,7 +96,7 @@ def redo():
 def getOpposite(function, param) -> tuple:
     if (isinstance(param, tuple)):
         if (function == ClassAdd):
-            return (ClassDelete, (param[0], param[1]))
+            return (ClassDelete, (param[0]))
         elif (function == ClassDelete):
             return (ClassAdd, (param[0], param[1]))
         elif (function == ClassRename):
@@ -117,6 +123,8 @@ def getOpposite(function, param) -> tuple:
             return (ParamDelete, (param[0], param[1], param[5], param[4], param[2], param[3]))
         elif (function == ParamDelete):
             return (ParamAdd, (param[0], param[1], param[4], param[5], param[2]))
+        elif (function == renameParam):
+            return (renameParam, (param[0], param[1], param[3], param[2]))
         elif (function == coordEdit):
             return (coordEdit, (param[0], param[3], param[4], param[1], param[2]))
     else:
