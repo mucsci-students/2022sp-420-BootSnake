@@ -184,8 +184,7 @@ def delField (classname: str, fieldname:str):
                         print("Field " + fieldname + " not found! Try again!")
                         msg =f"{fieldname} not found! Try again!"
                         return msg
-                        
-                break              
+                                      
                 
         else: 
             print("No fields for class " + classname  + "! Enter 'q' to exit!")
@@ -246,9 +245,9 @@ def renField (classname: str, fieldname: str, newname: str):
                     print("Field " + fieldname + " not found!")
                     msg = f"{fieldname} not found!"
                     return msg
-                    break
+                    
                 
-                break
+                
                         
                 
         else: 
@@ -363,14 +362,13 @@ def renMethod (classname: str, methodname: str, newmethod: str):
 
                         else:
                             print("method "+ newmethod + " existed! No duplicates allowed!")
+                            return f'method {newmethod} existed! No duplicates allowed!'
                                           
                 else:
                     print("Method " + methodname + " not found!")
                     msg = f"Method {methodname} not found!"
                     return msg
-                    break
-                break
-               
+
         else: 
             print("No methods found for class " + classname  + " ! Enter 'q' to exit!")
             msg = f"No methods found for class {classname}"
