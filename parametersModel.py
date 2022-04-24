@@ -90,7 +90,7 @@ def ParamDelete(wantedMethod, delAmnt, paramName):
                     
                     for o in wantedMethod.listOfParams:
                         print(o.name + " : " + o.type)
-                break
+                    return msg
 
             msg = f"{paramName} does not exist in {wantedMethod.name}"
 
@@ -139,37 +139,7 @@ def CheckNameType(paramName: str, paramType: str, methodName):
     
     
     
-##############################################################################################  
-def ParamDelete(wantedMethod, delAmnt, paramName):
-    
-    msg: str = ""
-    if wantedMethod.listOfParams: 
-        if delAmnt == 'all':
-            wantedMethod.listOfParams.clear()           # If user wants to delete all params, clear list
-            print("All parameters successfully deleted!")
-            msg = f"All parameter successfully deleted!"
-            print(wantedMethod.listOfParams)
-
-            return msg
-
-        elif delAmnt == 'one':
-            for param in wantedMethod.listOfParams:
-                if param.name.casefold().strip() == paramName.casefold().strip():
-                    wantedMethod.listOfParams.remove(param)
-                    print("UML> " + paramName + " deleted!")
-                    msg = f"{paramName} deleted!"
-                    
-                    for o in wantedMethod.listOfParams:
-                        print(o.name + " : " + o.type)
-                    break
-
-                    return msg
-            msg = f" does not exist in {wantedMethod.name}"
-    else:
-
-        print("No params exist in this method!")
-        msg = f"No params exist in {wantedMethod.name}"
-        return msg
+############################################################################################## 
     
 def searchMethod(classname: str, methname: str) :
     # loop through the list of methods of a given class to search for a 
