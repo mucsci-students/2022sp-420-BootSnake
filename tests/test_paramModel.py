@@ -129,6 +129,8 @@ def test_ParamDeleteOne():
     ret = ParamDelete(wantedMethod, "one", "param1")
     assert listOfClasses[0].listOfMethods[0].listOfParams[0].name == 'param2', "Param 'param1' not deleted, list should only contain 'param2'"
     assert len(listOfClasses[0].listOfMethods[0].listOfParams) == 1, "Param list length not correct, should be 1"
+    print(ret)
+    assert ret == "param1 deleted!"
     print("Singular parameter deletion successful!\n\n")
 
 # Test that all parameters deleted properly from a method when requested
@@ -155,7 +157,8 @@ def test_DeleteNonParam():
     wantedMethod = searchMethod("class1", "method1")
     ret = ParamDelete(wantedMethod, "one", "param2")
     assert len(listOfClasses[0].listOfMethods[0].listOfParams) == 1, "Param 'param1' was deleted, should remain in list"
-    
+    print(ret)
+    assert ret == "param2 does not exist in method1"
     print("ParamDelete() properly exits if parameter does not exist!\n\n")
 
 # Test that method properly exits if method does not contain parameters
@@ -167,6 +170,8 @@ def test_NoParamDelete():
     wantedMethod = searchMethod("class1", "method1")
     ret = ParamDelete(wantedMethod, "one", "param2")
     assert not listOfClasses[0].listOfMethods[0].listOfParams, "No params exist in the method, ParamDelete() should return"
+    print(ret)
+    assert ret == "No params exist in method1"
     print("ParamDelete() properly exits if method does not contain parameters!\n\n")
 
 

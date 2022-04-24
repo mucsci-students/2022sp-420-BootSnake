@@ -81,8 +81,6 @@ def ParamDelete(wantedMethod, delAmnt, paramName):
             msg = f"All parameter successfully deleted!"
             print(wantedMethod.listOfParams)
 
-            return msg
-
         elif delAmnt == 'one':
             for param in wantedMethod.listOfParams:
                 if param.name.casefold().strip() == paramName.casefold().strip():
@@ -92,14 +90,15 @@ def ParamDelete(wantedMethod, delAmnt, paramName):
                     
                     for o in wantedMethod.listOfParams:
                         print(o.name + " : " + o.type)
-                    break
+                break
 
-                    return msg
+            msg = f"{paramName} does not exist in {wantedMethod.name}"
+
     else:
         print("No params exist in this method!")
-        msg = f"No params exist in {wantedMethod}"
-        return msg
-
+        msg = f"No params exist in {wantedMethod.name}"
+    
+    return msg
 """
 CheckNameType
 Input: given parameter name, given parameter type, method expecting param addition
