@@ -66,24 +66,6 @@ def ParamAdd(className, methodName, paramName, paramType):
         return msg
 
 """
-ParamListAdd
-Input: parameter list, parameter's name, parameter's type
-Description: Specialized param add for parameter change method use (possible to merge with regular ParamAdd?)
-"""
-def ParamListAdd(wantedMethod, paramName, paramType):
-    validParam = CheckNameType(paramName, paramType, wantedMethod)      # check that name and type of param are valid
-
-    if validParam:
-        thisParam = Param(paramName, paramType)                 # new param with given name & type
-        wantedMethod.listOfParams.append(thisParam)             # append new param to method's list of params
-        print("Parameter " + paramName + " : " + paramType +" successfully added!")
-        for o in wantedMethod.listOfParams:
-            print(o.name + " : " + paramType)
-
-    else:
-        return None
-
-"""
 ParamDelete
 Input: method expecting param deletion, whether user wants to delete one or all parameters in the list,
 parameter's name (empty if ALL delete)
@@ -183,9 +165,11 @@ def ParamDelete(wantedMethod, delAmnt, paramName):
                     break
 
                     return msg
+            msg = f" does not exist in {wantedMethod.name}"
     else:
+
         print("No params exist in this method!")
-        msg = f"No params exist in {wantedMethod}"
+        msg = f"No params exist in {wantedMethod.name}"
         return msg
     
 def searchMethod(classname: str, methname: str) :
