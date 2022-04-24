@@ -38,7 +38,7 @@ def RelationshipAdd(src: str, dest: str, type: str):
         for r in srcClass.listOfRelationships:
             if r.dest == destClass.name:
                 print("Error: Relationship already exists.")
-                msg = f" Relationship already exists."
+                msg = f"Relationship already exists."
                 return msg
         
         newRelationship = relationship(type,src, dest)
