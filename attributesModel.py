@@ -437,15 +437,15 @@ def delMethod (classname: str, methodname: str):
                                 msg = f"All methods of {classname} successfully deleted!"
                    
                                 # remove the parameter lists of the methods.
-                                for o in wantedClass.listOfMethods:
-                                    for p in o.listOfParams:
-                                        o.listOfParams.clear()
-                                        print("All parameters of the methods deleted!")
+                                # for o in wantedClass.listOfMethods:
+                                #     for p in o.listOfParams:
+                                #         o.listOfParams.clear()
+                                #         print("All parameters of the methods deleted!")
                                     
                                 # sort & print the list of method objects
-                                wantedClass.listOfMethods.sort(key = lambda x : x.name)
-                                for o in wantedClass.listOfMethods:
-                                    print(o.name)
+                                # wantedClass.listOfMethods.sort(key = lambda x : x.name)
+                                # for o in wantedClass.listOfMethods:
+                                #     print(o.name)
                              
                                 return msg
                             

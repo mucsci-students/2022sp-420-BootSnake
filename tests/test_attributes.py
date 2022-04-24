@@ -285,10 +285,11 @@ def test_delParam():
     ClassAdd("classFood")
     addMethod("classFood","Beef", "str",[])
     ParamAdd("classFood","Beef","param", "str")
+    ParamAdd("classFood","Beef","param2", "str")
     assert listOfClasses[0].listOfMethods[0].listOfParams[0].name == "param"
     delParam("classFood","Beef","param")
     assert "param of classFood deleted!"
-    assert listOfClasses[0].listOfMethods[0].listOfParams == []
+    assert len(listOfClasses[0].listOfMethods) == 1
     
 # test rename a parameter of a given method in provided class.
 def test_renameParam():
