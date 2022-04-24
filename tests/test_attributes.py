@@ -264,9 +264,11 @@ def test_delAllMethods():
     ClassAdd("classFood")
     addMethod("classFood","Beef", "str",[])
     ParamAdd("classFood", "Beef", "Param1", "int")
+    ParamAdd("classFood", "Beef", "Param2", "int")
     assert "Beef successfully added!"
     assert listOfClasses[0].listOfMethods[0].name =="Beef"
     addMethod("classFood","soup", "str",[])
+    ParamAdd("classFood", "soup", "Param1", "int")
     ParamAdd("classFood", "soup", "Param2", "int")
     assert "soup successfully added!"
     assert listOfClasses[0].listOfMethods[1].name =="Soup"
@@ -283,10 +285,11 @@ def test_delParam():
     ClassAdd("classFood")
     addMethod("classFood","Beef", "str",[])
     ParamAdd("classFood","Beef","param", "str")
+    ParamAdd("classFood","Beef","param2", "str")
     assert listOfClasses[0].listOfMethods[0].listOfParams[0].name == "param"
     delParam("classFood","Beef","param")
     assert "param of classFood deleted!"
-    assert listOfClasses[0].listOfMethods[0].listOfParams == []
+    assert len(listOfClasses[0].listOfMethods) == 1
     
 # test rename a parameter of a given method in provided class.
 def test_renameParam():
@@ -379,6 +382,9 @@ def test_checkMethName():
     ret = checkMethName(clas, "____methodone")
     assert ret == False
     ret = checkMethName(clas, "method one")
+    assert ret == False
+    ret = checkMethName(clas, "import")
+    assert ret == False
 
 def test_checkParamName():
     reset()
@@ -395,6 +401,9 @@ def test_checkParamName():
     ret = checkParamName(met, "param one")
     assert ret == False
     ret = checkParamName(met, "param1")
+    assert ret == False
+    ret = checkParamName(met, "1param")
+    assert ret == False
 
 def test_searchMethod():
     reset()
@@ -410,6 +419,12 @@ def test_delFieldNoClass():
     reset()
     ret = delField("one", "fieldOne")
     assert ret == "one not existed! Enter a valid class!"
+
+def test_delFieldNoFields():
+    reset()
+    ClassAdd("one")
+    ret = delField("one", "fieldOne")
+    assert ret == "No fields for one"
 
 def test_addMethodNoClass():
     reset()
@@ -464,6 +479,13 @@ def test_delParamNoMethods():
     ret = delParam("one", "m1", "p1")
     assert ret == "No methods for one!"
 
+def test_delParamFalseMethod():
+    reset()
+    ClassAdd("one")
+    addMethod("one", "m1", "int", [])
+    ret = delParam("one", "m2", "p1")
+    assert ret == "m2 not found! Try again!"
+
 def test_renameParamDuplicate():
     reset()
     ClassAdd("one")
@@ -497,4 +519,5 @@ def test_renameParamFalseClass():
     ClassAdd("one")
     ret = renameParam("two", "m2", "p1", "p2")
     assert ret == "two not found! Try again!"
+
 
