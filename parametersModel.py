@@ -88,7 +88,7 @@ def ParamDelete(classname: str, methodname: str, delAmnt = 0, paramName = 0, par
         redoClass.redoable = False
         
     redoClass.redoCaller = False
-    wantedMethod = searchMethod (methodname)
+    wantedMethod = searchMethod (classname, methodname)
 
     if wantedMethod.listOfParams: 
         if delAmnt == 'all':
