@@ -8,6 +8,9 @@ from relationshipsModel import *
 from undoRedoModel import *
 from parametersModel import *
 
+from PIL import *  # to use PIL import, install pip install Pillow as PIL is deprecated and pillow is the successor
+import PIL.Image
+
 
 def reset():
     listOfClasses().clear()

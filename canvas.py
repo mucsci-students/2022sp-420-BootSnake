@@ -21,7 +21,6 @@ from tkinter import ttk
 from PIL import *  # to use PIL import, install pip install Pillow as PIL is deprecated and pillow is the successor
 import PIL.Image
 
-
 from classModel import *
 from relationshipsModel import *
 from saveLoadModel import *
