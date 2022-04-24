@@ -9,6 +9,7 @@ from sqlite3 import paramstyle
 from classModel import *
 from sharedItems import *
 from attributesModel import *
+import attributesModel as a
 
 regex = re.compile('[@!$%^&()<>?/\\\|}{\[\]\']')
 
@@ -32,7 +33,7 @@ def ParamAdd(className, methodName, paramName, paramType, delAmnt = 0, wantedMet
     if not wantedClass:
         return "Could not find class with name " + className + ". Please input an existing class."
 
-    wantedMethod = searchMethod(className, methodName)          # get requested method from class's list of methods
+    wantedMethod = a.searchMethod(className, methodName)          # get requested method from class's list of methods
 
     if wantedMethod:
         
@@ -88,7 +89,7 @@ def ParamDelete(classname: str, methodname: str, delAmnt = 0, paramName = 0, par
         redoClass.redoable = False
         
     redoClass.redoCaller = False
-    wantedMethod = searchMethod (classname, methodname)
+    wantedMethod = a.searchMethod (classname, methodname)
 
     if wantedMethod.listOfParams: 
         if delAmnt == 'all':
@@ -112,6 +113,7 @@ def ParamDelete(classname: str, methodname: str, delAmnt = 0, paramName = 0, par
                     for o in wantedMethod.listOfParams:
                         print(o.name + " : " + o.type)
                     break
+            print("Param '" + paramName + "' not deleted")
     else:
         print("No params exist in this method!")
         return "No params exist in this method!"
