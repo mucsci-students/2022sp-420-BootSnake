@@ -379,6 +379,9 @@ def test_checkMethName():
     ret = checkMethName(clas, "____methodone")
     assert ret == False
     ret = checkMethName(clas, "method one")
+    assert ret == False
+    ret = checkMethName(clas, "import")
+    assert ret == False
 
 def test_checkParamName():
     reset()
@@ -395,6 +398,9 @@ def test_checkParamName():
     ret = checkParamName(met, "param one")
     assert ret == False
     ret = checkParamName(met, "param1")
+    assert ret == False
+    ret = checkParamName(met, "1param")
+    assert ret == False
 
 def test_searchMethod():
     reset()
@@ -464,6 +470,13 @@ def test_delParamNoMethods():
     ret = delParam("one", "m1", "p1")
     assert ret == "No methods for one!"
 
+def test_delParamFalseMethod():
+    reset()
+    ClassAdd("one")
+    addMethod("one", "m1", "int", [])
+    ret = delParam("one", "m2", "p1")
+    assert ret == "m2 not found! Try again!"
+
 def test_renameParamDuplicate():
     reset()
     ClassAdd("one")
@@ -497,4 +510,5 @@ def test_renameParamFalseClass():
     ClassAdd("one")
     ret = renameParam("two", "m2", "p1", "p2")
     assert ret == "two not found! Try again!"
+
 

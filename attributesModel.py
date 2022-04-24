@@ -426,7 +426,7 @@ def delMethod (classname: str, methodname: str):
                                         
                                     return msg
                                 
-                            break    
+                            #break    
                            
                         # If user enters ALL/all to remove all methods.
                         else:
@@ -504,8 +504,8 @@ def delParam (classname: str, methodname: str, paramname: str):
                                 
                                 # sort & print the list of param objects
                                 wantedMethod.listOfParams.sort(key = lambda x : x.name)
-                                for o in wantedMethod.listOfParams:
-                                    print(o.name)
+                                # for o in wantedMethod.listOfParams:
+                                #     print(o.name)
                                 
                                 return msg        
                                 
