@@ -191,30 +191,30 @@ def test_delFieldInvalidClass():
 def test_addMethod():
     reset()
     ClassAdd("classFood")
-    addMethod("classFood","beef", "str")
+    addMethod("classFood","beef", "str", [])
     assert "classFood successfully added!"
     #assert "classFood" in listOfClasses[0]
     assert listOfClasses[0].name =="classFood"
-    assert "beef successfully added!"
-    assert listOfClasses[0].listOfMethods[0].name =="beef"
+    assert "Beef successfully added!"
+    assert listOfClasses[0].listOfMethods[0].name =="Beef"
 
 # test add a duplicate method to a specific class
 def test_addDupMethod():
     reset()
     ClassAdd("classFood")
-    addMethod("classFood","beef", "str")
-    assert "beef successfully added!"
-    assert listOfClasses[0].listOfMethods[0].name =="beef"
-    addMethod("classFood","beef", "str")
+    addMethod("classFood","beef", "str", [])
+    assert "Beef successfully added!"
+    assert listOfClasses[0].listOfMethods[0].name =="Beef"
+    addMethod("classFood","beef", "str", [])
     assert "beef existed! No duplicated allowed!" 
-    assert listOfClasses[0].listOfMethods[0].name =="beef"
+    assert listOfClasses[0].listOfMethods[0].name =="Beef"
         
 
 # test add a blank method to a specific class
 def test_addBlankMethod():
     reset()
     ClassAdd("classFood")
-    addMethod("classFood"," ", "str")
+    addMethod("classFood"," ", "str",[])
     assert "classFruit successfully added!"
     #assert "classFruit" in listOfClasses[0]
     assert listOfClasses[0].name =="classFood"
@@ -226,18 +226,19 @@ def test_addBlankMethod():
 def test_reNameMethod():
     reset()
     ClassAdd("classFood")
-    addMethod("classFood","Beef", "str")
+    addMethod("classFood","Beef", "str",[])
     assert "Beef successfully added!"
     assert listOfClasses[0].listOfMethods[0].name =="Beef"
-    renMethod("classFood","Beef","Soup")
-    assert "Method Beef successfully renamed to Soup!"
+    renMethod("classFood","beef","Soup" )
+    assert "Method beef successfully renamed to Soup!"
     assert listOfClasses[0].listOfMethods[0].name == "Soup"
+
 
 # test rename an invalid method to a specific class
 def test_renameInvalidMethod():
     reset()
     ClassAdd("classFood")
-    addMethod("classFood","Beef", "str")
+    addMethod("classFood","Beef", "str",[])
     assert "Beef successfully added!"
     assert listOfClasses[0].listOfMethods[0].name =="Beef"
     renMethod("classFood","soup","chicken")
@@ -249,7 +250,8 @@ def test_renameInvalidMethod():
 def test_delMethod():
     reset()
     ClassAdd("classFood")
-    addMethod("classFood","Beef", "str")
+    addMethod("classFood","Beef", "str",[])
+    ParamAdd("classFood", "Beef", "Param1", "int")
     assert "Beef successfully added!"
     assert listOfClasses[0].listOfMethods[0].name =="Beef"
     delMethod("classFood","beef")
@@ -260,10 +262,12 @@ def test_delMethod():
 def test_delAllMethods():
     reset()
     ClassAdd("classFood")
-    addMethod("classFood","Beef", "str")
+    addMethod("classFood","Beef", "str",[])
+    ParamAdd("classFood", "Beef", "Param1", "int")
     assert "Beef successfully added!"
     assert listOfClasses[0].listOfMethods[0].name =="Beef"
-    addMethod("classFood","Soup", "str")
+    addMethod("classFood","soup", "str",[])
+    ParamAdd("classFood", "soup", "Param2", "int")
     assert "soup successfully added!"
     assert listOfClasses[0].listOfMethods[1].name =="Soup"
     delMethod("classFood","all")
@@ -277,7 +281,7 @@ def test_delAllMethods():
 def test_delParam():
     reset()
     ClassAdd("classFood")
-    addMethod("classFood","Beef", "str")
+    addMethod("classFood","Beef", "str",[])
     ParamAdd("classFood","Beef","param", "str")
     assert listOfClasses[0].listOfMethods[0].listOfParams[0].name == "param"
     delParam("classFood","Beef","param")
@@ -288,7 +292,7 @@ def test_delParam():
 def test_renameParam():
     reset()
     ClassAdd("classFood")
-    addMethod("classFood","Beef", "str")
+    addMethod("classFood","Beef", "str",[])
     ParamAdd("classFood","Beef","param", "str")
     assert listOfClasses[0].listOfMethods[0].listOfParams[0].name == "param"
     renameParam("classFood","Beef","param", "myparam")
@@ -299,7 +303,7 @@ def test_renameParam():
 def test_renameInvalidParam():
     reset()
     ClassAdd("classFood")
-    addMethod("classFood","Beef", "str")
+    addMethod("classFood","Beef", "str",[])
     ParamAdd("classFood","Beef","param", "str")
     assert listOfClasses[0].listOfMethods[0].listOfParams[0].name == "param"
     renameParam("classFood","Beef","param1", "myparam")
@@ -307,3 +311,190 @@ def test_renameInvalidParam():
     assert listOfClasses[0].listOfMethods[0].listOfParams[0].name == "param"
    
     
+def test_renameFieldEmpty():
+    reset()
+    ClassAdd("classFood")
+    ret = renField("classFood", "fieldOne", "fieldTwo")
+    assert ret == "No fields for class classFood"
+
+def test_renameFieldDuplicate():
+    reset()
+    ClassAdd("classFood")
+    addField("classFood", "fieldOne", "int")
+    ret = renField("classFood", "fieldOne", "fieldOne")
+    assert ret == "fieldOne existed! No duplicates allowed!"
+
+def test_addFieldNoClass():
+    reset()
+    ret = addField("classFood", "fieldOne", "int")
+    assert ret == "classFood not existed! Enter a valid class!"
+
+def test_renMethodEmpty():
+    reset()
+    ClassAdd("classFood")
+    ret = renMethod("classFood", "methodOne", "methodTwo")
+    assert ret == "No methods found for class classFood"
+
+def test_renMethodDuplicate():
+    reset()
+    ClassAdd("one")
+    addMethod("one", "methodOne", "int", [])
+    ret = renMethod("one", "methodOne", "methodOne")
+    assert ret == 'method methodOne existed! No duplicates allowed!'
+
+def test_renMethodNoClass():
+    reset()
+    ret = renMethod("classFood", "methodOne", "methodTwo")
+    assert ret == "Class classFood not found! Try again!"
+
+# def test_renMethodDuplicate():
+#     reset()
+#     ClassAdd("classFood")
+#     addMethod("classFood", "methodOne", "int", [])
+#     ret = renMethod("classFood", "methodOne", "methodOne")
+#     assert ret == "methodOne existed! No duplicates allowed!"
+
+def test_checkName():
+    reset()
+    ret = checkName("one", "!")
+    assert ret == False
+    ret = checkName("one", "1fieldone")
+    assert ret == False
+    ret = checkName("one", "____fieldone")
+    assert ret == False
+    ret = checkName("one", "import")
+    assert ret == False
+    ret = checkName("one", "field one")
+    assert ret == False
+
+
+def test_checkMethName():
+    reset()
+    ClassAdd("one")
+    clas = listOfClasses[0]
+    ret = checkMethName(clas, "m!")
+    assert ret == False
+    ret = checkMethName(clas, "1m")
+    assert ret == False
+    ret = checkMethName(clas, "____methodone")
+    assert ret == False
+    ret = checkMethName(clas, "method one")
+
+def test_checkParamName():
+    reset()
+    ClassAdd("one")
+    addMethod("one", "methodOne", "int", [])
+    met = listOfClasses[0].listOfMethods[0]
+    ParamAdd("one", "methodOne", "param1", "int")
+    ret = checkParamName(met, "")
+    assert ret == False
+    ret = checkParamName(met, "!")
+    assert ret == False
+    ret = checkParamName(met, "import")
+    assert ret == False
+    ret = checkParamName(met, "param one")
+    assert ret == False
+    ret = checkParamName(met, "param1")
+
+def test_searchMethod():
+    reset()
+    ret = searchMethod("one", "m1")
+    assert ret == None
+
+def test_searchField():
+    reset()
+    ret = searchField("one", "f1")
+    assert ret == None
+
+def test_delFieldNoClass():
+    reset()
+    ret = delField("one", "fieldOne")
+    assert ret == "one not existed! Enter a valid class!"
+
+def test_addMethodNoClass():
+    reset()
+    ret = addMethod("one", "methodOne", "int", [])
+    assert ret == "Class one not existed! Enter a valid class!"
+
+def test_delOneMethod():
+    reset()
+    ClassAdd("classFood")
+    addMethod("classFood","Beef", "str",[])
+    addMethod("classFood","Chicken", "str",[])
+    assert "Beef successfully added!"
+    assert listOfClasses[0].listOfMethods[0].name =="Beef"
+    delMethod("classFood","beef")
+    assert "beef of classFood deleted!"
+    assert listOfClasses[0].listOfMethods[0].name == "Chicken" 
+
+def test_delMethodEmpty():
+    reset()
+    ClassAdd("one")
+    addMethod("one", "methodOne", "int", [])
+    ret = delMethod("one", "methodTwo")
+    assert ret == "methodTwo not found! Try again!"
+
+def test_delMethodNoClass():
+    reset()
+    ClassAdd("one")
+    ret = delMethod("one", "methodOne")
+    assert ret == "No methods for one"
+
+def test_delParamAll():
+    reset()
+    ClassAdd("one")
+    addMethod("one", "m1", "int", [])
+    ParamAdd("one", "m1", "p1", "bool")
+    ParamAdd("one", "m1", "p2", "int")
+    ret = delParam("one", "m1", "all")
+    assert ret == "All parameters of one successfully deleted!"
+
+
+def test_delParamFalseParam():
+    reset()
+    ClassAdd("one")
+    addMethod("one", "m1", "int", [])
+    ParamAdd("one", "m1", "p1", "bool")
+    ret = delParam("one", "m1", "p2")
+    assert ret == "p2 not found!"
+
+def test_delParamNoMethods():
+    reset()
+    ClassAdd("one")
+    ret = delParam("one", "m1", "p1")
+    assert ret == "No methods for one!"
+
+def test_renameParamDuplicate():
+    reset()
+    ClassAdd("one")
+    addMethod("one", "m1", "int", [])
+    ParamAdd("one", "m1", "p1", "bool")
+    ret = renameParam("one", "m1", "p1", "p1")
+    assert ret == "p1 existed! No duplicates allowed!"
+
+def test_renameParamEmpty():
+    reset()
+    ClassAdd("one")
+    addMethod("one", "m1", "int", [])
+    ret = renameParam("one", "m1", "p1", "p2")
+    assert ret == "No parameters for m1"
+
+def test_renameParamFalseMethod():
+    reset()
+    ClassAdd("one")
+    addMethod("one", "m1", "int", [])
+    ret = renameParam("one", "m2", "p1", "p2")
+    assert ret == "m2 not found! Try again!"
+
+def test_renameParamNoMethods():
+    reset()
+    ClassAdd("one")
+    ret = renameParam("one", "m2", "p1", "p2")
+    assert ret == "No methods existed for one! Select a valid class"
+
+def test_renameParamFalseClass():
+    reset()
+    ClassAdd("one")
+    ret = renameParam("two", "m2", "p1", "p2")
+    assert ret == "two not found! Try again!"
+
