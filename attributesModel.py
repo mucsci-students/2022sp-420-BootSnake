@@ -246,9 +246,9 @@ def renField (classname: str, fieldname: str, newname: str):
                     print("Field " + fieldname + " not found!")
                     msg = f"{fieldname} not found!"
                     return msg
-                    break
+                    
                 
-                break
+                
                         
                 
         else: 
@@ -368,9 +368,7 @@ def renMethod (classname: str, methodname: str, newmethod: str):
                     print("Method " + methodname + " not found!")
                     msg = f"Method {methodname} not found!"
                     return msg
-                    break
-                break
-               
+
         else: 
             print("No methods found for class " + classname  + " ! Enter 'q' to exit!")
             msg = f"No methods found for class {classname}"

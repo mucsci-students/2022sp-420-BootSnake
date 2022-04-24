@@ -308,3 +308,73 @@ def test_renameInvalidParam():
     assert listOfClasses[0].listOfMethods[0].listOfParams[0].name == "param"
    
     
+def test_renameFieldEmpty():
+    reset()
+    ClassAdd("classFood")
+    ret = renField("classFood", "fieldOne", "fieldTwo")
+    assert ret == "No fields for class classFood"
+
+def test_renameFieldDuplicate():
+    reset()
+    ClassAdd("classFood")
+    addField("classFood", "fieldOne", "int")
+    ret = renField("classFood", "fieldOne", "fieldOne")
+    assert ret == "fieldOne existed! No duplicates allowed!"
+
+def test_addFieldNoClass():
+    reset()
+    ret = addField("classFood", "fieldOne", "int")
+    assert ret == "classFood not existed! Enter a valid class!"
+
+def test_renMethodEmpty():
+    reset()
+    ClassAdd("classFood")
+    ret = renMethod("classFood", "methodOne", "methodTwo")
+    assert ret == "No methods found for class classFood"
+
+def test_renMethodNoClass():
+    reset()
+    ret = renMethod("classFood", "methodOne", "methodTwo")
+    assert ret == "Class classFood not found! Try again!"
+
+# def test_renMethodDuplicate():
+#     reset()
+#     ClassAdd("classFood")
+#     addMethod("classFood", "methodOne", "int", [])
+#     ret = renMethod("classFood", "methodOne", "methodOne")
+#     assert ret == "methodOne existed! No duplicates allowed!"
+
+def test_checkMethName():
+    ClassAdd("one")
+    clas = listOfClasses[0]
+    ret = checkMethName(clas, "m!")
+    assert ret == False
+    ret = checkMethName(clas, "1m")
+    assert ret == False
+    ret = checkMethName(clas, "____methodone")
+    assert ret == False
+    ret = checkMethName(clas, "method one")
+
+def test_checkParamName():
+    ClassAdd("one")
+    addMethod("one", "methodOne", "int", [])
+    met = listOfClasses[0].listOfMethods[0]
+    ParamAdd("one", "methodOne", "param1", "int")
+    ret = checkParamName(met, "")
+    assert ret == False
+    ret = checkParamName(met, "!")
+    assert ret == False
+    ret = checkParamName(met, "import")
+    assert ret == False
+    ret = checkParamName(met, "param one")
+    assert ret == False
+    ret = checkParamName(met, "param1")
+
+def test_searchMethod():
+    ret = searchMethod("one", "m1")
+    assert ret == None
+
+def test_searchField():
+    ret = searchField("one", "f1")
+    assert ret == None
+
