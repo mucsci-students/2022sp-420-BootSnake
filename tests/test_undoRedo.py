@@ -180,7 +180,7 @@ def test_urParamAdd():
     redo()
     assert "Redid!"
     assert listOfClasses[0].listOfMethods[0].listOfParams[0].name == "Orange"
-test_urParamAdd()
+# test_urParamAdd()
 
 # test parameter rename
 def test_urRenParam():  
@@ -252,4 +252,4 @@ def test_urRelDelete():
     redo()
     assert "Redid!"
     assert len(listOfClasses[1].listOfRelationships) == 0
-test_urRelDelete()
+# test_urRelDelete()

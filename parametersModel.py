@@ -12,6 +12,8 @@ from attributesModel import *
 import attributesModel as a
 
 regex = re.compile('[@!$%^&()<>?/\\\|}{\[\]\']')
+# Create a set of blank spaces to check for spaces between words
+match = re.compile('[ ]+')
 
 class Param:
     def __init__(self,name,paramType):
@@ -23,7 +25,7 @@ ParamAdd
 Input: name of class containing method, name of method to add to, parameter's name, parameter's type
 Description: Creates a parameter with a valid name & type and appends to a given method's parameter list
 """
-def ParamAdd(className, methodName, paramName, paramType, delAmnt = 0, wantedMethod = 0):
+def ParamAdd(className, methodName, paramName, paramType, delAmnt = 0):
     if not redoClass.redoCaller and redoClass.redoable:
         redoClass.redoable = False
     redoClass.redoCaller = False
@@ -43,7 +45,7 @@ def ParamAdd(className, methodName, paramName, paramType, delAmnt = 0, wantedMet
             thisParam = Param(paramName, paramType)             # new param with Bgiven name & type
             wantedMethod.listOfParams.append(thisParam)         # append new param to method's list of params
             if(undoListInsertable.bool):
-                undoList.insert(0,(ParamDelete,(className, methodName,"one",paramName, paramType)))
+                undoList.insert(0,(ParamDelete,(className, methodName,"one", paramName, paramType)))
             print("Parameter " + paramName +" successfully added!")
             print("List of parameters for method " + methodName + ":")
             for o in wantedMethod.listOfParams:
@@ -97,7 +99,7 @@ def ParamDelete(classname: str, methodname: str, delAmnt = 0, paramName = 0, par
                 oldListOfParams = list(wantedMethod.listOfParams)
                 reverseList = list()
                 for everyParam in oldListOfParams:
-                    reverseList.insert(0,(ParamAdd,(classname,methodname,everyParam.name, everyParam.type, 'all', wantedMethod)))
+                    reverseList.insert(0,(ParamAdd,(classname,methodname,everyParam.name, everyParam.type, 'all')))
                 undoList.insert(0,reverseList)
             wantedMethod.listOfParams.clear()           # If user wants to delete all params, clear list
             print("All parameters successfully deleted!")

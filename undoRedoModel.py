@@ -122,7 +122,7 @@ def getOpposite(function, param) -> tuple:
         elif (function == ParamAdd):
             return (ParamDelete, (param[0], param[1], param[5], param[4], param[2], param[3]))
         elif (function == ParamDelete):
-            return (ParamAdd, (param[0], param[1], param[4], param[5], param[2]))
+            return (ParamAdd, (param[0], param[1], param[3], param[4]))
         elif (function == renameParam):
             return (renameParam, (param[0], param[1], param[3], param[2]))
         elif (function == coordEdit):
