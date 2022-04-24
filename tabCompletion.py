@@ -441,8 +441,7 @@ class TabCompletion(cmd.Cmd):
             paramname: str = arglist[2]
             
             undoListInsertable = True
-            wantedMethod = searchMethod(classname, methodname)
-            ParamDelete(classname, methodname, wantedMethod, "one", paramname)
+            ParamDelete(classname, methodname, "one", paramname)
         
         checkArgs(3, len(arglist)) 
         

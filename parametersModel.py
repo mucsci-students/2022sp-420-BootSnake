@@ -42,7 +42,7 @@ def ParamAdd(className, methodName, paramName, paramType, delAmnt = 0, wantedMet
             thisParam = Param(paramName, paramType)             # new param with Bgiven name & type
             wantedMethod.listOfParams.append(thisParam)         # append new param to method's list of params
             if(undoListInsertable.bool):
-                undoList.insert(0,(ParamDelete,(className, methodName, wantedMethod,"one",paramName, paramType)))
+                undoList.insert(0,(ParamDelete,(className, methodName,"one",paramName, paramType)))
             print("Parameter " + paramName +" successfully added!")
             print("List of parameters for method " + methodName + ":")
             for o in wantedMethod.listOfParams:
@@ -83,11 +83,12 @@ Input: method expecting param deletion, whether user wants to delete one or all 
 parameter's name (empty if ALL delete)
 Description: Deletes one or all params from a given method
 """
-def ParamDelete(classname: str, methodname: str, wantedMethod, delAmnt = 0, paramName = 0, paramType = 0):
+def ParamDelete(classname: str, methodname: str, delAmnt = 0, paramName = 0, paramType = 0):
     if not redoClass.redoCaller and redoClass.redoable:
         redoClass.redoable = False
         
     redoClass.redoCaller = False
+    wantedMethod = searchMethod (methodname)
 
     if wantedMethod.listOfParams: 
         if delAmnt == 'all':

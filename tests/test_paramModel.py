@@ -134,8 +134,7 @@ def test_NoParamDelete():
     ClassAdd("class1")
     paramlist = list()
     addMethod("class1", "method1", "str")
-    wantedMethod = searchMethod("class1", "method1")
-    ret = ParamDelete("class1", "method1", wantedMethod, "one", "param2")
+    ret = ParamDelete("class1", "method1", "one", "param2")
     assert not listOfClasses[0].listOfMethods[0].listOfParams, "No params exist in the method, ParamDelete() should return"
     assert ret == "No params exist in this method!"
     print("ParamDelete() properly exits if method does not contain parameters!\n\n")
