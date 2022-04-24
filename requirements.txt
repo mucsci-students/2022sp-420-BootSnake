@@ -1,2 +1,1 @@
-colorama
-pillow
+colorama pillow
