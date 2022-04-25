@@ -3,6 +3,10 @@ paramTest.py
 Author: Amelia Spanier
 Test file for parameter add & delete methods
 """
+import os,sys
+
+path = os.path.join(os.path.dirname(__file__), os.pardir)
+sys.path.append(path)
 
 from parametersModel import *
 from classModel import *
@@ -40,6 +44,14 @@ def test_InvalidNameType():
     ClassAdd("class1")
     paramlist = list()
     addMethod("class1", "method1", "str", paramlist)
+    ret = ParamAdd("class1", "method1", "", "str")
+    assert not listOfClasses[0].listOfMethods[0].listOfParams, "Invalid parameter added to method, should not happen"
+    assert ret == " not found!"
+
+    reset()
+    ClassAdd("class1")
+    paramlist = list()
+    addMethod("class1", "method1", "str", paramlist)
     ret = ParamAdd("class1", "method1", "@", "str")
     assert not listOfClasses[0].listOfMethods[0].listOfParams, "Invalid parameter added to method, should not happen"
     assert ret == "@ not found!"
@@ -51,6 +63,22 @@ def test_InvalidNameType():
     ret = ParamAdd("class1", "method1", "param1", "9")
     assert not listOfClasses[0].listOfMethods[0].listOfParams, "Invalid parameter added to method, should not happen"
     assert ret == "param1 not found!"
+
+    reset()
+    ClassAdd("class1")
+    paramlist = list()
+    addMethod("class1", "method1", "str", paramlist)
+    ret = ParamAdd("class1", "method1", "elif", "str")
+    assert not listOfClasses[0].listOfMethods[0].listOfParams, "Invalid parameter added to method, should not happen"
+    assert ret == "elif not found!"
+
+    reset()
+    ClassAdd("class1")
+    paramlist = list()
+    addMethod("class1", "method1", "str", paramlist)
+    ret = ParamAdd("class1", "method1", "this param", "str")
+    assert not listOfClasses[0].listOfMethods[0].listOfParams, "Invalid parameter added to method, should not happen"
+    assert ret == "this param not found!"
 
     reset()
     ClassAdd("class1")
@@ -98,9 +126,10 @@ def test_ParamDeleteOne():
     ParamAdd("class1", "method1", "param1", "str")
     ParamAdd("class1", "method1", "param2", "int")
     wantedMethod = searchMethod("class1", "method1")
-    ParamDelete(wantedMethod, "one", "param1")
+    ret = ParamDelete(wantedMethod, "one", "param1")
     assert listOfClasses[0].listOfMethods[0].listOfParams[0].name == 'param2', "Param 'param1' not deleted, list should only contain 'param2'"
     assert len(listOfClasses[0].listOfMethods[0].listOfParams) == 1, "Param list length not correct, should be 1"
+    assert ret == "param1 deleted!"
     print("Singular parameter deletion successful!\n\n")
 
 # Test that all parameters deleted properly from a method when requested
@@ -112,8 +141,9 @@ def test_ParamDeleteAll():
     ParamAdd("class1", "method1", "param1", "str")
     ParamAdd("class1", "method1", "param2", "int")
     wantedMethod = searchMethod("class1", "method1")
-    ParamDelete(wantedMethod, "all", "")
+    ret = ParamDelete(wantedMethod, "all", "")
     assert not listOfClasses[0].listOfMethods[0].listOfParams, "Param list of method1 contains elements, should be empty"
+    assert ret == "All parameter successfully deleted!"
     print("Full parameter deletion successful!\n\n")
 
 # Test that method properly exits if parameter input does not exist
@@ -126,6 +156,7 @@ def test_DeleteNonParam():
     wantedMethod = searchMethod("class1", "method1")
     ret = ParamDelete(wantedMethod, "one", "param2")
     assert len(listOfClasses[0].listOfMethods[0].listOfParams) == 1, "Param 'param1' was deleted, should remain in list"
+    assert ret == "param2 does not exist in Method1"
     print("ParamDelete() properly exits if parameter does not exist!\n\n")
 
 # Test that method properly exits if method does not contain parameters
@@ -137,7 +168,7 @@ def test_NoParamDelete():
     wantedMethod = searchMethod("class1", "method1")
     ret = ParamDelete(wantedMethod, "one", "param2")
     assert not listOfClasses[0].listOfMethods[0].listOfParams, "No params exist in the method, ParamDelete() should return"
-    assert ret == f"No params exist in {wantedMethod}"
+    assert ret == "No params exist in Method1"
     print("ParamDelete() properly exits if method does not contain parameters!\n\n")
 
 

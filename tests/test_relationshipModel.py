@@ -69,6 +69,17 @@ def test_AddSpecialChar():
     assert ret == "Either the one or ! class does not exist."
     assert listOfClasses[0].listOfRelationships == []
 
+
+# adding duplicate relationship
+def test_addDuplicate():
+    reset()
+    ClassAdd("one")
+    ClassAdd("two")
+    ret = RelationshipAdd("one", "two", "Inheritance")
+    assert ret == "Relationship added successfully for one & two"
+    ret = RelationshipAdd("one", "two", "Inheritance")
+    assert ret == "Relationship already exists."
+
 ################################################################################################################################################################
 # DELETIONS
 
