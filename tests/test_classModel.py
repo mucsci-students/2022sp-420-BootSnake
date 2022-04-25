@@ -76,7 +76,7 @@ def test_classRename_validRename():
     assert result2 == 'RenamedClass2'
     listOfClasses.clear()
 
-    def test_classRename_nonExistentClass():
+def test_classRename_nonExistentClass():
     listOfClasses.clear()
     class1 = AClass("class1")
     class2 = AClass("class2")
@@ -92,7 +92,7 @@ def test_classRename_validRename():
     assert ret == "Class not found!"
     listOfClasses.clear()
 
-    def test_classRename_invalidRename():
+def test_classRename_invalidRename():
     listOfClasses.clear()
     class1 = AClass("class1")
     class2 = AClass("class2")
