@@ -50,7 +50,7 @@ def ParamAdd(className, methodName, paramName, paramType):
                     print(o.name + " : " + o.type)
 
                 if (undoListInsertable.bool):
-                    undoList.insert(0, (ParamDelete, (className, wantedMethod, "one", paramName)))
+                    undoList.insert(0, (ParamDelete, (className, methodName, "one", paramName, paramType)))
                 return msg
 
             else:
@@ -73,11 +73,11 @@ Input: method expecting param deletion, whether user wants to delete one or all 
 parameter's name (empty if ALL delete)
 Description: Deletes one or all params from a given method
 """
-def ParamDelete(className, methodName, delAmnt, paramName):
+def ParamDelete(className, methodName, delAmnt, paramName, paramType = 0):
     msg: str = ""
 
     wantedMethod = searchMethod(className, methodName)          # get requested method from class's list of methods
-    
+
     if wantedMethod.listOfParams: 
         print(delAmnt)
         if delAmnt == 'all':
