@@ -76,6 +76,42 @@ def test_classRename_validRename():
     assert result2 == 'RenamedClass2'
     listOfClasses.clear()
 
+def test_classRename_nonExistentClass():
+    listOfClasses.clear()
+    class1 = AClass("class1")
+    class2 = AClass("class2")
+    listOfClasses.append(class1)
+    listOfClasses.append(class2)
+    relation = relationship("Aggregation", class1.name, class2.name)
+    listOfClasses[0].listOfRelationships.append(relation)
+    #The following two lines will suppress the text from classAdd()
+    suppress_text = io.StringIO()
+    sys.stdout = suppress_text
+    ret = ClassRename("class3","RenamedClass3")
+    sys.stdout = sys.__stdout__
+    assert ret == "Class not found!"
+    listOfClasses.clear()
+
+def test_classRename_invalidRename():
+    listOfClasses.clear()
+    class1 = AClass("class1")
+    class2 = AClass("class2")
+    listOfClasses.append(class1)
+    listOfClasses.append(class2)
+    relation = relationship("Aggregation", class1.name, class2.name)
+    listOfClasses[0].listOfRelationships.append(relation)
+    #The following two lines will suppress the text from classAdd()
+    suppress_text = io.StringIO()
+    sys.stdout = suppress_text
+    ret = ClassRename("class2","_")
+    sys.stdout = sys.__stdout__
+    result1 = listOfClasses[1].name
+    result2 = listOfClasses[0].listOfRelationships[0].dest
+    assert result1 == 'class2'
+    assert result2 == 'class2'
+    assert ret == False
+    listOfClasses.clear()
+
 def test_classDelete_validDelete():
     listOfClasses.clear()
     class1 = AClass("dontDeleteMePlz")
@@ -87,6 +123,27 @@ def test_classDelete_validDelete():
     sys.stdout = sys.__stdout__
     assert len(listOfClasses) == 0
 
+def test_classDelete_emptyClassList():
+    listOfClasses.clear()
+    #The following two lines will suppress the text from classAdd()
+    suppress_text = io.StringIO()
+    sys.stdout = suppress_text
+    assert len(listOfClasses) == 0
+    ret = ClassDelete("dontDeleteMePlz")
+    sys.stdout = sys.__stdout__
+    assert ret == False
+
+def test_classDelete_nonExistentClass():
+    listOfClasses.clear()
+    class1 = AClass("dontDeleteMePlz")
+    listOfClasses.append(class1)
+    #The following two lines will suppress the text from classAdd()
+    suppress_text = io.StringIO()
+    sys.stdout = suppress_text
+    ret = ClassDelete("DeleteMePlz")
+    sys.stdout = sys.__stdout__
+    assert len(listOfClasses) == 1
+    assert ret == False
     
 #input("Press enter to run tests on ClassAdd...\n")
 
