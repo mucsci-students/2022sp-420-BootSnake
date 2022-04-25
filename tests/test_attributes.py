@@ -196,7 +196,8 @@ def test_addMethod():
     #assert "classFood" in listOfClasses[0]
     assert listOfClasses[0].name =="classFood"
     assert "Beef successfully added!"
-    assert listOfClasses[0].listOfMethods[0].name =="Beef"
+    assert listOfClasses[0].listOfMethods[0].name =="beef"
+test_addMethod()
 
 # test add a duplicate method to a specific class
 def test_addDupMethod():
@@ -204,11 +205,11 @@ def test_addDupMethod():
     ClassAdd("classFood")
     addMethod("classFood","beef", "str", [])
     assert "Beef successfully added!"
-    assert listOfClasses[0].listOfMethods[0].name =="Beef"
+    assert listOfClasses[0].listOfMethods[0].name =="beef"
     addMethod("classFood","beef", "str", [])
     assert "beef existed! No duplicated allowed!" 
-    assert listOfClasses[0].listOfMethods[0].name =="Beef"
-        
+    assert listOfClasses[0].listOfMethods[0].name =="beef"
+test_addDupMethod()
 
 # test add a blank method to a specific class
 def test_addBlankMethod():
@@ -229,10 +230,10 @@ def test_reNameMethod():
     addMethod("classFood","Beef", "str",[])
     assert "Beef successfully added!"
     assert listOfClasses[0].listOfMethods[0].name =="Beef"
-    renMethod("classFood","beef","Soup" )
+    renMethod("classFood","Beef","Soup" )
     assert "Method beef successfully renamed to Soup!"
     assert listOfClasses[0].listOfMethods[0].name == "Soup"
-
+test_reNameMethod()
 
 # test rename an invalid method to a specific class
 def test_renameInvalidMethod():
@@ -254,10 +255,10 @@ def test_delMethod():
     ParamAdd("classFood", "Beef", "Param1", "int")
     assert "Beef successfully added!"
     assert listOfClasses[0].listOfMethods[0].name =="Beef"
-    delMethod("classFood","beef")
-    assert "beef of classFood deleted!"
+    delMethod("classFood","Beef")
+    assert "Beef of classFood deleted!"
     assert listOfClasses[0].listOfMethods == []
-    
+test_delMethod()
 # test delete all methods to a specific class
 def test_delAllMethods():
     reset()
@@ -271,11 +272,11 @@ def test_delAllMethods():
     ParamAdd("classFood", "soup", "Param1", "int")
     ParamAdd("classFood", "soup", "Param2", "int")
     assert "soup successfully added!"
-    assert listOfClasses[0].listOfMethods[1].name =="Soup"
+    assert listOfClasses[0].listOfMethods[1].name =="soup"
     delMethod("classFood","all")
     assert "All methods of classFood deleted!"
     assert listOfClasses[0].listOfMethods == []
-    
+test_delAllMethods()
         
 # test change the Parameter of a given method in a class.
 # this test verifies the integration of other module besides
@@ -319,7 +320,8 @@ def test_searchMethodFound():
     ClassAdd("one")
     addMethod("one", "m1", "int", [])
     ret = searchMethod("one", "m1")
-    assert ret.name == "M1"
+    assert ret.name == "m1"
+test_searchMethodFound()
 def test_renameFieldEmpty():
     reset()
     ClassAdd("classFood")
@@ -446,10 +448,10 @@ def test_delOneMethod():
     addMethod("classFood","Chicken", "str",[])
     assert "Beef successfully added!"
     assert listOfClasses[0].listOfMethods[0].name =="Beef"
-    delMethod("classFood","beef")
+    delMethod("classFood","Beef")
     assert "beef of classFood deleted!"
     assert listOfClasses[0].listOfMethods[0].name == "Chicken" 
-
+test_delOneMethod()
 def test_delMethodEmpty():
     reset()
     ClassAdd("one")
