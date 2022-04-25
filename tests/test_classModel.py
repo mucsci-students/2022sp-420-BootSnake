@@ -37,12 +37,10 @@ def test_classAdd_ValidName():
         result = len(listOfClasses)
         index = index + 1
     assert result == 7
-
+# test_classAdd_ValidName()
 
 def test_classAdd_InvalidName():
-    duplicate = AClass('duplicate')
-    listOfClasses.clear()
-    listOfClasses.append(duplicate)
+    ClassAdd("duplicate")
     listOfInputs = ['duplicate','1NumberFirst','','    Spaces','Hello World','Hello~','Hello`','Hello_World!','@twitter','#Hashtag','HollarHollarGet$','Hundred%','Super^Script','D&D','*_*','I8(','I8)','__Leading','Fire-Emblem','New_Game+','=3','W[','WOh]','NO{','SDF}','SEMI;','COLON:','SINGLEQUOTE\'','DOUBLEQUOTE\"','VER|TICAL','BACKSLASH\\','C,OMMA','LESSER<','PER.IOD','>GREENTEXT','/FORWARDSLASH','QUE?','if','class','else','while','elif','def','for']
     
     index = 0
@@ -56,38 +54,34 @@ def test_classAdd_InvalidName():
         #We will try the assert, if it fails we go to except.
         assert result == 1
         index = index + 1
+# test_classAdd_InvalidName()
 
 def test_classRename_validRename():
     listOfClasses.clear()
-    class1 = AClass("class1")
-    class2 = AClass("class2")
-    listOfClasses.append(class1)
-    listOfClasses.append(class2)
-    relation = relationship("Aggregation", class2.name, class1.name)
-    listOfClasses[0].listOfRelationships.append(relation)
+    ClassAdd("class1")
+    ClassAdd("class2")
+    relation = relationship("Aggregation", listOfClasses[0].name, listOfClasses[1].name)
+    listOfClasses[1].listOfRelationships.append(relation)
     #The following two lines will suppress the text from classAdd()
     suppress_text = io.StringIO()
     sys.stdout = suppress_text
     ClassRename("class2","RenamedClass2")
     sys.stdout = sys.__stdout__
-    result1 = listOfClasses[1].name
-    result2 = listOfClasses[0].listOfRelationships[0].dest
+    result1 = listOfClasses[0].name
+    result2 = listOfClasses[1].listOfRelationships[0].dest
     assert result1 == 'RenamedClass2'
     assert result2 == 'RenamedClass2'
     listOfClasses.clear()
+# test_classRename_validRename()
 
 def test_classDelete_validDelete():
     listOfClasses.clear()
-    class1 = AClass("dontDeleteMePlz")
-    listOfClasses.append(class1)
+    ClassAdd("dontDeleteMePlz")
     #The following two lines will suppress the text from classAdd()
     suppress_text = io.StringIO()
     sys.stdout = suppress_text
     ClassDelete("dontDeleteMePlz")
     sys.stdout = sys.__stdout__
     assert len(listOfClasses) == 0
-
-    
+# test_classDelete_validDelete()
 #input("Press enter to run tests on ClassAdd...\n")
-
-

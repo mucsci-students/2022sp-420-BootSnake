@@ -109,7 +109,7 @@ def ParamDelete(classname: str, methodname: str, delAmnt = 0, paramName = 0, par
             for param in wantedMethod.listOfParams:
                 if param.name.casefold().strip() == paramName.casefold().strip():
                     if(undoListInsertable.bool):
-                        undoList.insert(0,(ParamAdd,(classname,methodname,param.name, param.type, 'one')))
+                        undoList.insert(0,(ParamAdd,(classname, methodname, param.name, param.type, 'one')))
                     wantedMethod.listOfParams.remove(param)
                     print("UML> Attribute deleted!")
                     for o in wantedMethod.listOfParams:
