@@ -1,7 +1,7 @@
 # Project Name  : UML_BootSnake
 # File Name     : attributes.py
 # Course        : CSCI 420
-# Professor     : Dr. Stephanie Schwartz
+# Professor     : DrStephanie Schwartz
 # BootSnake Team: Amelia S., Andy P., Ben M., Tram T., Travis Z.
 
 
@@ -13,7 +13,7 @@ import keyword
 # Project Name  : UML_BootSnake
 # File Name     : attributes.py 
 # Course        : CSCI 420
-# Professor     : Dr. Stephanie Schwartz
+# Professor     : DrStephanie Schwartz
 # BootSnake Team: Amelia S., Andy P., Ben M., Tram T., Travis Z.
 
 
@@ -30,7 +30,7 @@ from sharedItems import *
 
 """
 An attribute is named property of a class that describes the object
-being modeled. Generally, the attributes' characteristics depict their
+being modeledGenerally, the attributes' characteristics depict their
 visibility & accessiblity within a given class.
 
 The four types of attribute visibility include Public, Private, Protected
@@ -77,18 +77,18 @@ def addField(classname : str, fieldname : str, fieldtype: str):
     This function allows user to continue adding fields untill user
     presses 'quit'.
 
-    Given the class is not existed, it prompts user for a valid class name. 
+    Given the class is not existed, it prompts user for a valid class name
     
     Notes: 
-        1. 'Uppercase' words will systematically convert to converted to 
+        1'Uppercase' words will systematically convert to converted to 
             'lowercase' words.
-        2. Case-insensitive when searching for field(s).
+        2Case-insensitive when searching for field(s).
 
     """
     
     """ 
         To use formatted string literals, begin a string with f or F before 
-        the opening quotation mark or triple quotation mark. Inside the string,
+        the opening quotation mark or triple quotation markInside the string,
         Python expressions, variables or literal values, are enclosed between 
         { and } characters.
 
@@ -104,7 +104,7 @@ def addField(classname : str, fieldname : str, fieldtype: str):
     if wantedClass:
         # validate the fieldname and fieldtype.
         if checkName(wantedClass, fieldname) and checkName(wantedClass, fieldtype):
-            if not searchField(classname,fieldname.strip().casefold()):
+            if not searchField(classname,fieldname.strip()):
                         
                 newField = FieldClass(fieldname, fieldtype)
                 wantedClass.listOfFields.append(newField)
@@ -134,12 +134,12 @@ def addField(classname : str, fieldname : str, fieldtype: str):
 def delField (classname: str, fieldname:str, fieldtype = 0):
     """
     The delField deletes a field(s) for a given class provided
-    that the class & the field must exist in the system. It provides user 
+    that the class & the field must exist in the systemIt provides user 
     with the following choices:
         
-        1. Deleting a selected field(s) one-by-one.
-        2. Delete ALL fields of a class at once.
-        3. Opt out. 
+        1Deleting a selected field(s) one-by-one.
+        2Delete ALL fields of a class at once.
+        3Opt out
     
     When either the selected class or field(s) is not existed, it prompts
     user for a valid name.
@@ -156,9 +156,9 @@ def delField (classname: str, fieldname:str, fieldtype = 0):
         if wantedClass.listOfFields:
                 
             while True:
-                if searchField(classname, fieldname.casefold()):
+                if searchField(classname, fieldname):
                     for o in wantedClass.listOfFields:
-                        if o.name.strip().lower() == fieldname.lower().strip():
+                        if o.name.strip() == fieldname.strip():
                             if (undoListInsertable.bool):
                                 undoList.insert(0, (addField, (classname, fieldname, o.type)))
                             wantedClass.listOfFields.remove(o)
@@ -174,7 +174,7 @@ def delField (classname: str, fieldname:str, fieldtype = 0):
                             
                     # If user enters ALL/all to remove all fields.
                 else:
-                    if fieldname.casefold().strip() == 'all':
+                    if fieldname.strip() == 'all':
                         wantedClass.listOfFields.clear()
                         print("All Fields successfully deleted! Enter 'q' to exit!")
                         msg = f"All fields sucessfully deleted!"
@@ -206,7 +206,7 @@ def delField (classname: str, fieldname:str, fieldtype = 0):
 def renField (classname: str, fieldname: str, newname: str):
     """
     The renField renames an existing field(s) for a given existing
-    class in the system. The newly-created name must be unique within the class. 
+    class in the systemThe newly-created name must be unique within the class
     It calls check_name method to verify the validity of the renamed field
     prior to updating the field name for the class.
 
@@ -226,9 +226,9 @@ def renField (classname: str, fieldname: str, newname: str):
         
         if wantedClass.listOfFields:
             while True:
-                fieldObj = searchField(classname, fieldname.strip().casefold())
+                fieldObj = searchField(classname, fieldname.strip())
                 if fieldObj:
-                    if fieldObj.name.casefold() == fieldname.casefold():
+                    if fieldObj.name == fieldname:
                         # validate the fieldname and its status in the system prior to updating.
                         if not searchField(classname,newname):
                             if (checkName(wantedClass, newname)):
@@ -274,12 +274,12 @@ def addMethod(classname: str, methodname: str, methtype: str,  paramlist: list()
     This function allows user to continue adding methods untill user
     presses 'quit'.
 
-    Given the class is not existed, it prompts user for a valid class name. 
+    Given the class is not existed, it prompts user for a valid class name
     
     Notes: 
-        1. 'Uppercase' words will systematically convert to converted to 
+        1'Uppercase' words will systematically convert to converted to 
             'propercase' words.
-        2. Case-insensitive when searching for method(s).
+        2Case-insensitive when searching for method(s).
 
     """
     
@@ -288,25 +288,26 @@ def addMethod(classname: str, methodname: str, methtype: str,  paramlist: list()
     wantedClass = ClassSearch(classname, listOfClasses)
     if wantedClass:
         # verify the validity of the methodname
-        if  checkMethName(wantedClass, methodname.title().strip()) and checkMethName(wantedClass, methtype.title().strip()):    
+        if  checkMethName(wantedClass, methodname.strip()) and checkMethName(wantedClass, methtype.strip()):    
             
             # check if the method object already existed in the listOfMethods
-            if not searchMethod(classname, methodname.strip().title()):
+            if not searchMethod(classname, methodname.strip()):
                 
-                newMethObj = MethodClass(methodname.strip().title(), methtype.strip())
+                newMethObj = MethodClass(methodname.strip(), methtype.strip())
                 wantedClass.listOfMethods.append(newMethObj)
                 print("Method " + methodname + " successfully added!")
                 msg = f"{methodname} successfully added!"
                 
+                if (undoListInsertable.bool):
+                    undoList.insert(0, (delMethod, (classname, methodname, methtype)))
+
                 print(newMethObj.name)
                 print("Class " + classname + "'s listOfMethods:")
                 
                 wantedClass.listOfMethods.sort(key = lambda x : x.name)
                 for o in wantedClass.listOfMethods:
                     print(o.name)
-                if(undoListInsertable.bool):
-                    undoList.insert(0,(delMethod, (classname, methodname, methtype)))
-
+        
                 return msg
                                         
             else:
@@ -326,7 +327,7 @@ def addMethod(classname: str, methodname: str, methtype: str,  paramlist: list()
 def renMethod (classname: str, methodname: str, newmethod: str):
     """
     The renMethod renames an existing method(s) for a given existing
-    class in the system. The newly-created name must be unique within the class. 
+    class in the systemThe newly-created name must be unique within the class
     It calls searchName method to verify the validity of the renamed method
     prior to updating the method name for the class.
 
@@ -346,13 +347,13 @@ def renMethod (classname: str, methodname: str, newmethod: str):
         if wantedClass.listOfMethods:
             while True:
                 #call searchMethod to search for the given method.
-                mObj = searchMethod(classname, methodname.strip().title()) 
+                mObj = searchMethod(classname, methodname.strip()) 
                 
                 if mObj:
-                    if mObj.name.strip() == methodname.strip().title():
+                    if mObj.name.strip() == methodname.strip():
                    
-                        if not searchMethod(classname, newmethod.casefold()):
-                            if checkMethName(wantedClass, newmethod.strip().title()):
+                        if not searchMethod(classname, newmethod):
+                            if checkMethName(wantedClass, newmethod.strip()):
                                 
                                 mObj.name = newmethod
                                 print("UML> Method " + methodname + " successfully renamed!")
@@ -391,12 +392,12 @@ def renMethod (classname: str, methodname: str, newmethod: str):
 def delMethod (classname: str, methodname: str, methtype = 0):
     """
     The delMethod deletes a method(s) for a given class provided
-    that the class & the method must exist in the system. It provides 
+    that the class & the method must exist in the systemIt provides 
     user with the following choices:
         
-        1. Delete a selected method(s) one-by-one.
-        2. Delete ALL methods of a class at once.
-        3. Opt out. 
+        1Delete a selected method(s) one-by-one.
+        2Delete ALL methods of a class at once.
+        3Opt out
     
     When either the selected class or method(s) is not existed, it prompts
     user for a valid name.
@@ -413,9 +414,9 @@ def delMethod (classname: str, methodname: str, methtype = 0):
                 
                     while True:
                         # call searchMethod to search for the specified method.
-                        if searchMethod( classname, methodname.casefold()):     
+                        if searchMethod( classname, methodname):     
                             for o in wantedClass.listOfMethods:
-                                if o.name.strip().title() == methodname.strip().title():
+                                if o.name.strip() == methodname.strip():
                                     if(undoListInsertable.bool):
                                         reverseList = list()
                                         meth = searchMethod (classname, methodname)
@@ -423,7 +424,6 @@ def delMethod (classname: str, methodname: str, methtype = 0):
                                             reverseList.insert(0, (ParamAdd, (classname, methodname, param.name, param.type)))
                                         reverseList.insert(0, (addMethod, (classname, methodname, meth.type)))
                                         undoList.insert(0, reverseList)
-
                                     wantedClass.listOfMethods.remove(o)
                                     print("UML> Method " + methodname + " of class " + classname + " deleted!")
                                     msg = f"{methodname} of {classname} deleted!"
@@ -444,10 +444,10 @@ def delMethod (classname: str, methodname: str, methtype = 0):
                            
                         # If user enters ALL/all to remove all methods.
                         else:
-                            if methodname.casefold().strip() == 'all':
+                            if methodname.strip() == 'all':
                                 wantedClass.listOfMethods.clear()
                                 print("All methods of " + classname +" successfully" 
-                                + " deleted!. Enter 'q' to exit!")
+                                + " deleted!Enter 'q' to exit!")
                                 
                                 msg = f"All methods of {classname} successfully deleted!"
                    
@@ -483,12 +483,12 @@ def delMethod (classname: str, methodname: str, methtype = 0):
 def delParam (classname: str, methodname: str, paramname: str):
     """
     The delMethod deletes a method(s) for a given class provided
-    that the class & the method must exist in the system. It provides 
+    that the class & the method must exist in the systemIt provides 
     user with the following choices:
         
-        1. Delete a selected method(s) one-by-one.
-        2. Delete ALL methods of a class at once.
-        3. Opt out. 
+        1Delete a selected method(s) one-by-one.
+        2Delete ALL methods of a class at once.
+        3Opt out
     
     When either the selected class or method(s) is not existed, it prompts
     user for a valid name.
@@ -505,10 +505,10 @@ def delParam (classname: str, methodname: str, paramname: str):
                 # call searchMethod to search for the specified method.
                 wantedMethod = searchMethod( classname, methodname)
                 if wantedMethod:    
-                    wantedParam = searchParam(wantedMethod, paramname.casefold()) 
+                    wantedParam = searchParam(wantedMethod, paramname) 
                     if wantedParam:  
                         for o in wantedMethod.listOfParams:
-                            if o.name.strip().lower() == paramname.strip().lower():
+                            if o.name.strip() == paramname.strip():
                                 wantedMethod.listOfParams.remove(o)
                                 print("UML> Parameter " + paramname + " of class " + classname + " deleted!")
 
@@ -525,7 +525,7 @@ def delParam (classname: str, methodname: str, paramname: str):
                                 
                             # If user enters ALL/all to remove all methods.
                     else:
-                        if paramname.casefold().strip() == 'all':
+                        if paramname.strip() == 'all':
                             wantedMethod.listOfParams.clear()
                             print("All parameters of " + classname +" successfully" 
                                     + " deleted! Enter 'q' to exit!")
@@ -559,11 +559,11 @@ def delParam (classname: str, methodname: str, paramname: str):
 def renameParam(classname: str, methodname: str, param: str, newname: str):
     """
         The renameParam renames a method's param for a given class provided
-        that the class & the method must exist in the system. It provides 
+        that the class & the method must exist in the systemIt provides 
         user with the following choices:
         
-        1. Rename a selected param(s) one-by-one.
-        2. Opt out. 
+        1Rename a selected param(s) one-by-one.
+        2Opt out
     
     When either the selected class or method(s) is not existed, it prompts
     user for a valid name.
@@ -582,11 +582,11 @@ def renameParam(classname: str, methodname: str, param: str, newname: str):
                     thisMeth = searchMethod(classname, methodname)
                     if thisMeth:
                         if thisMeth.listOfParams:
-                            thisParam = searchParam(thisMeth, param.strip().lower())
+                            thisParam = searchParam(thisMeth, param.strip())
                             if thisParam:
-                                if thisParam.name.strip().lower() == param.strip().lower():    
-                                    if not searchParam(thisMeth, newname.casefold()):    
-                                        if checkParamName(thisMeth, newname.strip().casefold()):
+                                if thisParam.name.strip() == param.strip():    
+                                    if not searchParam(thisMeth, newname):    
+                                        if checkParamName(thisMeth, newname.strip()):
                                 
                                             thisParam.name = newname
                                             print("UML> Parameter "+ param +" successfully renamed to " + newname + "!")
@@ -641,7 +641,7 @@ def checkName(wantedClass: str, name: str):
     input by user by checking whether it is blank, non-alphanumeric, 
     reserved keyword, or preceded by an special character(s), an integer(s),
     or non-existing within a class prior to adding the identifier 
-    in the system. 
+    in the system
     
     It prompts user if multi-word field name with spaces entered.
 
@@ -697,7 +697,7 @@ def checkMethName(wantedClass, name: str):
     input by user by checking whether it is blank, non-alphanumeric, 
     reserved keyword, or preceded by an special character(s), an integer(s),
     or non-existing within a class prior to adding the identifier 
-    in the system. 
+    in the system
     
     It prompts user if multi-word method name with spaces entered.
 
@@ -708,7 +708,7 @@ def checkMethName(wantedClass, name: str):
         return False
             
             
-    elif (regexMeth.search(name.strip().title()) != None):
+    elif (regexMeth.search(name.strip()) != None):
         print("UML> No special characters allowed!")
         return False
             
@@ -742,7 +742,7 @@ def checkParamName(wantedMethod, paramname: str):
     & type input by user by checking whether it is blank, non-alphanumeric, 
     reserved keyword, or preceded by an special character(s), an integer(s),
     or non-existing within a class prior to adding the identifier 
-    in the system. 
+    in the system
     
     It prompts user if multi-word method name with spaces entered.
 
@@ -753,7 +753,7 @@ def checkParamName(wantedMethod, paramname: str):
         return False
             
             
-    elif (regexMeth.search(paramname.strip().title()) != None):
+    elif (regexMeth.search(paramname.strip()) != None):
         print("UML> No special characters allowed!")
         return False
             
@@ -766,13 +766,13 @@ def checkParamName(wantedMethod, paramname: str):
         print("UML> Keywords are not allowed!")
         return False
 
-    elif match.search(paramname.strip().title()) != None:
+    elif match.search(paramname.strip()) != None:
         print("UML> No space allowed! Use an underscore!")
         return False
     
     else:
         for o in wantedMethod.listOfParams:
-            if o.name.lower().strip() == paramname.lower().strip():
+            if o.name.strip() == paramname.strip():
                 print("UML> No duplicates allowed! Parameter(s) must be unique!")
                 return False
         
@@ -787,7 +787,7 @@ def searchMethod(classname: str, methname: str) :
     
     if wantedClass:
         for mObj in wantedClass.listOfMethods:
-            if (mObj.name.title() == methname.title().strip()):
+            if (mObj.name== methname.strip()):
                 return mObj
     elif wantedClass is None: 
         return None
@@ -802,7 +802,7 @@ def searchField(classname: str, name: str):
     
     if wantedClass:
         for o in wantedClass.listOfFields:
-            if (o.name.casefold().strip() == name.casefold().strip()):
+            if (o.name.strip() == name.strip()):
                 return o
     
     elif wantedClass is None: 
@@ -812,7 +812,7 @@ def searchField(classname: str, name: str):
 def searchParam( methObj: object, param: str):
     
     for x in methObj.listOfParams:
-        if x.name.strip().casefold() == param.casefold().strip():
+        if x.name.strip() == param.strip():
             return x
     return None
     
@@ -820,7 +820,7 @@ def searchParam( methObj: object, param: str):
 
 #########################################################################################
 # # Give the user some context.
-# print("\nWelcome to the BootSnake Geeks camp. What would you like to do?")
+# print("\nWelcome to the BootSnake Geeks campWhat would you like to do?")
 
 # # Set an initial value for choice other than the value for 'quit'.
 # command = ''

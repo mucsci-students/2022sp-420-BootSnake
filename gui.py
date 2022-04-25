@@ -617,7 +617,7 @@ def gui_run():
 
 
         if parameterVar.get() == "Delete":
-            res = delParam(entry,entry1,entry2) 
+            res = ParamDelete(entry, entry1, "one", entry2) 
             label.configure(text=res) 
             entries.clear()
 

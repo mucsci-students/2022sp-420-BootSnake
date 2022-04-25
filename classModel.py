@@ -24,7 +24,7 @@ import re
 from sharedItems import *
 # from relationshipsModel import RelationshipAdd
 from attributesModel import *
-from parametersModel import *
+import parametersModel as p
 import relationshipsModel as r
  
 
@@ -212,16 +212,16 @@ def ClassDelete(deleteTarget):
                         returnString = returnString + "\nDeleting " + c.name + " relation"
                         c.listOfRelationships.remove(relObject)
                         if(undoListInsertable.bool):
-                            reverseList.insert(0,(RelationshipAdd, (c.name, deleteTarget, relObject.type)))
+                            reverseList.insert(0,(r.RelationshipAdd, (c.name, deleteTarget, relObject.type)))
                 for field in c.listOfFields:
                     reverseList.insert(0, (addField, (c.name, field.name, field.type)))
                 for meth in c.listOfMethods:
                     for param in meth.listOfParams:
-                        reverseList.insert(0, (ParamAdd, (c.name, meth.name, param.name, param.type)))
+                        reverseList.insert(0, (p.ParamAdd, (c.name, meth.name, param.name, param.type)))
                     reverseList.insert(0, (addMethod, (c.name, meth.name, meth.type)))
             for rel in oldListOfRelations:
                 if(undoListInsertable.bool):
-                    reverseList.insert(0,(RelationshipAdd, (deleteTarget, rel.dest, rel.type)))
+                    reverseList.insert(0,(r.RelationshipAdd, (deleteTarget, rel.dest, rel.type)))
             if(undoListInsertable.bool):
                 reverseList.insert(0,(ClassAdd, (deleteTarget, oldIndex, oldXCoord, oldYCoord)))
                 undoList.insert(0,reverseList)

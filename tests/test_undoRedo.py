@@ -8,6 +8,9 @@ from relationshipsModel import *
 from undoRedoModel import *
 from parametersModel import *
 
+def reset():
+    listOfClasses.clear()
+
 # test undo on no commands
 def test_undoNothing():
     
@@ -22,7 +25,7 @@ def test_redoNothing():
 
 # test undo redo class add
 def test_urClassAdd():
-    
+    reset()
     ClassAdd("Test")
     undo()
     assert "Undid!"
@@ -30,11 +33,11 @@ def test_urClassAdd():
     redo()
     assert "Redid!"
     assert listOfClasses[0].name == "Test"
-# test_urClassAdd()
+test_urClassAdd()
 
 # test class rename
 def test_urClassRename():
-    
+    reset()
     ClassAdd("Test")
     ClassRename("Test", "Orange")
     undo()
@@ -43,11 +46,11 @@ def test_urClassRename():
     redo()
     assert "Redid!"
     assert listOfClasses[0].name == "Orange"
-# test_urClassRename()
+test_urClassRename()
 
 # test class delete
 def test_urClassDelete():
-    
+    reset()
     ClassAdd("Test")
     ClassDelete("Test")
     undo()
@@ -56,11 +59,11 @@ def test_urClassDelete():
     redo()
     assert "Redid!"
     assert len(listOfClasses) == 0
-# test_urClassDelete()
+test_urClassDelete()
 
 # test class delete with full class
 def test_urClassFullDelete():
-    
+    reset()
     ClassAdd("Test")
     ClassAdd("Quiz")
     addField("Test", "Orange", "string")
@@ -78,11 +81,11 @@ def test_urClassFullDelete():
     redo()
     assert "Redid!"
     assert len(listOfClasses) == 1
-# test_urClassFullDelete()
+test_urClassFullDelete()
 
 # test addField
 def test_urAddField():
-    
+    reset()
     ClassAdd("Test")
     addField("Test", "Apple", "int")
     undo()
@@ -91,11 +94,11 @@ def test_urAddField():
     redo()
     assert "Redid!"
     assert listOfClasses[0].listOfFields[0].name == "Apple"
-# test_urAddField()
+test_urAddField()
 
 # test rename field
 def test_urRenField():
-    
+    reset()
     ClassAdd("Test")
     addField("Test", "Apple", "int")
     renField("Test", "Apple", "Orange")
@@ -105,11 +108,11 @@ def test_urRenField():
     redo()
     assert "Redid!"
     assert listOfClasses[0].listOfFields[0].name == "Orange"
-# test_urRenField()
+test_urRenField()
 
 # test delete field
 def test_urDelField():
-    
+    reset()
     ClassAdd("Test")
     addField("Test", "Apple", "int")
     delField("Test", "Apple")
@@ -119,11 +122,11 @@ def test_urDelField():
     redo()
     assert "Redid!"
     assert len(listOfClasses[0].listOfFields) == 0
-# test_urDelField()
+test_urDelField()
 
 # test add method
 def test_urAddMethod():
-    
+    reset()
     ClassAdd("Test")
     addMethod("Test", "Fruit", "void")
     undo()
@@ -132,11 +135,11 @@ def test_urAddMethod():
     redo()
     assert "Redid!"
     assert listOfClasses[0].listOfMethods[0].name == "Fruit"
-# test_urAddMethod()
+test_urAddMethod()
 
 # test rename method
 def test_urRenMethod():
-    
+    reset()
     ClassAdd("Test")
     addMethod("Test", "Fruit", "void")
     renMethod("Test", "Fruit", "Vegetables")
@@ -146,11 +149,11 @@ def test_urRenMethod():
     redo()
     assert "Redid!"
     assert listOfClasses[0].listOfMethods[0].name == "Vegetables"
-# test_urRenMethod()
+test_urRenMethod()
 
 # test delete method
 def test_urDelMethod():
-    
+    reset()
     ClassAdd("Test")
     addMethod("Test", "Fruit", "void")
     delMethod("Test", "Fruit")
@@ -160,15 +163,18 @@ def test_urDelMethod():
     redo()
     assert "Redid!"
     assert len(listOfClasses[0].listOfMethods) == 0
-# test_urDelMethod()
+test_urDelMethod()
 
 # test delete method with parameters
 def test_urDelMethodWParam():
-    
+    reset()
     ClassAdd("Test")
     addMethod("Test", "Fruit", "void")
     ParamAdd("Test", "Fruit", "Orange", "int")
+    print("Here")
+    print(listOfClasses[0].listOfMethods[0].listOfParams[0].name)
     delMethod("Test", "Fruit")
+
     undo()
     assert "Undid!"
     assert listOfClasses[0].listOfMethods[0].name == "Fruit"
@@ -176,11 +182,11 @@ def test_urDelMethodWParam():
     redo()
     assert "Redid!"
     assert len(listOfClasses[0].listOfMethods) == 0
-# test_urDelMethodWParam()
+test_urDelMethodWParam()
 
 # test parameter add
 def test_urParamAdd():
-    
+    reset()
     ClassAdd("Test")
     addMethod("Test", "Fruit", "void")
     ParamAdd("Test", "Fruit", "Orange", "int")
@@ -195,7 +201,7 @@ def test_urParamAdd():
 
 # test parameter rename
 def test_urRenParam():
-      
+    reset()
     ClassAdd("Test")
     addMethod("Test", "Fruit", "void")
     ParamAdd("Test", "Fruit", "Orange", "int")
@@ -207,11 +213,11 @@ def test_urRenParam():
     redo()
     assert "Redid!"
     assert listOfClasses[0].listOfMethods[0].listOfParams[0].name == "Grape"
-# test_urRenParam()
+test_urRenParam()
 
 # test parameter delete
 def test_urDelParam():
-    
+    reset()
     ClassAdd("Test")
     addMethod("Test", "Fruit", "void")
     ParamAdd("Test", "Fruit", "Orange", "int")
@@ -223,10 +229,11 @@ def test_urDelParam():
     redo()
     assert "Redid!"
     assert len(listOfClasses[0].listOfMethods[0].listOfParams) == 0
+test_urDelParam()
 
 # test relationship add
 def test_urRelAdd():
-    
+    reset()
     ClassAdd("Test")
     ClassAdd("Quiz")
     RelationshipAdd("Test", "Quiz", "Aggregation")
@@ -236,11 +243,11 @@ def test_urRelAdd():
     redo()
     assert "Redid!"
     assert listOfClasses[1].listOfRelationships[0].type == "Aggregation"
-# test_urRelAdd()
+test_urRelAdd()
 
 # test relationship edit
 def test_urRelEdit():
-    
+    reset()
     ClassAdd("Test")
     ClassAdd("Quiz")
     RelationshipAdd("Test", "Quiz", "Aggregation")
@@ -251,11 +258,11 @@ def test_urRelEdit():
     redo()
     assert "Redid!"
     assert listOfClasses[1].listOfRelationships[0].type == "Composition"
-# test_urRelEdit()
+test_urRelEdit()
 
 # test relationship delete
 def test_urRelDelete():
-    
+    reset()
     ClassAdd("Test")
     ClassAdd("Quiz")
     RelationshipAdd("Test", "Quiz", "Aggregation")
@@ -266,4 +273,4 @@ def test_urRelDelete():
     redo()
     assert "Redid!"
     assert len(listOfClasses[1].listOfRelationships) == 0
-# test_urRelDelete()
+test_urRelDelete()

@@ -24,10 +24,6 @@ def undo():
         #Add to redo list
         redoList.insert(0, undoAction)
 
-        suppress_text = io.StringIO()
-        
-        sys.stdout = suppress_text 
-        
         #Check to see if there was a bulk action done
         if(isinstance(undoAction,list)):
             for everyBulkAction in undoAction:
@@ -72,8 +68,7 @@ def redo():
             
         else:
             redoClass.redoCaller = True
-            redoAction = getOpposite(redoAction[0], redoAction[1])
-            
+            redoAction = getOpposite(redoAction[0], redoAction[1])            
         
         suppress_text = io.StringIO()
         sys.stdout = suppress_text 
@@ -120,7 +115,7 @@ def getOpposite(function, param) -> tuple:
         elif (function == renMethod):
             return (renMethod, (param[0], param[2], param[1]))
         elif (function == ParamAdd):
-            return (ParamDelete, (param[0], param[1], param[4], param[2]))
+            return (ParamDelete, (param[0], param[1], "one", param[2]))
         elif (function == ParamDelete):
             return (ParamAdd, (param[0], param[1], param[3], param[4]))
         elif (function == renameParam):
