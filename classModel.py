@@ -22,9 +22,10 @@ import keyword
 # from msilib.schema import Class
 import re
 from sharedItems import *
-from relationshipsModel import RelationshipAdd
+# from relationshipsModel import RelationshipAdd
 from attributesModel import *
 from parametersModel import *
+import relationshipsModel as r
  
 
 """ 

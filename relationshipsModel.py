@@ -74,11 +74,11 @@ def RelationshipDelete(src: str, dest: str):
             if r.dest == dest:
                 res = srcClass.listOfRelationships.remove(r)
                 print("Successfully deleted relationship.")
-                msg = f"Successfully deleted {src} & {dest}"
+                msg = "Successfully deleted relationship."
                 return msg
         
-        print("Error: Relationship does not exist for deletion!")
-        msg = f"Relationship does not exist for deletion!"
+        print("Error: Relationship does not exist for deletion.")
+        msg = "Error: Relationship does not exist for deletion."
         return msg
     else:
         print("Error: Either the source or destination class does not exist.")
@@ -102,9 +102,9 @@ def relationshipEdit(src: str, dest: str, type: str):
                 return msg
         
         print("Error: Relationship does not exist for edit.")
-        msg = f"Relationship does not exist for edit."
+        msg = f"Error: Relationship does not exist for edit."
         return msg
     else:
         print("Error: Either the source or destination class does not exist.")
-        msg = f"Either the {src} or {dest} does not exist"
+        msg = f"Error: Either the {src} or {dest} does not exist."
         return msg
