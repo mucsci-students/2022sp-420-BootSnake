@@ -130,12 +130,7 @@ def CheckNameType(paramName: str, paramType: str, methodName):
         print("UML:> No space allowed! Use an underscore!")
         return False
             
-    else:
-        for o in methodName.listOfParams:
-            if o.name.lower().strip() == paramName.lower().strip():
-                print("UML> No duplicates allowed! Method(s) must be unique!")
-                return False
-        return True
+    return True
     
     
     
