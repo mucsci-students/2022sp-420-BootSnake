@@ -21,8 +21,6 @@ import keyword
 
 import re # checks if the string contains any special characters
 import keyword
-from socket import RCVALL_SOCKETLEVELONLY
-
 
 from classModel import *
 from parametersModel import *
