@@ -314,6 +314,12 @@ def test_renameInvalidParam():
     assert listOfClasses[0].listOfMethods[0].listOfParams[0].name == "param"
    
     
+def test_searchMethodFound():
+    reset()
+    ClassAdd("one")
+    addMethod("one", "m1", "int", [])
+    ret = searchMethod("one", "m1")
+    assert ret.name == "M1"
 def test_renameFieldEmpty():
     reset()
     ClassAdd("classFood")
