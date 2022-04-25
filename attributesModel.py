@@ -168,7 +168,7 @@ def delField (classname: str, fieldname:str):
                 
                             return msg    
                                 
-                    break
+                    #break
                             
                     # If user enters ALL/all to remove all fields.
                 else:
@@ -178,14 +178,12 @@ def delField (classname: str, fieldname:str):
                         msg = f"All fields sucessfully deleted!"
                         return msg
                         
-                        break
                              
                     else:
                         print("Field " + fieldname + " not found! Try again!")
                         msg =f"{fieldname} not found! Try again!"
                         return msg
-                        
-                break              
+                                      
                 
         else: 
             print("No fields for class " + classname  + "! Enter 'q' to exit!")
@@ -246,9 +244,9 @@ def renField (classname: str, fieldname: str, newname: str):
                     print("Field " + fieldname + " not found!")
                     msg = f"{fieldname} not found!"
                     return msg
-                    break
+                    
                 
-                break
+                
                         
                 
         else: 
@@ -363,14 +361,13 @@ def renMethod (classname: str, methodname: str, newmethod: str):
 
                         else:
                             print("method "+ newmethod + " existed! No duplicates allowed!")
+                            return f'method {newmethod} existed! No duplicates allowed!'
                                           
                 else:
                     print("Method " + methodname + " not found!")
                     msg = f"Method {methodname} not found!"
                     return msg
-                    break
-                break
-               
+
         else: 
             print("No methods found for class " + classname  + " ! Enter 'q' to exit!")
             msg = f"No methods found for class {classname}"
@@ -428,7 +425,7 @@ def delMethod (classname: str, methodname: str):
                                         
                                     return msg
                                 
-                            break    
+                            #break    
                            
                         # If user enters ALL/all to remove all methods.
                         else:
@@ -440,15 +437,15 @@ def delMethod (classname: str, methodname: str):
                                 msg = f"All methods of {classname} successfully deleted!"
                    
                                 # remove the parameter lists of the methods.
-                                for o in wantedClass.listOfMethods:
-                                    for p in o.listOfParams:
-                                        o.listOfParams.clear()
-                                        print("All parameters of the methods deleted!")
+                                # for o in wantedClass.listOfMethods:
+                                #     for p in o.listOfParams:
+                                #         o.listOfParams.clear()
+                                #         print("All parameters of the methods deleted!")
                                     
                                 # sort & print the list of method objects
-                                wantedClass.listOfMethods.sort(key = lambda x : x.name)
-                                for o in wantedClass.listOfMethods:
-                                    print(o.name)
+                                # wantedClass.listOfMethods.sort(key = lambda x : x.name)
+                                # for o in wantedClass.listOfMethods:
+                                #     print(o.name)
                              
                                 return msg
                             
@@ -458,7 +455,7 @@ def delMethod (classname: str, methodname: str):
                                 return msg
                                 break
                     
-                        break 
+                        #break 
                         
             else: 
                 print("No methods for class " + classname  + "! Enter 'q' to exit!")
@@ -521,8 +518,8 @@ def delParam (classname: str, methodname: str, paramname: str):
                             msg = f"All parameters of {classname} successfully deleted!"       
                             # sort & print the list of param objects
                             wantedMethod.listOfParams.sort(key = lambda x : x.name)
-                            for o in wantedMethod.listOfParams:
-                                print(o.name)
+                            # for o in wantedMethod.listOfParams:
+                            #     print(o.name)
                         
                             return msg
                         
@@ -775,8 +772,7 @@ def searchMethod(classname: str, methname: str) :
         for mObj in wantedClass.listOfMethods:
             if (mObj.name.title() == methname.title().strip()):
                 return mObj
-    
-    else: 
+    elif wantedClass is None: 
         return None
             
 ######################################################################################     
@@ -792,7 +788,7 @@ def searchField(classname: str, name: str):
             if (o.name.casefold().strip() == name.casefold().strip()):
                 return o
     
-    else: 
+    elif wantedClass is None: 
         return None
 #########################################################################################    
 # search for a parameter    
