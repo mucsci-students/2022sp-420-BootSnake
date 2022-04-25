@@ -319,7 +319,7 @@ def test_searchMethodFound():
     ClassAdd("one")
     addMethod("one", "m1", "int", [])
     ret = searchMethod("one", "m1")
-    assert ret.name == "m1"
+    assert ret.name == "M1"
 def test_renameFieldEmpty():
     reset()
     ClassAdd("classFood")
