@@ -317,7 +317,7 @@ def test_renameInvalidParam():
 def test_searchMethodFound():
     reset()
     ClassAdd("one")
-    addMethod("one", "m1", "int")
+    addMethod("one", "m1", "int", [])
     ret = searchMethod("one", "m1")
     assert ret.name == "m1"
 def test_renameFieldEmpty():
