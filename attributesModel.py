@@ -767,12 +767,12 @@ def searchMethod(classname: str, methname: str) :
     # loop through the list of methods of a given class to search for a 
     # existing method in the system.
     wantedClass = ClassSearch(classname, listOfClasses)
-    
+    #print(wantedClass)
     if wantedClass:
         for mObj in wantedClass.listOfMethods:
             if (mObj.name.title() == methname.title().strip()):
                 return mObj
-    elif wantedClass is None: 
+    else: 
         return None
             
 ######################################################################################     
