@@ -23,7 +23,8 @@ from parametersModel import *
 import canvas as c
 import undoRedoModel as u
 from sharedItems import *
-
+import sys
+import io
 
 
 
@@ -66,15 +67,17 @@ def clearAll():
 
 def openAbout():
     message = f"BootSnake 2022 v.2"
-    messagebox.showinfo("BootSnake About...", message)
-
-        
+    messagebox.showinfo("BootSnake About...", message)    
 
 # =============================================================================
 
 def gui_run():
+    suppress_text = io.StringIO()
+        
+    sys.stdout = suppress_text 
 
-# initialize window    
+    # initialize window    
+    guiBool.bool = True
     window = tk.Tk()
     window.title("BootSnake")
     window.geometry("700x300")
@@ -99,9 +102,10 @@ def gui_run():
     menubar.add_cascade(label="File", menu=filemenu)
 
     menu_edit = tk.Menu(menubar, tearoff=0)
-    menu_edit.add_command(label = "Undo", command = u.undo())
-    menu_edit.add_command(label = "Redo")
     menubar.add_cascade(label = "Edit", menu = menu_edit)
+    menu_edit.add_command(label = "Undo", command = u.undo)
+    menu_edit.add_command(label = "Redo", command = u.redo)
+    
     
     helpmenu = tk.Menu(menubar, tearoff=0)
     helpmenu.add_command(label="Help Index")
@@ -304,7 +308,7 @@ def gui_run():
         err = False
         if fieldsVar.get() == 'Add':
             entries.clear()
-            attrWinEnt(3, "Field Add", ["Class Name", 'Field Name', 'Field Type'])
+            fieldWinEnt(3, "Field Add", ["Class Name", 'Field Name', 'Field Type'])
             
             
         elif fieldsVar.get() == 'Delete':
@@ -314,7 +318,7 @@ def gui_run():
         
         elif fieldsVar.get() == 'Rename':
             entries.clear()
-            attrWinEnt(3, "Field Rename", ["Class Name", 'Field Name', "New Field Name"])
+            fieldWinEnt(3, "Field Rename", ["Class Name", 'Field Name', "New Field Name"])
            
             if err is not False:
                 throwMessage(err)
@@ -382,14 +386,14 @@ def gui_run():
         # create new pop up window
         root = Toplevel(window)
         root.title(title)
-        root.geometry("550x200")
-        
+        #root.geometry("550x200")
+        root.geometry("")
         entryObjList = []
         # labels start at row 6, entry boxes/combo at row 7
         
         for x in range(numEntries):
             label = Label(root, text=labels[x]).grid(row=6, column=x, pady=20, padx=5)
-            entry = Entry(root)
+            entry = Entry(root, width =50)
             entry.grid(row=7, column=x, pady=20, padx=5)
             entryObjList.append(entry)
             
@@ -454,7 +458,8 @@ def gui_run():
         # Make a window for relationship add
         root = tk.Toplevel()
         root.title(title)
-        root.geometry("550x200")
+        #root.geometry("550x200")
+        root.geometry("")
 
         
         # window's label, entry boxes, and combox for types.
@@ -548,7 +553,8 @@ def gui_run():
         # Make a window 
         root = tk.Toplevel()
         root.title(title)
-        root.geometry("550x200")
+        #root.geometry("550x200")
+        root.geometry("")
 
         # window's label, entry boxes, and combox for types.
 
@@ -594,7 +600,7 @@ def gui_run():
     """
     def attrCommand(entry, entry1, entry2, label: tk.Label):
         if methodsVar.get()=='Add':
-            res = addMethod(entry,entry1,entry2, []) 
+            res = addMethod(entry,entry1,entry2) 
             label.configure(text=res) 
             entries.clear()
 
@@ -608,7 +614,70 @@ def gui_run():
 
             res = c.addMethodInfo(entry)
             label.configure(text=res)
+
+
+        if parameterVar.get() == "Delete":
+            res = ParamDelete(entry, entry1, "one", entry2) 
+            label.configure(text=res) 
+            entries.clear()
+
+            res = c.addMethodInfo(entry)
+            label.configure(text=res)
+
+
+    """ 
+        The attrWinEnt function generates a window for Attributes [methods/fields].
         
+        params: # of entry boxes, return type, and alert message.
+        
+    """
+    def fieldWinEnt(numEntries: int,  title: str, labels : list):
+
+        # Make a window 
+        root = tk.Toplevel()
+        root.title(title)
+        #root.geometry("550x200")
+        root.geometry("")
+
+        # window's label, entry boxes, and combox for types.
+
+        entryObjList = []
+        # labels start at row 6, entry boxes/combo at row 7
+        for x in range(numEntries):
+            label = Label(root, text=labels[x]).grid(row=6, column=x, pady=20, padx=5)
+            entry = Entry(root)
+            entry.grid(row=7, column=x, pady=20, padx=5)
+            entryObjList.append(entry)
+            
+        # set focus to the 1st entry box
+        entryObjList[0].focus()
+            
+       
+        # Line Separator to display the message at the top section of the popup.
+        lineseparator = ttk.Separator(root, orient = "horizontal")
+        lineseparator.grid(row = 4, column = 0, sticky = "ew", columnspan=10)
+        #lineseparator.pack(fill= 'x')
+
+        # Label for outputing message.
+        msgLabel = tk.Label(root, text = "")
+        msgLabel.grid(row = 3, column = 0)
+
+        # button to confirm 
+        okButton = tk.Button(master =root, text="Go!", command=lambda:attrCommand( 
+                            entryObjList[0].get(),entryObjList[1].get(),entryObjList[2].get(), msgLabel))
+        okButton.grid(row = 9, column = 0, padx = 20, pady = 20)
+
+
+        # Bind the enter key to the user's pressing button. This acts the same as the
+        # user presses the button.
+        root.bind('<Return>', lambda event:fieldCommand(entryObjList[0].get(),entryObjList[1].get()
+                   ,entryObjList[2].get(),msgLabel))
+                    
+
+        entries.clear()
+
+    def fieldCommand(entry, entry1, entry2, label: tk.Label):
+                
         if fieldsVar.get()=='Add':
             res = addField(entry,entry1,entry2) 
             label.configure(text=res) 
@@ -625,15 +694,9 @@ def gui_run():
             res = c.addFieldInfo(entry)
             label.configure(text=res)
 
-        if parameterVar.get() == "Delete":
-            res = delParam(entry,entry1,entry2) 
-            label.configure(text=res) 
-            entries.clear()
 
-            res = c.addMethodInfo(entry)
-            label.configure(text=res)
 
-        
+
 #=================================================================================
     """ 
         The attrWinEnt function generates a window for ClassDelete/MethodDelete/
@@ -647,7 +710,8 @@ def gui_run():
         # Make a window
         root = tk.Toplevel()
         root.title(title)
-        root.geometry("550x200")
+        #root.geometry("550x200")
+        root.geometry("")
 
         
         # window's label, entry boxes, and combox for types.
@@ -656,7 +720,7 @@ def gui_run():
         # labels start at row 6, entry boxes/combo at row 7
         for x in range(numEntries):
             label = Label(root, text=labels[x]).grid(row=6, column=x, pady=20, padx=5)
-            entry = Entry(root)
+            entry = Entry(root, width = 30)
             entry.grid(row=7, column=x, pady=20, padx=5)
             entryObjList.append(entry)
             
@@ -736,7 +800,8 @@ def gui_run():
         # Make a window for relationship add
         root = tk.Toplevel()
         root.title(title)
-        root.geometry("550x200")
+        #root.geometry("550x200")
+        root.geometry("")
 
         
         # window's label, entry boxes, and combox for types.
