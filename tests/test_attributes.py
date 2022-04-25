@@ -415,6 +415,8 @@ def test_checkParamName():
 
 def test_searchMethod():
     reset()
+    ClassAdd("two")
+    addMethod("two", "m1", "int", [])
     ret = searchMethod("one", "m1")
     assert ret == None
 
@@ -527,5 +529,4 @@ def test_renameParamFalseClass():
     ClassAdd("one")
     ret = renameParam("two", "m2", "p1", "p2")
     assert ret == "two not found! Try again!"
-
 
