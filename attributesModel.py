@@ -21,6 +21,7 @@ import keyword
 
 import re # checks if the string contains any special characters
 import keyword
+from socket import RCVALL_SOCKETLEVELONLY
 
 
 from classModel import *
@@ -115,7 +116,8 @@ def addField(classname : str, fieldname : str, fieldtype: str):
                 wantedClass.listOfFields.sort(key = lambda x : x.name)
                 #for o in wantedClass.listOfFields:
                 #    print(o.name)
-                    
+                if (undoListInsertable.bool):
+                    undoList.insert(0, (delField, (classname, fieldname, fieldtype)))
                 return msg
     
             else:
@@ -131,7 +133,7 @@ def addField(classname : str, fieldname : str, fieldtype: str):
 ###############################################################################
 
 
-def delField (classname: str, fieldname:str):
+def delField (classname: str, fieldname:str, fieldtype = 0):
     """
     The delField deletes a field(s) for a given class provided
     that the class & the field must exist in the system. It provides user 
@@ -159,6 +161,8 @@ def delField (classname: str, fieldname:str):
                 if searchField(classname, fieldname.casefold()):
                     for o in wantedClass.listOfFields:
                         if o.name.strip().lower() == fieldname.lower().strip():
+                            if (undoListInsertable.bool):
+                                undoList.insert(0, (addField, (classname, fieldname, o.type)))
                             wantedClass.listOfFields.remove(o)
                             
                             print("UML> Field '" + fieldname +"' successfully deleted!")
@@ -233,6 +237,8 @@ def renField (classname: str, fieldname: str, newname: str):
                                 fieldObj.name = newname
                                 print("UML> Field " +fieldname + " successfully renamed to " + newname +"!")
                                 msg = f"{fieldname} successfully renamed to {newname}!"
+                                if (undoListInsertable.bool):
+                                    undoList.insert(0, (renField, (classname, newname, fieldname)))
                                 return msg
 
                         else:
@@ -300,7 +306,9 @@ def addMethod(classname: str, methodname: str, methtype: str,  paramlist: list()
                 wantedClass.listOfMethods.sort(key = lambda x : x.name)
                 for o in wantedClass.listOfMethods:
                     print(o.name)
-                
+                if(undoListInsertable.bool):
+                    undoList.insert(0,(delMethod, (classname, methodname, methtype)))
+
                 return msg
                                         
             else:
@@ -357,6 +365,8 @@ def renMethod (classname: str, methodname: str, newmethod: str):
                                     print(o.name)
 
                                 msg = f"Method {methodname} successfully renamed to {newmethod}!"
+                                if(undoListInsertable.bool):
+                                    undoList.insert(0,(renMethod, (classname, newmethod, methodname)))
                                 return msg
 
                         else:
@@ -380,7 +390,7 @@ def renMethod (classname: str, methodname: str, newmethod: str):
          
 ###############################################################################              
 
-def delMethod (classname: str, methodname: str):
+def delMethod (classname: str, methodname: str, methtype = 0):
     """
     The delMethod deletes a method(s) for a given class provided
     that the class & the method must exist in the system. It provides 
@@ -408,11 +418,18 @@ def delMethod (classname: str, methodname: str):
                         if searchMethod( classname, methodname.casefold()):     
                             for o in wantedClass.listOfMethods:
                                 if o.name.strip().title() == methodname.strip().title():
+                                    if(undoListInsertable.bool):
+                                        reverseList = list()
+                                        meth = searchMethod (classname, methodname)
+                                        for param in meth.listOfParams:
+                                            reverseList.insert(0, (ParamAdd, (classname, methodname, param.name, param.type)))
+                                        reverseList.insert(0, (addMethod, (classname, methodname, meth.type)))
+                                        undoList.insert(0, reverseList)
+
                                     wantedClass.listOfMethods.remove(o)
                                     print("UML> Method " + methodname + " of class " + classname + " deleted!")
                                     msg = f"{methodname} of {classname} deleted!"
-                                    
-                                    
+
                                     # remove the parameter list of the method.
                                     if o.listOfParams:
                                         o.listOfParams.clear()
@@ -575,6 +592,8 @@ def renameParam(classname: str, methodname: str, param: str, newname: str):
                                 
                                             thisParam.name = newname
                                             print("UML> Parameter "+ param +" successfully renamed to " + newname + "!")
+                                            if(undoListInsertable.bool):
+                                                undoList.insert(0,(renameParam, (classname, methodname, newname, param)))
                                             msg = f"{param} successfully renamed to {newname}!"
                                     
                                         

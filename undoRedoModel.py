@@ -108,7 +108,7 @@ def getOpposite(function, param) -> tuple:
         elif (function == relationshipEdit):
             return (relationshipEdit, (param[0], param[1], param[3]))
         elif (function == addField):
-            return (delField, param)
+            return (delField, (param[0], param[1]))
         elif (function == delField):
             return (addField, param)
         elif (function == renField):
@@ -116,11 +116,11 @@ def getOpposite(function, param) -> tuple:
         elif (function == delMethod):
             return (addMethod, param)
         elif (function == addMethod):
-            return (delMethod, param)
+            return (delMethod, (param[0], param[1]))
         elif (function == renMethod):
             return (renMethod, (param[0], param[2], param[1]))
         elif (function == ParamAdd):
-            return (ParamDelete, (param[0], param[1], param[5], param[4], param[2], param[3]))
+            return (ParamDelete, (param[0], param[1], param[4], param[2]))
         elif (function == ParamDelete):
             return (ParamAdd, (param[0], param[1], param[3], param[4]))
         elif (function == renameParam):
