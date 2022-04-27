@@ -19,7 +19,7 @@ re: A module that will alllow me to use regexes to check for patterns or
     
 """
 import keyword
-from msilib.schema import Class
+# from msilib.schema import Class
 import re
 from sharedItems import *
 from relationshipsModel import RelationshipAdd
@@ -33,15 +33,13 @@ the object. It also contains the two lists we'll be using to keep track of
 attributes and relationships.
 """
 class AClass:
-    def __init__(self,name,x1=0,y1=0,x2=0,y2=0):
+    def __init__(self,name,x=0,y=0):
         self.name = name
         self.listOfFields = list()
         self.listOfMethods = list()
         self.listOfRelationships = list()
-        self.positionx1 = x1
-        self.positiony1 = y1
-        self.positionx2 = x2
-        self.positiony2 = y2
+        self.x = x
+        self.y = y
     
     
     
