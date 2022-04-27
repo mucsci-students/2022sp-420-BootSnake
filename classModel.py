@@ -22,8 +22,10 @@ import keyword
 # from msilib.schema import Class
 import re
 from sharedItems import *
-from relationshipsModel import RelationshipAdd
-
+# from relationshipsModel import RelationshipAdd
+from attributesModel import *
+import parametersModel as p
+import relationshipsModel as r
  
 
 """ 
@@ -33,14 +35,25 @@ the object. It also contains the two lists we'll be using to keep track of
 attributes and relationships.
 """
 class AClass:
-    def __init__(self,name,x=0,y=0):
+    def __init__(self,name,x,y):
         self.name = name
         self.listOfFields = list()
         self.listOfMethods = list()
         self.listOfRelationships = list()
         self.x = x
         self.y = y
-    
+
+"""
+A function used to change the coordinates of a class. This function is 
+exclusively used for undo and redo. When used in conjunction with canvasRefresh
+() it allows us to update the class' position on the canvas. The reason for the 
+x2 and y2 variable is so that redo knows where to place the class on the canvas.
+"""
+def coordEdit(classObj:AClass, x, y, x2, y2):
+    classObj.x = x
+    classObj.y = y
+    if(undoListInsertable.bool):
+        undoList.insert(0,(coordEdit, (classObj,x2,y2,x,y)))
     
     
 # A helper function used to check the validity of class names. 
@@ -99,11 +112,11 @@ for duplicates, leading numbers/underscores, or special characters. With
 exception to non first character underscores. It also prevents you from naming 
 a class an empty string.
 """
-def ClassAdd(name : str, index = 0):
+def ClassAdd(name : str, index = 0,x=0,y=0):
     #We need to check if the param is valid, so I have a helper for that.
     userInput = ClassNameChecker(name)
     if(userInput):
-        newClass = AClass(name) #We create a new object with the given name.
+        newClass = AClass(name, x, y) #We create a new object with the given name.
         listOfClasses.insert(index, newClass) 
         #Insert comment here
         if(undoListInsertable.bool):
@@ -179,9 +192,8 @@ def ClassDelete(deleteTarget):
         else:
             oldIndex = listOfClasses.index(classObject)
             oldListOfRelations = list(classObject.listOfRelationships)
-            listOfClasses.remove(classObject)
-            print("Class " + deleteTarget + " deleted!")
-            returnString = "Class " + deleteTarget + " deleted!"
+            oldXCoord = classObject.x
+            oldYCoord = classObject.y
             """
                 The following nested for loops will iterate through each class 
                 object in the global list. Looking through each of their 
@@ -200,12 +212,23 @@ def ClassDelete(deleteTarget):
                         returnString = returnString + "\nDeleting " + c.name + " relation"
                         c.listOfRelationships.remove(relObject)
                         if(undoListInsertable.bool):
-                            reverseList.insert(0,(RelationshipAdd, (c.name, deleteTarget, relObject.type)))
+                            reverseList.insert(0,(r.RelationshipAdd, (c.name, deleteTarget, relObject.type)))
+                for field in c.listOfFields:
+                    reverseList.insert(0, (addField, (c.name, field.name, field.type)))
+                for meth in c.listOfMethods:
+                    for param in meth.listOfParams:
+                        reverseList.insert(0, (p.ParamAdd, (c.name, meth.name, param.name, param.type)))
+                    reverseList.insert(0, (addMethod, (c.name, meth.name, meth.type)))
             for rel in oldListOfRelations:
                 if(undoListInsertable.bool):
-                    reverseList.insert(0,(RelationshipAdd, (deleteTarget, rel.dest, rel.type)))
+                    reverseList.insert(0,(r.RelationshipAdd, (deleteTarget, rel.dest, rel.type)))
             if(undoListInsertable.bool):
-                reverseList.insert(0,(ClassAdd, (deleteTarget, oldIndex)))
+                reverseList.insert(0,(ClassAdd, (deleteTarget, oldIndex, oldXCoord, oldYCoord)))
                 undoList.insert(0,reverseList)
+            
+            listOfClasses.remove(classObject)
+            print("Class " + deleteTarget + " deleted!")
+            returnString = "Class " + deleteTarget + " deleted!"
+
             return returnString
         

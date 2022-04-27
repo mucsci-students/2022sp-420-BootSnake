@@ -56,7 +56,7 @@ class Example(tk.Frame):
 
         rect = self.canvas.bbox(self._drag_data["item"])
         self.canvas.addtag_enclosed("drag", *rect)
-        print(rect)
+        # print(rect)
 
         self._drag_data["x"] = event.x
         self._drag_data["y"] = event.y

@@ -2,8 +2,14 @@
     Team Members: Andy P, Amelia S, Ben M, Tram T, Travis Z
     
 # Steps to run the editor
-1. Download the most recent version of Python (Python3 is required for the GUI)
+1. Required packagesDownload the most recent version of Python (Python3 is required for the GUI)
 
+              A) PIL
+                    https://pillow.readthedocs.io/en/stable/installation.html#basic-installation
+              B) ghostscript 
+                    brew install ghostscript
+                    https://www.ghostscript.com/releases/gsdnld.html
+              
 2. Download the files              
               
               A) Click "Code" dropdown box
@@ -30,3 +36,7 @@
             
               Notes:
                  On Linux, run the gui with "python3 interfaceGUI.py" and the CLI with "python bootsnake.py" or python3
+
+
+# Notes
+    Tab completion is only known to fully work on Linux.
