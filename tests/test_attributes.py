@@ -529,7 +529,3 @@ def test_renameParamFalseClass():
     ClassAdd("one")
     ret = renameParam("two", "m2", "p1", "p2")
     assert ret == "two not found! Try again!"
-<<<<<<< HEAD
-=======
-
->>>>>>> 1b599de3cb3ca746e92f581ff493e169559c1f23
