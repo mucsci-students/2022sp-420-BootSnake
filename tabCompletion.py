@@ -744,6 +744,7 @@ class TabCompletion(cmd.Cmd):
     
     def complete_addfield(self, text, line, begidx, endidx):
         if not text:
+<<<<<<< HEAD
             if begidx == 1:
                 completions = self.cmmands[:]
                 
@@ -758,6 +759,10 @@ class TabCompletion(cmd.Cmd):
                 
         else:
             
+=======
+            completions = self.cmmands[:]
+        else:
+>>>>>>> bd691ab197e5a4b047c1b3ca5d380580f16602c3
             if begidx == 9:
                 completions = [f 
                            for f in classNames
@@ -766,14 +771,19 @@ class TabCompletion(cmd.Cmd):
             else:
                 completions = [f 
                            for f in fieldNames
+<<<<<<< HEAD
                            if f.startswith(text)]    
         
+=======
+                           if f.startswith(text)] 
+>>>>>>> bd691ab197e5a4b047c1b3ca5d380580f16602c3
         return completions
     
     
     def complete_delfield(self, text, line, begidx, endidx):
         
         if not text:
+<<<<<<< HEAD
             if begidx ==1:
                 completions = self.cmmands[:]
             elif begidx == 9:
@@ -785,6 +795,9 @@ class TabCompletion(cmd.Cmd):
                            for f in fieldNames
                            if f.startswith(text)] 
                 
+=======
+            completions = self.cmmands[:]
+>>>>>>> bd691ab197e5a4b047c1b3ca5d380580f16602c3
         else:
             if begidx == 9:
                 completions = [f 
@@ -816,12 +829,21 @@ class TabCompletion(cmd.Cmd):
             if begidx == 12:
                 completions = [f 
                            for f in classNames
+<<<<<<< HEAD
                            if f.startswith(text)]
             
             else:
                 completions = [f 
                            for f in fieldNames
                            if f.startswith(text)]
+=======
+                           if f.startswith(text)]
+            
+            else:
+                completions = [f 
+                           for f in fieldNames
+                           if f.startswith(text)]
+>>>>>>> bd691ab197e5a4b047c1b3ca5d380580f16602c3
          
         return completions
     
