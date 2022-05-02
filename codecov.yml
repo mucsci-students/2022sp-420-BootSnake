@@ -4,6 +4,7 @@ codecov:
 
 ignore:
   - "!*Model.py"
+  - "saveLoadModel.py"
 
 coverage:
   round: down
