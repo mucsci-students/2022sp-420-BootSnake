@@ -123,7 +123,6 @@ def load (filename):
     for x in classList:
         # Create an AClass object for each item in the list
         positionList = x['location']
-        
         i = AClass (x["name"], positionList['x'], positionList['y'])
         listOfClasses.append(i)
 
@@ -141,10 +140,6 @@ def load (filename):
             paramList = z["params"]
             for q in paramList:
                 ParamAdd(x["name"], z["name"], q["name"], q["type"])
-        
-        # positionList = x['location']
-        # i.x = positionList['x']
-        # i.y = positionList['y']
 
         #addBoxInfo(i.name)
     # Get list of relationships
