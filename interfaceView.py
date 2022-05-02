@@ -1,4 +1,5 @@
 from email import message
+from pyexpat.errors import messages
 from classModel import *
 from sharedItems import *
 
@@ -11,7 +12,6 @@ def ListClasses():
     
     messageString = ''
     if len(listOfClasses) == 0:
-        print("There are currently no classes")
         messageString = "There are currently no classes."
     
     
@@ -35,11 +35,11 @@ def ListClass(name):
     if (wantedClass == None):
         return "Class " + name + " does not exist."
     
-    messageString += "\nClass: \n" + name + "\nFields: \n"
+    messageString += "\nClass: \n" + name + "\nFields:\n"
 
     # Loop through listOfAttributes
-
     for x in wantedClass.listOfFields:
+        # print(x.name)
         messageString += "\t" + x.name + " \n"
 
 
@@ -48,6 +48,8 @@ def ListClass(name):
     # Loop through listOfAttributes
     for x in wantedClass.listOfMethods:
         messageString += "\t" + x.name + "\n"
+        for p in x.listOfParams:
+            messageString += "\t\t" + p.name + " : " + p.type + "\n"
     
     messageString += "\nRelationships: \n" 
     
@@ -65,13 +67,11 @@ def ListRelationships():
     message = ''
     if len(listOfClasses) == 0:
         message += "There are currently no classes."    # Inform user if there are no classes
-        print(message)
         return message
     
     for c in listOfClasses:
         for r in c.listOfRelationships:
             message += "\t" + c.name + " ---"+ "("+r.type+")"+ "---> " + r.dest + '\n'               # For each class, get each of its relationships and print them
-    print(message)
     return message
 
 """

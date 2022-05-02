@@ -21,7 +21,6 @@ from tkinter import ttk
 from PIL import *  # to use PIL import, install pip install Pillow as PIL is deprecated and pillow is the successor
 import PIL.Image
 
-
 from classModel import *
 from relationshipsModel import *
 from saveLoadModel import *
@@ -191,8 +190,8 @@ def addRec(name:str):
 
     # Add the new rectangle to the list.
     boxlist.append(classRec)
-    for o in boxlist:
-        print(my_canvas.coords(o.name))
+    # for o in boxlist:
+    #     print(my_canvas.coords(o.name))
     updateBoxWidth(len(boxlist)-1)
     #respaceBox(len(boxlist)-1)
     
@@ -285,6 +284,18 @@ def updateBoxWidth(wbox: int):
     
 ###########################################################################################
 
+def refreshCanvas():
+    clearAll()
+    for c in listOfClasses:
+        addBoxInfo(c.name)
+        addMethodInfo(c.name)
+        addFieldInfo(c.name)
+    for c in listOfClasses:
+        for r in c.listOfRelationships:
+            makeRelLine(r.src, r.dest, r.type)
+            
+
+
 def updateBoxHeight(h:int):
     boxlist[h].yincrement = 30
     name = boxlist[h].name
@@ -304,7 +315,7 @@ def updateBoxHeight(h:int):
     space = 10
     
     wantedClass = ClassSearch(boxlist[h].name, listOfClasses)
-    print(len(wantedClass.listOfFields))
+    # print(len(wantedClass.listOfFields))
    
     # get the coords of the box
     x1, y1, x2, y2 = my_canvas.coords(boxlist[h].my_rectangle)
@@ -615,6 +626,7 @@ def on_release(e):
     x1, y1, x2, y2 = my_canvas.coords(boxlist[loc].my_rectangle)
     
     my_class = ClassSearch(boxlist[loc].name, listOfClasses)
+    undoList.insert(0,(coordEdit, (my_class, my_class.x, my_class.y, x1, y1)))
     my_class.x = x1
     my_class.y = y1
 
@@ -768,8 +780,8 @@ def on_drag(e):
     # method section
    
     wantedClass = ClassSearch(boxlist[i].name, listOfClasses)
-    for x in wantedClass.listOfFields:
-        print(len(wantedClass.listOfFields))
+    # for x in wantedClass.listOfFields:
+        # print(len(wantedClass.listOfFields))
 
     my_canvas.coords(boxlist[i].mlabel, midx1 + 5, yf + space + 14*len(wantedClass.listOfFields)+15)
     

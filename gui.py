@@ -23,7 +23,8 @@ from parametersModel import *
 import canvas as c
 import undoRedoModel as u
 from sharedItems import *
-
+import sys
+import io
 
 
 
@@ -66,15 +67,17 @@ def clearAll():
 
 def openAbout():
     message = f"BootSnake 2022 v.2"
-    messagebox.showinfo("BootSnake About...", message)
-
-        
+    messagebox.showinfo("BootSnake About...", message)    
 
 # =============================================================================
 
 def gui_run():
+    suppress_text = io.StringIO()
+        
+    sys.stdout = suppress_text 
 
-# initialize window    
+    # initialize window    
+    guiBool.bool = True
     window = tk.Tk()
     window.title("BootSnake")
     window.geometry("700x300")
@@ -99,9 +102,10 @@ def gui_run():
     menubar.add_cascade(label="File", menu=filemenu)
 
     menu_edit = tk.Menu(menubar, tearoff=0)
-    menu_edit.add_command(label = "Undo", command = u.undo())
-    menu_edit.add_command(label = "Redo")
     menubar.add_cascade(label = "Edit", menu = menu_edit)
+    menu_edit.add_command(label = "Undo", command = u.undo)
+    menu_edit.add_command(label = "Redo", command = u.redo)
+    
     
     helpmenu = tk.Menu(menubar, tearoff=0)
     helpmenu.add_command(label="Help Index")
@@ -596,7 +600,7 @@ def gui_run():
     """
     def attrCommand(entry, entry1, entry2, label: tk.Label):
         if methodsVar.get()=='Add':
-            res = addMethod(entry,entry1,entry2, []) 
+            res = addMethod(entry,entry1,entry2) 
             label.configure(text=res) 
             entries.clear()
 
@@ -613,7 +617,7 @@ def gui_run():
 
 
         if parameterVar.get() == "Delete":
-            res = delParam(entry,entry1,entry2) 
+            res = ParamDelete(entry, entry1, "one", entry2) 
             label.configure(text=res) 
             entries.clear()
 

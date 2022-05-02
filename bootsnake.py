@@ -29,6 +29,7 @@ from sharedItems import *
 
 from subprocess import call
 from os.path import exists
+from tabCompletion import *
 
 """
 Main method in which user will be redirected to the proper method based
@@ -54,7 +55,7 @@ def Main(args: list):
     """
     
     if len(args) == 2:
-        # execute the program in cli
+    # execute the program in cli
         if args[1] == "--cli":
             #umlCliController()
             TabCompletion().cmdloop()
@@ -63,12 +64,17 @@ def Main(args: list):
     
         # run gui
     else:
+        # Suppresses the unneccessary print statements
+        suppress_text = io.StringIO()
+        sys.stdout = suppress_text 
+
         gui_run()
     
 def umlCliController() -> None:
 
     
     while True:
+        undoListInsertable.bool = True
         print("""
                 ==========================================
                 |            WELCOME TO BOOTSNAKE!       |
@@ -77,7 +83,7 @@ def umlCliController() -> None:
         """)
     
         print("Here are available elements:\n[1] Class\n[2] Fields\n[3] Methods")
-        print("[4] Relationships\n[5] Save/Load\n[6] Lists\n[7] Help\n[8] Quit")
+        print("[4] Relationships\n[5] Save/Load\n[6] Lists\n[7] Undo\n[8] Redo \n[9] Help\n[0] Quit")
 
     
         userIn = input("UML:> ")       # Prompt user for input
@@ -316,10 +322,7 @@ def umlCliController() -> None:
                                     # prompt user for the list of params 
                                     #    param = input("UML> Optional: Add a parameter(s)?, or enter 'quit': ")  
                                     #    while param.strip().casefold() != 'q':
-                                    
-                                        paramList = list() #an empty parameter list
-                                        
-                                        addMethod (clsname, methodname, methtype, paramList)
+                                        addMethod (clsname, methodname, methtype)
                                         break 
                                         #break
                                     break
@@ -518,7 +521,7 @@ def umlCliController() -> None:
                                         elif (delAmnt != 'one') and (delAmnt != 'all'):
                                             break
                                             
-                                        ParamDelete(wantedMethod, delAmnt, paramName)
+                                        ParamDelete(clsname, methname, wantedMethod, delAmnt, paramName)
                                         
                                     else:
               
@@ -757,10 +760,16 @@ def umlCliController() -> None:
                 #continue 
 
         elif "7" in userIn:
+            print(undo())
+        
+        elif "8" in userIn:
+            print(redo())
+
+        elif "9" in userIn:
             Help()
             #continue
         
-        elif "8" in userIn:
+        elif "0" in userIn:
             Exit()
 
             #print()
@@ -783,4 +792,3 @@ the __name__ variable
 
 if __name__ == "__main__":
     Main(sys.argv) 
-
