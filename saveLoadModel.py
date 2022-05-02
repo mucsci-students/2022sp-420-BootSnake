@@ -122,7 +122,9 @@ def load (filename):
     # Because the data from the file is in a list, step through it
     for x in classList:
         # Create an AClass object for each item in the list
-        i = AClass (x["name"])
+        positionList = x['location']
+        
+        i = AClass (x["name"], positionList['x'], positionList['y'])
         listOfClasses.append(i)
 
         # Create list for fields, and then step through the list and add each of them to the class
@@ -140,9 +142,9 @@ def load (filename):
             for q in paramList:
                 ParamAdd(x["name"], z["name"], q["name"], q["type"])
         
-        positionList = x['location']
-        i.x = positionList['x']
-        i.y = positionList['y']
+        # positionList = x['location']
+        # i.x = positionList['x']
+        # i.y = positionList['y']
 
         #addBoxInfo(i.name)
     # Get list of relationships
