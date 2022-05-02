@@ -4,11 +4,7 @@ codecov:
 
 ignore:
   - "!*Model.py"
-  - "!tests/.*"
-  - "classModel.py"
   - "saveLoadModel.py"
-  - "undoRedoModel.py"
-  - "parametersModel.py"
 
 coverage:
   round: down
