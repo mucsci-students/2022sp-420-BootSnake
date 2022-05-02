@@ -109,6 +109,9 @@ def test_ClassMethodDoesNotExist():
     ret = ParamAdd("class1", "method2", "param1", "str")
     assert ret == "Could not find method with name method2. Please input an existing method"
     assert not listOfClasses[0].listOfMethods[0].listOfParams
+    # Ensuring coverage of this because Codecov is throwing a fit
+    searchRet = searchMethod("class1", "method2")
+    assert searchRet == None
 
     print("ParamAdd() exits properly when class or method does not exist!\n\n")
 
