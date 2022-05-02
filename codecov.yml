@@ -4,9 +4,7 @@ codecov:
 
 ignore:
   - "!*Model.py"
-  - "classModel.py"
   - "saveLoadModel.py"
-  - "undoRedoModel.py"
 
 coverage:
   round: down
