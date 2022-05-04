@@ -207,6 +207,7 @@ def addRec(name:str):
 ###############################################################################
 
 def makeBoxCoords(name:str, x1: int, y1: int, x2:int, y2:int):
+    " this function is not in use"
     my_rec = makeSquare(name, x1, y1,x2,y2)
     boxlist.append(my_rec)
     updateBoxWidth(len(boxlist)-1)
@@ -298,6 +299,10 @@ def refreshCanvas():
 
 
 def updateBoxHeight(h:int):
+    """
+    The undateBoxHeight function updates the height of the box located at the
+    given index in the boxlist.
+    """
     boxlist[h].yincrement = 30
     name = boxlist[h].name
     space = 0
@@ -305,7 +310,7 @@ def updateBoxHeight(h:int):
     wantedClass = ClassSearch(boxlist[h].name, listOfClasses)
     # print(len(wantedClass.listOfFields))
 
-    # increase the box's height to contain fields, methods, & params.
+    # increase a specific box's spacing between fields, methods.
     for o in listOfClasses:
         for x in o.listOfFields:
             boxlist[h].yincrement +=15
@@ -333,7 +338,7 @@ def updateBoxHeight(h:int):
     # method's label
     xl, yl = my_canvas.coords(boxlist[h].mlabel)
     
-    # move the method's label according to the length of fields.
+    # move the method's label according to the length of fields of a specific box.
     my_canvas.coords(boxlist[h].mlabel, xl, yf+20 + space +14*len(wantedClass.listOfFields) )
     #my_canvas.coords(boxlist[h].mlabel, xl, yf+20 + space +14*len(o.listOfFields) )
     xl, yl = my_canvas.coords(boxlist[h].mlabel)
@@ -394,7 +399,6 @@ def searchBoxLoc(name:str):
 
 def addBoxInfo(name: str):
     """
-
     addBoxInfo function verifies that no duplicates allowed when 
     creating boxes.
 
@@ -404,7 +408,7 @@ def addBoxInfo(name: str):
             msg: str = f"Box {name} already created!"
             return msg       
 
-    addRec(name) # this should be commented out if use the else section right below.
+    addRec(name) 
  
     sizex = 0
     sizey = 0
@@ -458,6 +462,7 @@ def addFieldInfo(name:str):
         my_canvas.itemconfigure(boxlist[boxloc].ftext, text = fieldtext,anchor='nw', justify = tk.LEFT, state=tk.DISABLED)
         updateBoxWidth(boxloc)
         updateBoxHeight(boxloc)
+        respaceBox(boxloc)
 
     
 
@@ -487,6 +492,7 @@ def addMethodInfo(name:str):
         
         updateBoxWidth(boxloc)
         updateBoxHeight(boxloc)
+        respaceBox(boxloc)
    
 
 
@@ -571,8 +577,6 @@ def respaceBox(loc:int):
         addFieldInfo(o)
 
 
-
-
 def get_bcoords(name : str):
     """
     get_bcoords stores the location of the box
@@ -580,6 +584,7 @@ def get_bcoords(name : str):
     pos = searchBox(name)
     x1, y1, x2, y2 = my_canvas.coords(boxlist[pos].my_rectangle)
     return (x1, y1, x2, y2)
+
 
 def delLine(name: str):
     boxloc = searchBox(name)
