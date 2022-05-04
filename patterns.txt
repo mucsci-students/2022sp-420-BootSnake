@@ -19,4 +19,4 @@ Design Patterns
 6. Template Method: The makeSquare class defines a Template Method/skeleton, which is a dragBox method 
    containing calls to on_click, on_drag, & on_release, which can be overriden by concrete objects
    (by impleting different drag movements, types, or keyboard), but not the template method dragBox itself.
-   (Location: cavas.py)
+   (Location: canvas.py)
