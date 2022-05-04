@@ -12,6 +12,11 @@ Design Patterns
 4. Command: Our GUI uses buttons that are linked to commands.
    (Location: interfaceGUIView.py)
 
-5. Observer: When a class is renamed, all relationships dependent on the given class are made to set its old name to match 
-   the new name.
+5. Observer: When a class is renamed, all relationships dependent on the given class are made to set its
+   old name to match the new name.
    (Location: classModel.py)
+
+6. Template Method: The makeSquare class defines a Template Method/skeleton, which is a dragBox method 
+   containing calls to on_click, on_drag, & on_release, which can be overriden by concrete objects
+   (by impleting different drag movements, types, or keyboard), but not the template method dragBox itself.
+   (Location: cavas.py)
