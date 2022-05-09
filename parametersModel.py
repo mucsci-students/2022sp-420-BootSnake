@@ -152,8 +152,8 @@ def searchMethod(classname: str, methname: str) :
             if (mObj.name == methname):
                 return mObj
     
-    else: 
-        return None
+    return None
+
 #########################################################################################    
 # search for a parameter    
 def searchParam( methObj: object, param: str):

@@ -26,17 +26,12 @@
 4. Open terminal and navigate to folder
 
 5. Run
-              To use PIL import, run the command pip install Pillow as PIL is 
-              deprecated and pillow is the successor
               
               A) python bootsnake.py or python .\bootsnake.py depending on your editor
               
               B) By default it runs in GUI mode, to run in command line interface add --cli 
                  (python bootsnake.py --cli)
-            
-              Notes:
-                 On Linux, run the gui with "python3 interfaceGUI.py" and the CLI with "python bootsnake.py" or python3
-
+      
 
 # Notes
     Tab completion is only known to fully work on Linux.

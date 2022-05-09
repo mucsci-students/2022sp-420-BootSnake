@@ -4,7 +4,7 @@ codecov:
 
 ignore:
   - "!*Model.py"
-  - "!tests/.*"
+  - "saveLoadModel.py"
 
 coverage:
   round: down
